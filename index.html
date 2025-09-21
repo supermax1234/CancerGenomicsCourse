@@ -17,7 +17,7 @@
 				color: #E75480;
 				font-family: 'Courier New', Courier, monospace;
 				padding: 2px 4px; /* Optional: adds a little space around the text */
-				border-radius: 4px; /* Creates the smooth corners */
+				border-radius: 8px; /* Creates the smooth corners */
 			}
 		</style>
 		<style>
@@ -66,43 +66,343 @@
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section id="samtools">
-					<h2>samtools</h2>
-					<p>installazione di samtools</p>
-					<pre><code class="html" data-trim data-line-numbers>
-					  <h2 class="r-fit-text">FIT</h2>
-					</code></pre>
+					<h2>samtools Installation 🛠️ I</h2>
+						
+						<p align="left">
+						You can install <span class="special-style">samtools</span> using a package manager on most operating systems, 
+						such as <span class="special-style">apt</span> for Debian/Ubuntu or <span class="special-style">brew</span> for macOS. 
+						Alternatively, you can download the source code and compile it yourself.</p>
+						</p>
+						<p align="left">
+						<b>Method 1: Using a Package Manager</b>
+						</p>
+						<p align="left">
+						This is the recommended method for most users as it's the simplest and most reliable way to install 
+						<span class="special-style">samtools</span> and its dependencies.
+						</p>
+						<p align="left">
+						<b>For Debian/Ubuntu</b>
+						</p>
+						<p align="left">
+						<pre><code class="bash" data-trim data-line-numbers>
+						sudo apt-get update
+						sudo apt-get install samtools
+						</code></pre>
+						</p>
+						<p align="left">
+						<b>For macOS with Homebrew</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+						brew install samtools
+						</code></pre>
+						</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>samtools Installation 🛠️ II</h2>
+						<br>
+						<br>
+						<p align="left">
+						<b>Method 2: Compiling from Source</b>
+						</p>
+						<p align="left">
+						This method gives you more control over the installation, which can be useful for more advanced users or on systems without a package manager.
+						</p>
+						
+						<p align="left">
+						<b>Download the source code:</b> 
+						</p>
+						<p align="left">
+						Get the latest version from the official <span class="special-style">samtools</span> website.
+						</p>
+						
+						<p align="left">
+						<b>Unpack the files:</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+
+						tar -xf samtools-<version>.tar.bz2
+						cd samtools-<version>
+						</code></pre>
+						
+						</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>samtools Installation 🛠️ III</h2>
+						
+						<p align="left">
+						<b>3.  Configure and compile:</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+						./configure
+						make
+						make install
+						</code></pre>
+						</p>
+						
+						<p align="left">
+						<b>Verification</b>
+						</p>
+						<p align="left">
+						To confirm that <span class="special-style">samtools</span> is installed correctly, run the following command in your terminal. It should display the version number and a list of available commands.
+
+						<pre><code class="bash" data-trim data-line-numbers>
+						samtools --version
+						</code></pre>
+						</p>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section id="Referenza">
-					<h2>GRCh37 (hg19) reference genome</h2>
-					<p>Referenza GRCh37 (hg19</p>
-					<pre><code class="html" data-trim data-line-numbers>
-					  <h2 class="r-fit-text">FIT</h2>
+					<h2>Downloading Genome Reference: GRCh37 I</h2>
+					
+					<p align="left">
+					To perform mutational signature analysis, you need to download a <b>reference genome</b>. 
+					We will use <b>GRCh37</b>, also known as hg19. The most reliable way to get this file is from a well-established bioinformatics repository like NCBI or the UCSC Genome Browser.
+					</p>
+
+					<p align="left">
+					We recommend using a command-line tool like <span class="special-style">wget</span> or <span class="special-style">curl</span> to ensure a stable download, which is crucial for large files.
+					</p>
+
+					<p align="left">
+					<b>Method 1: Using wget 📥</b>
+					</p>
+					
+					<p align="left">
+					This command will download the FASTA file directly from the UCSC Genome Browser's public repository.
+					</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.2bit
+					</code></pre>
+
+					<p>After downloading, you will need to convert the file to the FASTA format, which is required by samtools.</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
+					gunzip hg19.fa.gz
+					</code></pre>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Downloading Genome Reference: GRCh37 I</h2>
+					
+					<p align="left">
+					<b>Method 2: Using NCBI's FTP Server 🌐</b>
+					</p>
+					
+					<p align="left">
+					You can also download the reference from NCBI's FTP server. The command below downloads the gzipped file for GRCh37.p13 and unzips it.
+					</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.14_GRCh37.p13/GCA_000001405.14_GRCh37.p13_genomic.fna.gz
+					gunzip GCA_000001405.14_GRCh37.p13_genomic.fna.gz
+					</code></pre>
+
+					<p align="left">
+					Once you have the FASTA file (<span class="special-style">.fa</span> or <span class="special-style">.fna</span>), you must <b>index</b> it to use it with <span class="special-style">samtools</span>. This process creates a <span class="special-style">.fai</span> file for fast random access.
+					</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					samtools faidx your_genome_file.fa
 					</code></pre>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section id="R_Python">
-					<h2>R or Python</h2>
-					<p>installazione di R or python</p>
-					<pre><code class="html" data-trim data-line-numbers>
-					  <h2 class="r-fit-text">FIT</h2>
-					</code></pre>
+					<h2>Installing R and Python 🐍 I</h2>
+					<p align="left">
+					This slide will guide you through the process of installing both R and Python, two essential programming languages for data analysis and bioinformatics.
+					</p>
+					<p align="left">
+					<b>Installing Python</b>
+					</p>
+					<p align="left">
+					Python is widely used for scripting and data science. The easiest way to get started is by downloading the official installer from the Python website.
+
+					<ol>
+						<li>
+						<b>Download Python:</b> 
+						Go to the official Python website and download the latest stable version of Python 3.
+						</li>
+						<li>
+						<b>Run the Installer:</b>
+							<ul>
+								<li>
+								<b>Windows:</b> Run the <span class="special-style">.exe</span> installer. Make sure you check the box that says <b>Add Python to PATH</b> before you click "Install Now." This is a crucial step that allows you to run Python from any command prompt.
+								</li>
+								<li>
+								<b>macOS:</b> Run the <span class="special-style">.pkg</span> installer. The installer will automatically configure the correct paths for you.
+								</li>
+							</ul>
+						</li>
+						<li>
+						<b>Verify Installation:</b> Open your terminal or command prompt and type 
+						<span class="special-style">python --version</span> (or 
+						<span class="special-style">python3 --version</span> on some systems) to confirm the installation.
+						</li>
+						</ol>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section id="R_Python">
+					<h2>Installing R and Python 🐍 II</h2>
+					<br>
+					<p align="left">
+					<b>Installing R</b>
+					R is a programming language and environment specifically designed for 
+					statistical computing and graphics. We recommend installing it alongside 
+					<b>RStudio</b>, a user-friendly Integrated Development Environment (IDE) 
+					that makes working with R much easier.
+					</p>
+					<p align="left">
+					<ol>
+						<li>
+						<b>Download and Install R:</b> Go to the CRAN website and download the latest version for your operating system.
+						</li>
+						<li>
+						<b>Download and Install RStudio:</b> Go to the RStudio Desktop website and download the free desktop version.
+						</li>
+						<li>
+						<b>Launch RStudio:</b> Open RStudio. You'll see the console where you can start writing R commands.
+						</li>
+						<li>
+						<b>Verify Installation:</b> In the RStudio console, type <span class="special-style">R.version</span> to display the version information.
+						</li>
+						</ol>
+					</p>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section id="MutationaPatterns">
-					<h2>MutationaPatterns</h2>
-					<p>installazione di MutationaPatterns</p>
-					<pre><code class="html" data-trim data-line-numbers>
-					  <h2 class="r-fit-text">FIT</h2>
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 I</h2>
+					<p align="left">
+					<span class="special-style">MutationaPatterns</span> is a popular Bioconductor <b>R</b> package used for mutational signature analysis. 
+					To use it, you'll need to install R and then the <span class="special-style">MutationaPatterns</span> package from within the R environment.
+					</p>
+					<p align="left">
+					<b>Step 1: Install R and RStudio</b>
+					First, you need to install <b>R</b>, the programming language, and <b>RStudio</b>, which is a user-friendly interface for R.
+					</p>
+					<p align="left">
+					<ol>
+					<li>
+					<b>Download and Install R:</b> 
+					Go to the CRAN website and download the latest version for your operating system.
+					</li>
+					<li>
+					<b>Download and Install RStudio:</b> Go to the RStudio website and download the free desktop version.
+					</li>
+					</ol>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 II</h2>
+					<br>
+					<br>
+					<p align="left">
+					<b>Step 2: Install <span class="special-style">BiocManager</span></b>
+					</p>
+					<p align="left">
+					<span class="special-style">MutationaPatterns</span> is part of the <span class="special-style">BiocManager</span> project, which requires its own package manager, BiocManager. Open RStudio and run the following command in the console to install it.
+
+					<pre><code class="r" data-trim data-line-numbers>
+					install.packages("BiocManager")
 					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 III</h2>
+					<br>
+					<br>
+					<p align="left">
+					<b>Step 3: Install <span class="special-style">MutationaPatterns</span></b>
+					</p>
+					<p align="left">
+					Now that <span class="special-style">BiocManager</span> is installed, you can use it to install <span class="special-style">MutationaPatterns</span> and all its dependencies.
+					</p>
+					<p align="left">
+					<pre><code class="r" data-trim data-line-numbers>
+					BiocManager::install("MutationaPatterns")
+					</code></pre>
+					</p>
+					<p align="left">
+					This command will download and install the package and any other required packages. It may take a few minutes.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 IV</h2>
+					<br>
+					<br>
+					<p align="left">
+					<b>Step 4: Verify the Installation</b>
+					</p>
+					<p align="left">
+					To check that the installation was successful, load the library and view its version. If no error messages appear, you're ready to start using <span class="special-style">MutationaPatterns</span>.
+					</p>
+					<p align="left">
+					<pre><code class="r" data-trim data-line-numbers>
+					library(MutationaPatterns)
+					packageVersion("MutationaPatterns")
+					</code></pre>
+					</p>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section id="Sigprofiler">
-					<h2>Sigprofiler</h2>
-					<p>installazione di Sigprofiler</p>
-					<pre><code class="html" data-trim data-line-numbers>
-					  <h2 class="r-fit-text">FIT</h2>
+					<h2>Installing <span class="special-style">Sigprofiler</span> 🐍 I</h2>
+					<p align="left">
+					<span class="special-style">Sigprofiler</span> is a powerful suite of tools for mutational signature 
+					analysis, with the main tool being <span class="special-style">SigProfilerExtractor</span>. 
+					It's a <b>Python-based tool</b>, and the easiest way to install it is using the <span class="special-style">pip</span> package manager.
+					</p>
+					<p align="left">
+					<b>Step 1: Install Python</b>
+					</p>
+					<p align="left">
+					First, ensure you have Python 3.8 or newer installed on your system. If not, you can download it from the official Python website.
+					</p>
+					<p align="left">
+					<b>Step 2: Install SigProfilerExtractor via pip</b>
+					</p>
+					<p align="left">
+					Open your terminal or command prompt and run the following command to install the main package. This will also install all its dependencies.
+					<pre><code class="bash" data-trim data-line-numbers>
+					pip install SigProfilerExtractor
 					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Installing <span class="special-style">Sigprofiler</span> 🐍 II</h2>
+					<br>
+					<p align="left">
+					<b>Step 3: Install a Reference Genome 🧬</b>
+					</p>
+					<p align="left">
+					After installing the main package, you must install at least one reference genome that you'll use for your analysis. 
+					This is a separate step that uses a function within the <span class="special-style">SigProfilerMatrixGenerator</span> module.
+
+					Open a Python interpreter and run the following commands. Here, we install the <b>GRCh37</b> (human hg19) reference genome. You can install others as needed.
+
+					<pre><code class="python" data-trim data-line-numbers>
+					from SigProfilerMatrixGenerator import install as genInstall
+					genInstall.install('GRCh37')
+					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Installing <span class="special-style">Sigprofiler</span> 🐍 III</h2>
+					<br>
+					<p align="left">
+					<b>Step 4: Verify the Installation</b>
+					</p>
+					<p align="left">
+					To check if everything is working correctly, you can try importing the main module in your Python interpreter. If no errors appear, the installation was successful.
+
+					<pre><code class="python" data-trim data-line-numbers>
+					from SigProfilerExtractor import sigpro as sig
+					</code></pre>
+					</p>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section>	
