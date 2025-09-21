@@ -17,13 +17,7 @@ contains all the theoretical content of the lesson.
 
 A step-by-step guide to help you complete the exercises is available at the following link:
 
-`https://github.com/supermax1234/CancerGenomicsCourse/`
-<a href="https://github.com/supermax1234/CancerGenomicsCourse" target="_blank">`Guide`</a>
+<a href="https://github.com/supermax1234/CancerGenomicsCourse" target="_blank">`https://github.com/supermax1234/CancerGenomicsCourse/`</a>
 
 ***
-
-### **Repository Structure**
-
-Here is an overview of the repository's file structure to help you navigate:
-
 
