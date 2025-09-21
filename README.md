@@ -17,7 +17,7 @@ contains all the theoretical content of the lesson.
 
 A step-by-step guide to help you complete the exercises is available at the following link:
 
-<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://github.com/supermax1234/CancerGenomicsCourse/`</a>
+<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
 
 ***
 
