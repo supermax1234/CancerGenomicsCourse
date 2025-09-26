@@ -4,12 +4,13 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - Layout Helpers</title>
+		<title>Cancer Genomics Course</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/white.css" id="theme">
+		<!-- <link rel="stylesheet" href="dist/theme/league.css" /> -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
 		<style>
 			.special-style {
@@ -32,7 +33,7 @@
 
 			<div class="slides">
 				<!-- ------------------------------------------------------------------------------------------ -->
-				<section>
+				<section data-background-gradient="radial-gradient(#696868, #242424)">
 					<h2 class="r-fit-text">Exercises</h2>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
@@ -54,6 +55,8 @@
 
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
+				
+		<section>		
 				<section id="tools_necessari">
 					<h2>Necessary tools (to be installed)</h2>
 					<ul>
@@ -64,6 +67,9 @@
 						<li><a href="#/Sigprofiler">ev. Sigprofiler</a></li>
 					</ul>
 				</section>
+				
+		
+		
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section id="samtools">
 					<h2>samtools Installation 🛠️ I</h2>
@@ -404,6 +410,9 @@
 					</code></pre>
 					</p>
 				</section>
+				
+				
+		</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section>	
 					<h2>Exploring VCF Files</h2>
@@ -1052,7 +1061,7 @@ write.csv(fit_res$contribution, file = 'sbs96.tsv', row.names = TRUE)
 				// You can override this and set a fixed size.
 				width: 1700, // or a percentage like '90%'
 				height: 1000, // or a percentage like '90%'
-				
+				slideNumber: true,
 				// Set min/max stretch values
 				minScale: 0.2,
 				maxScale: 1.0,
