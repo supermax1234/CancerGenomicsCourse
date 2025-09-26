@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Mutational Signatures</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700;800&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/white.css" id="theme"> -->
+		<link rel="stylesheet" href="dist/theme/sky.css" id="theme">
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			.special-style {
+				background-color: #DDDCDC;
+				color: #447da4;
+				font-family: 'Courier New', Courier, monospace;
+				padding: 2px 4px; /* Optional: adds a little space around the text */
+				border-radius: 8px; /* Creates the smooth corners */
+			}
+		</style>
+		<style>
+		.reveal strong, .reveal b {
+		  font-weight: 100 !important;
+		  text-shadow: 0.03em 0 0 currentColor, -0.03em 0 0 currentColor;
+		}
+		</style>
+		<style>
+		/* Generic utility class */
+		.reveal .shrink-80 {
+		  font-size: 80% !important;
+		}
+		</style>
+		<style>
+		/* Generic utility class */
+		.reveal .shrink-60 {
+		  font-size: 60% !important;
+		}
+		</style>
+		<style>
+			.left-align-list {
+				text-align: left;
+			  }
+        .highlight-yellow {
+            color: yellow;
+        }
+			.small-list-item {
+				font-size: 80%; /* Reduces the font size to 80% of the normal text */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        /* Base styles for all code blocks */
+        .code-block-container pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        /* Classic Terminal Style */
+        .classic-terminal {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Modern Card Style */
+        .modern-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        /* Minimalist Style */
+        .minimalist {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+    </style>
+	</head>
+	<body>
+		<div class="reveal">
+
+			<div class="slides">
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+				  <h1 style="color:#447da4">Exercises</h1>
+				  Mutational Signatures
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Mutational Signatures Tutorial</h2>
+						<p>In this tutorial, you will learn to calculate <b>Mutational Signatures</b> from a VCF file to infer their possible aetiology. 
+						The process involves the following steps:
+						</p>
+							<ol>
+								<li><em><b>Setup</b>: Install the necessary tools and download the required reference files.</em></li>
+								<li><em><b>Plotting</b>: Plot the mutations in 6 channels and 96 channels after extending the context to +/-1 base pair.</em></li>
+								<li><em><b>Inference</b>: Infer the mutational signatures from the plotted data.</em></li>
+								<li><em><b>Normalization</b>: Convert the inferred mutational signatures into COSMIC signatures.</em></li>
+								<li><em><b>Extraction</b>: Extract and identify the most significant signatures.</em></li>
+							</ol>
+						<p>As we proceed, code snippets will be provided to help you build the system step-by-step.</p>
+							
+							<!-- <span class="special-style">special style</span>. -->
+
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				
+		<section>		
+				<section id="tools_necessari">
+					<h2>Necessary tools (to be installed)</h2>
+					<ul>
+						<li><a href="#/samtools">samtools</a></li>
+						<li><a href="#/Referenza">GRCh37 (hg19) reference genome</a></li>
+						<li><a href="#/R_Python">R or python or your preferred scripting language</a></li>
+						<li><a href="#/MutationaPatterns">MutationaPatterns</a></li>
+						<li><a href="#/Sigprofiler">ev. Sigprofiler</a></li>
+					</ul>
+				</section>
+				
+		
+		
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section id="samtools">
+					<h2>samtools Installation 🛠️ I</h2>
+						
+						<p align="left">
+						You can install <span class="special-style">samtools</span> using a package manager on most operating systems, 
+						such as <span class="special-style">apt</span> for Debian/Ubuntu or <span class="special-style">brew</span> for macOS. 
+						Alternatively, you can download the source code and compile it yourself.</p>
+						</p>
+						<p align="left">
+						<b>Method 1: Using a Package Manager</b>
+						</p>
+						<p align="left">
+						This is the recommended method for most users as it's the simplest and most reliable way to install 
+						<span class="special-style">samtools</span> and its dependencies.
+						</p>
+						<p align="left">
+						<b>For Debian/Ubuntu</b>
+						</p>
+						<p align="left">
+						<pre><code class="bash" data-trim data-line-numbers>
+						sudo apt-get update
+						sudo apt-get install samtools
+						</code></pre>
+						</p>
+						<p align="left">
+						<b>For macOS with Homebrew</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+						brew install samtools
+						</code></pre>
+						</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>samtools Installation 🛠️ II</h2>
+						<br>
+						<br>
+						<p align="left">
+						<b>Method 2: Compiling from Source</b>
+						</p>
+						<p align="left">
+						This method gives you more control over the installation, which can be useful for more advanced users or on systems without a package manager.
+						</p>
+						
+						<p align="left">
+						<b>Download the source code:</b> 
+						</p>
+						<p align="left">
+						Get the latest version from the official <span class="special-style">samtools</span> website.
+						</p>
+						
+						<p align="left">
+						<b>Unpack the files:</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+
+						tar -xf samtools-<version>.tar.bz2
+						cd samtools-<version>
+						</code></pre>
+						
+						</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>samtools Installation 🛠️ III</h2>
+						
+						<p align="left">
+						<b>3.  Configure and compile:</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+						./configure
+						make
+						make install
+						</code></pre>
+						</p>
+						
+						<p align="left">
+						<b>Verification</b>
+						</p>
+						<p align="left">
+						To confirm that <span class="special-style">samtools</span> is installed correctly, run the following command in your terminal. It should display the version number and a list of available commands.
+
+						<pre><code class="bash" data-trim data-line-numbers>
+						samtools --version
+						</code></pre>
+						</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section id="Referenza">
+					<h2>Downloading Genome Reference: GRCh37 I</h2>
+					
+					<p align="left">
+					To perform mutational signature analysis, you need to download a <b>reference genome</b>. 
+					We will use <b>GRCh37</b>, also known as hg19. The most reliable way to get this file is from a well-established bioinformatics repository like NCBI or the UCSC Genome Browser.
+					</p>
+
+					<p align="left">
+					We recommend using a command-line tool like <span class="special-style">wget</span> or <span class="special-style">curl</span> to ensure a stable download, which is crucial for large files.
+					</p>
+
+					<p align="left">
+					<b>Method 1: Using wget 📥</b>
+					</p>
+					
+					<p align="left">
+					This command will download the FASTA file directly from the UCSC Genome Browser's public repository.
+					</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.2bit
+					</code></pre>
+
+					<p>After downloading, you will need to convert the file to the FASTA format, which is required by samtools.</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
+					gunzip hg19.fa.gz
+					</code></pre>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Downloading Genome Reference: GRCh37 I</h2>
+					
+					<p align="left">
+					<b>Method 2: Using NCBI's FTP Server 🌐</b>
+					</p>
+					
+					<p align="left">
+					You can also download the reference from NCBI's FTP server. The command below downloads the gzipped file for GRCh37.p13 and unzips it.
+					</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.14_GRCh37.p13/GCA_000001405.14_GRCh37.p13_genomic.fna.gz
+					gunzip GCA_000001405.14_GRCh37.p13_genomic.fna.gz
+					</code></pre>
+
+					<p align="left">
+					Once you have the FASTA file (<span class="special-style">.fa</span> or <span class="special-style">.fna</span>), you must <b>index</b> it to use it with <span class="special-style">samtools</span>. This process creates a <span class="special-style">.fai</span> file for fast random access.
+					</p>
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					samtools faidx your_genome_file.fa
+					</code></pre>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section id="R_Python">
+					<h2>Installing R and Python 🐍 I</h2>
+					<p align="left">
+					This slide will guide you through the process of installing both R and Python, two essential programming languages for data analysis and bioinformatics.
+					</p>
+					<p align="left">
+					<b>Installing Python</b>
+					</p>
+					<p align="left">
+					Python is widely used for scripting and data science. The easiest way to get started is by downloading the official installer from the Python website.
+
+					<ol>
+						<li>
+						<b>Download Python:</b> 
+						Go to the official Python website and download the latest stable version of Python 3.
+						</li>
+						<li>
+						<b>Run the Installer:</b>
+							<ul>
+								<li>
+								<b>Windows:</b> Run the <span class="special-style">.exe</span> installer. Make sure you check the box that says <b>Add Python to PATH</b> before you click "Install Now." This is a crucial step that allows you to run Python from any command prompt.
+								</li>
+								<li>
+								<b>macOS:</b> Run the <span class="special-style">.pkg</span> installer. The installer will automatically configure the correct paths for you.
+								</li>
+							</ul>
+						</li>
+						<li>
+						<b>Verify Installation:</b> Open your terminal or command prompt and type 
+						<span class="special-style">python --version</span> (or 
+						<span class="special-style">python3 --version</span> on some systems) to confirm the installation.
+						</li>
+						</ol>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section id="R_Python">
+					<h2>Installing R and Python 🐍 II</h2>
+					<br>
+					<p align="left">
+					<b>Installing R</b>
+					R is a programming language and environment specifically designed for 
+					statistical computing and graphics. We recommend installing it alongside 
+					<b>RStudio</b>, a user-friendly Integrated Development Environment (IDE) 
+					that makes working with R much easier.
+					</p>
+					<p align="left">
+					<ol>
+						<li>
+						<b>Download and Install R:</b> Go to the CRAN website and download the latest version for your operating system.
+						</li>
+						<li>
+						<b>Download and Install RStudio:</b> Go to the RStudio Desktop website and download the free desktop version.
+						</li>
+						<li>
+						<b>Launch RStudio:</b> Open RStudio. You'll see the console where you can start writing R commands.
+						</li>
+						<li>
+						<b>Verify Installation:</b> In the RStudio console, type <span class="special-style">R.version</span> to display the version information.
+						</li>
+						</ol>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section id="MutationaPatterns">
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 I</h2>
+					<p align="left">
+					<span class="special-style">MutationaPatterns</span> is a popular Bioconductor <b>R</b> package used for mutational signature analysis. 
+					To use it, you'll need to install R and then the <span class="special-style">MutationaPatterns</span> package from within the R environment.
+					</p>
+					<p align="left">
+					<b>Step 1: Install R and RStudio</b>
+					First, you need to install <b>R</b>, the programming language, and <b>RStudio</b>, which is a user-friendly interface for R.
+					</p>
+					<p align="left">
+					<ol>
+					<li>
+					<b>Download and Install R:</b> 
+					Go to the CRAN website and download the latest version for your operating system.
+					</li>
+					<li>
+					<b>Download and Install RStudio:</b> Go to the RStudio website and download the free desktop version.
+					</li>
+					</ol>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 II</h2>
+					<br>
+					<br>
+					<p align="left">
+					<b>Step 2: Install <span class="special-style">BiocManager</span></b>
+					</p>
+					<p align="left">
+					<span class="special-style">MutationaPatterns</span> is part of the <span class="special-style">BiocManager</span> project, which requires its own package manager, BiocManager. Open RStudio and run the following command in the console to install it.
+
+					<pre><code class="r" data-trim data-line-numbers>
+					install.packages("BiocManager")
+					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 III</h2>
+					<br>
+					<br>
+					<p align="left">
+					<b>Step 3: Install <span class="special-style">MutationaPatterns</span></b>
+					</p>
+					<p align="left">
+					Now that <span class="special-style">BiocManager</span> is installed, you can use it to install <span class="special-style">MutationaPatterns</span> and all its dependencies.
+					</p>
+					<p align="left">
+					<pre><code class="r" data-trim data-line-numbers>
+					BiocManager::install("MutationaPatterns")
+					</code></pre>
+					</p>
+					<p align="left">
+					This command will download and install the package and any other required packages. It may take a few minutes.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Guide to Installing <span class="special-style">MutationaPatterns</span> 📊 IV</h2>
+					<br>
+					<br>
+					<p align="left">
+					<b>Step 4: Verify the Installation</b>
+					</p>
+					<p align="left">
+					To check that the installation was successful, load the library and view its version. If no error messages appear, you're ready to start using <span class="special-style">MutationaPatterns</span>.
+					</p>
+					<p align="left">
+					<pre><code class="r" data-trim data-line-numbers>
+					library(MutationaPatterns)
+					packageVersion("MutationaPatterns")
+					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section id="Sigprofiler">
+					<h2>Installing <span class="special-style">Sigprofiler</span> 🐍 I</h2>
+					<p align="left">
+					<span class="special-style">Sigprofiler</span> is a powerful suite of tools for mutational signature 
+					analysis, with the main tool being <span class="special-style">SigProfilerExtractor</span>. 
+					It's a <b>Python-based tool</b>, and the easiest way to install it is using the <span class="special-style">pip</span> package manager.
+					</p>
+					<p align="left">
+					<b>Step 1: Install Python</b>
+					</p>
+					<p align="left">
+					First, ensure you have Python 3.8 or newer installed on your system. If not, you can download it from the official Python website.
+					</p>
+					<p align="left">
+					<b>Step 2: Install SigProfilerExtractor via pip</b>
+					</p>
+					<p align="left">
+					Open your terminal or command prompt and run the following command to install the main package. This will also install all its dependencies.
+					<pre><code class="bash" data-trim data-line-numbers>
+					pip install SigProfilerExtractor
+					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Installing <span class="special-style">Sigprofiler</span> 🐍 II</h2>
+					<br>
+					<p align="left">
+					<b>Step 3: Install a Reference Genome 🧬</b>
+					</p>
+					<p align="left">
+					After installing the main package, you must install at least one reference genome that you'll use for your analysis. 
+					This is a separate step that uses a function within the <span class="special-style">SigProfilerMatrixGenerator</span> module.
+
+					Open a Python interpreter and run the following commands. Here, we install the <b>GRCh37</b> (human hg19) reference genome. You can install others as needed.
+
+					<pre><code class="python" data-trim data-line-numbers>
+					from SigProfilerMatrixGenerator import install as genInstall
+					genInstall.install('GRCh37')
+					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Installing <span class="special-style">Sigprofiler</span> 🐍 III</h2>
+					<br>
+					<p align="left">
+					<b>Step 4: Verify the Installation</b>
+					</p>
+					<p align="left">
+					To check if everything is working correctly, you can try importing the main module in your Python interpreter. If no errors appear, the installation was successful.
+
+					<pre><code class="python" data-trim data-line-numbers>
+					from SigProfilerExtractor import sigpro as sig
+					</code></pre>
+					</p>
+				</section>
+				
+				
+		</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>	
+					<h2>Exploring VCF Files</h2>
+					<p>
+					The <b>Variant Call Format (VCF)</b> is a standard text file format for storing gene sequence variations. 
+					A VCF file is composed of two main parts:
+					</p>
+					<ol>
+					<li>
+					<p>
+					<b>Header Lines</b>: Starting with a <span class="special-style">##</span>, these lines provide metadata about the file, including:
+					</p>
+					<ul>
+					<li>How the body is organized.</li>
+					<li>The types and values to expect in the ID, FILTER, INFO, and FORMAT fields.</li>
+					</ul>
+					</li>
+					<li>
+					<p>
+					<b>The Body</b>: This is a tab-separated table that contains the variant information. 
+					The last line of the header, which begins with a single <span class="special-style">#</span>, serves as the column header for this table.
+					</p>
+					</li>
+					</ol>
+					<p>
+					The table typically includes columns like 
+					<span class="special-style">CHROM</span>, 
+					<span class="special-style">POS</span>, 
+					<span class="special-style">ID</span>, 
+					<span class="special-style">REF</span>, 
+					<span class="special-style">ALT</span>, 
+					<span class="special-style">QUAL</span>, 
+					<span class="special-style">FILTER</span>, 
+					<span class="special-style">INFO</span>, 
+					<span class="special-style">FORMAT</span>, 
+					and one or more sample names. The values in the sample columns follow the formatting specified by the <span class="special-style">FORMAT</span> field.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>VCF file</h2>
+					<p>
+					Here an example of the first lines of a VCF file:
+					</p>
+					<img src="assets/vcf.PNG" class="r-stretch"><p>VCF file</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Plotting the 6 Mutational Channels</h2>
+					<p>
+					Write a script in R, Python, or your preferred programming language that reads your <b>VCF</b> file and generates a bar plot of the mutation distribution.
+					</p>
+					
+					<ol>
+					<b>Guidelines for the Script</b>:
+					<li>
+					<b>Filtering</b>: Your script should only consider single-nucleotide variants (SNVs). Any mutation where the reference (REF) or alternative (ALT) allele is more than one character should be ignored.
+					</li>
+					<li>
+					<b>Standardization</b>: To simplify analysis, all mutations must be converted to one of the six possible pyrimidine-to-pyrimidine/purine substitutions.
+					</li>
+					<li>
+					<b>Forward Strand Conversion</b>: To ensure consistency, all mutations are converted to the forward strand. 
+					For example, 
+					<span class="special-style">G>T</span>
+					mutations (on the reverse strand) are converted to
+					<span class="special-style">C>A</span>					
+					by complementing both nucleotides. This conversion applies to all six possible mutation types:
+					<span class="special-style">C>A</span>,
+					<span class="special-style">C>G</span>,
+					<span class="special-style">C>T</span>,
+					<span class="special-style">T>A</span>,
+					<span class="special-style">T>C</span>,
+					<span class="special-style">T>G</span>.
+					</li>
+					</ol>
+					<p>
+					The final output will be a histogram representing the frequency of each of the six mutational channels.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>6 Mutational Channels Plot</h2>
+					<p>
+					You should get something like this
+					</p>
+					<img src="assets/mut_6channels.svg" class="r-stretch"><p>6 mutational channels plot</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Code highlights</h2>
+					<p>Here you can find help if you need it for any reason. It is a Python script, so adapt it to your specific case.</p>
+					<pre data-id="code-animation">
+					<code class="hljs javascript">
+					<script type="text/template">
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+
+mutation_file_I = "MUTATIONS/sample_01.tsv"
+
+filename_pic_O = mutation_file_I.replace('.tsv','_6channels.svg')
+# Load prepared file
+df = pd.read_csv(mutation_file_I, sep="\t")
+
+# Keep only SNVs
+df = df[(df["REF"].str.len() == 1) & (df["ALT"].str.len() == 1) & (df["TRINUC"].str.len() == 3)]
+
+# Define the 6 substitution classes
+subs = ["C>A", "C>G", "C>T", "T>A", "T>C", "T>G"]
+bases = ["A", "C", "G", "T"]
+
+# Build the 96-channel labels
+labels = []
+for sub in subs:
+    labels.append(f"{sub}")
+
+counts = pd.Series(0, index=labels)
+
+# Complement map for normalization
+comp = {"A":"T", "T":"A", "C":"G", "G":"C"}
+
+# Iterate mutations
+for _, row in df.iterrows():
+    ref, alt, ctx = row["REF"].upper(), row["ALT"].upper(), row["TRINUC"].upper()
+
+    # Normalize to pyrimidine convention
+    if ref in ["C", "T"]:
+        ref_norm, alt_norm = ref, alt
+    else:
+        ref_norm, alt_norm = comp[ref], comp[alt]
+
+    sub = f"{ref_norm}>{alt_norm}"
+    label = f"{sub}"
+
+    if label in counts:
+        counts[label] += 1
+
+# Plotting colors by substitution type
+colors = {
+    "C>A": "#1f77b4",
+    "C>G": "#ff7f0e",
+    "C>T": "#2ca02c",
+    "T>A": "#d62728",
+    "T>C": "#9467bd",
+    "T>G": "#8c564b"
+}
+
+plt.figure(figsize=(18,6))
+counts.plot(kind="bar", color=[colors[label] for label in counts.index], width=1)
+
+plt.ylabel("Mutation Counts")
+plt.xlabel("1-base Context")
+plt.title("6-channel Mutational Spectrum")
+plt.xticks(rotation=90, fontsize=6)
+plt.tight_layout()
+
+plt.savefig(filename_pic_O)
+					</script>
+					</code>
+					</pre>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Extending to 96 Mutational Channels</h2>
+					<p align="left">To extend your analysis from 6 to 96 channels, you need to incorporate the <b>context</b> of each mutation. 
+					This context is determined by the nucleotide immediately before (5') and after (3') the mutation. This results in 96 possible combinations (4 bases for the 5' position, 4 bases for the 3' position, and the 6 mutational types).</p>
+
+					<p align="left">
+					<b>Accessing Context with</b> <span class="special-style">samtools</span>
+					</p>
+					<p align="left">
+					You can use <span class="special-style">samtools faidx</span> from the command line to efficiently query the reference genome and retrieve these contextual nucleotides.
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					samtools faidx reference.fasta chr:start-end
+					</code></pre>
+					</p>
+					<p align="left">
+					This command returns the sequence of characters from the specified chromosome and genomic coordinates (e.g., 
+					<span class="special-style">chrXXX:aa-bb</span>). 
+					You can use this to retrieve the necessary 5' and 3' context for each mutation in your VCF file.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>			
+					<h2>Generating a <span class="special-style">samtools</span> Script</h2>
+					<p align="left">
+					You will now create a script that automates the process of querying the reference genome using 
+					<span class="special-style">samtools faidx</span> for each mutation in your VCF file. 
+					This is an efficient way to retrieve the contextual nucleotides required to expand from 6 to 96 channels.
+					</p>
+					<p align="left">
+					<b>The Script's Task</b>
+					</p>
+					<p align="left">
+					Your script (written in R, Python, or a similar language) will read your VCF file line-by-line and generate a series of 
+					<span class="special-style">samtools</span> commands. The generated commands will look like this:
+
+					<pre><code class="bash" data-trim data-line-numbers>
+					samtools faidx &lt;reference_genome&gt; &lt;chromosome&gt;:&lt;position&gt;-&lt;position&gt;
+					</code></pre>
+					</p>
+					<p align="left">
+					<b>Running the Script</b>
+					</p>
+					<p align="left">
+					Once your script has generated the list of <span class="special-style">samtools</span> 
+					commands, you can execute it from your terminal.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<p align="left">
+						<b>1. Make the script executable:</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+						chmod +x your_script_name.sh
+						</code></pre>
+					</p>
+					<p align="left">
+						<b>2. Run the script:</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+						./your_script_name.sh
+						</code></pre>
+					</p>
+					<p align="left">
+					This process allows you to automate the retrieval of all necessary contextual information from the reference 
+					genome without manually typing out each command.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Samtools index output file</h2>
+					<p>
+					After running samtools index, you obtained a file with two lines for each position, like this:
+					<pre><code class="html" data-trim data-line-numbers>
+>chr1:17354352-17354354
+GCT
+>chr1:27107098-27107100
+GCG
+>chr1:156834552-156834554
+CGC
+>chr1:162740215-162740217
+CGC
+...
+					</code></pre>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->	
+				<section>
+					<h2>Preparing the 96-Nucleotide Histogram File</h2>
+					<p>
+					You will now process your data to prepare a file for the 96-nucleotide histogram. 
+					This involves combining the mutation information from your VCF file with the contextual data you retrieved using 
+					<span class="special-style">samtools</span>.
+					</p>
+					<p align="left">
+					<b>The Task:</b>
+					</p>
+					<ol>
+						<li>Write a script that reads two lines at a time: one from your original VCF file and the corresponding contextual sequence from the samtools output.
+						</li>
+						<li>For each mutation, determine the trinucleotide context by combining the 5' and 3' nucleotides with the reference base.
+						</li>
+						<li>Generate a new file that lists the following for each mutation:
+							<ul>
+								<li><span class="special-style">REF</span> (Reference allele)</li>
+								<li><span class="special-style">ALT</span> (Alternative allele)</li>
+								<li><span class="special-style">TRINUC</span> (The trinucleotide context)</li>
+							</ul>
+						</li>
+					</ol>
+					<p>
+					The resulting output file should be a clean, organized table that resembles the example below:
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->	
+				<section>
+					<h2>Plotting the 96-Nucleotide Histogram</h2>
+					<p align="left">
+					Using the file you just created, you will now generate a <b>96-channel bar plot</b>. 
+					This type of plot is a fundamental tool in mutational signature analysis, 
+					as it provides a comprehensive visualization of all possible single-base substitutions within their trinucleotide context.
+					</p>
+					<p align="left">
+					<b>The Task:</b>
+					</p>
+					<p align="left">
+					Write a script in R, Python, or another language of your choice that performs the following steps:</p>
+					<ol>
+					<li>
+					<b>Read the file:</b> Your script should read the file containing the REF, ALT, and TRINUC information.
+					</li>
+					<li>
+					<b>Count the substitutions:</b> Count the frequency of each of the 96 possible mutational combinations.
+					</li>
+					<li>
+					<b>Generate the plot:</b> Create a bar plot that visualizes the frequency of each of the 96 combinations. The x-axis should represent the trinucleotide substitutions, and the y-axis should represent their counts or frequencies.
+					</li>
+					</ol>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->	
+				<section>
+					<h2>Plot 96 channels</h2>
+					<p>
+					You should obtain something like this
+					</p>
+					<img src="assets/mut_96channels.svg" class="r-stretch"><p>Plot 96 channels</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Code highlights</h2>
+					<p>Here you can find help if you need it for any reason. It is a Python script, so adapt it to your specific case.</p>
+					<pre data-id="code-animation">
+					<code class="hljs javascript">
+					<script type="text/template">
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+
+mutation_file_I = "MUTATIONS/DNA2406740.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2406784.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2408066.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2412161.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2505059.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2505926.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2506590.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2508977.vcf_mut.tsv"
+mutation_file_I = "MUTATIONS/DNA2510817.vcf_mut.tsv"
+
+filename_pic_O = mutation_file_I.replace('.tsv','_96channels.svg')
+filename_table_O = mutation_file_I.replace('.tsv','_table.tsv')
+
+# Load prepared file
+df = pd.read_csv(mutation_file_I, sep="\t")
+
+# Keep only SNVs
+df = df[(df["REF"].str.len() == 1) & (df["ALT"].str.len() == 1) & (df["TRINUC"].str.len() == 3)]
+
+# Define the 6 substitution classes
+subs = ["C>A", "C>G", "C>T", "T>A", "T>C", "T>G"]
+bases = ["A", "C", "G", "T"]
+
+# Build the 96-channel labels
+labels = []
+for sub in subs:
+    ref, _ = sub.split(">")
+    for left in bases:
+        for right in bases:
+            labels.append(f"{left}[{sub}]{right}")
+
+counts = pd.Series(0, index=labels)
+
+# Complement map for normalization
+comp = {"A":"T", "T":"A", "C":"G", "G":"C"}
+
+# Iterate mutations
+for _, row in df.iterrows():
+    ref, alt, ctx = row["REF"].upper(), row["ALT"].upper(), row["TRINUC"].upper()
+
+    # Center base in trinuc must match REF
+    if ctx[1] != ref:
+        continue
+
+    # Normalize to pyrimidine convention
+    if ref in ["C", "T"]:
+        ref_norm, alt_norm, left, right = ref, alt, ctx[0], ctx[2]
+    else:
+        ref_norm, alt_norm = comp[ref], comp[alt]
+        left, right = comp[ctx[2]], comp[ctx[0]]  # reverse complement
+
+    sub = f"{ref_norm}>{alt_norm}"
+    label = f"{left}[{sub}]{right}"
+
+    if label in counts:
+        counts[label] += 1
+
+# Plotting colors by substitution type
+colors = {
+    "C>A": "#1f77b4",
+    "C>G": "#ff7f0e",
+    "C>T": "#2ca02c",
+    "T>A": "#d62728",
+    "T>C": "#9467bd",
+    "T>G": "#8c564b"
+}
+
+plt.figure(figsize=(18,6))
+counts.plot(kind="bar", color=[colors[label[2:5]] for label in counts.index], width=1)
+
+plt.ylabel("Mutation Counts")
+plt.xlabel("Trinucleotide Context")
+plt.title("96-channel Mutational Spectrum")
+plt.xticks(rotation=90, fontsize=6)
+plt.tight_layout()
+#plt.show()
+
+plt.savefig(filename_pic_O)
+
+counts.name = 'sample'
+
+counts.to_csv(filename_table_O,sep='\t',index=True)
+					</script>
+					</code>
+					</pre>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->	
+				<section>
+					<h2>Preparing Mutational Signatures</h2>
+					<p>
+					The next step is to prepare your data for <b>mutational signature analysis</b>. 
+					This process involves formatting the mutation counts into a matrix that can be used by specialized 
+					bioinformatics tools like <span class="special-style">MutationaPatterns</span> or <span class="special-style">Sigprofiler</span>.
+					</p>
+
+					<p>Your task is to write a script (in R, Python, or a similar language) that:</p>
+
+					<ol>
+					<li>
+					<p>
+					<b>Generates an input file for</b> <span class="special-style">MutationaPatterns</span>: 
+					The script should process your data and write it to a new file in the specific format required by 
+					the <span class="special-style">MutationaPatterns</span> tool. This usually involves creating a table where rows represent the 96 mutational channels and columns represent your samples.
+					</p>
+					</li>
+					<li>
+					<p>
+					<b>Alternatively, use</b> <span class="special-style">Sigprofiler</span>: If you choose to use 
+					<span class="special-style">Sigprofiler</span>, you can skip this data preparation step, as it is designed to accept your input VCF file directly.
+					</p>
+					</li>
+					</ol>
+
+					<p>
+					This step is crucial for transitioning from a raw histogram to a format that can be analyzed to identify and extract known or novel mutational signatures.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Code highlights</h2>
+					<p>Here you can find help if you need it for any reason. It is a Python script, so adapt it to your specific case.</p>
+					<pre data-id="code-animation">
+					<code class="hljs javascript">
+					<script type="text/template">
+library(MutationalPatterns)
+
+# ---
+# 1. Read the TSV file into a data frame
+mut_df <- read.delim("mut.tsv", header = TRUE, row.names = 1)
+
+# ---
+# 2. Convert the data frame to a matrix
+mut_matrix <- as.matrix(mut_df)
+
+# ---
+# 3. Check the format of the matrix
+# You should see the 96 mutation types as row names
+# and your sample names as column names
+head(mut_matrix)
+
+
+# 5. Now, you can use the mut_matrix to extract signatures
+# Let's say we want to test a range of ranks (2 to 10)
+ranks <- 2:10
+mutational_signatures <- extract_signatures(
+  mut_matrix, 
+  ranks,
+  nrun = 200,
+  nmf_type = "regular"
+)
+
+cosmic_signatures <- get_known_signatures(
+  signatures_version = "v3.2"
+)
+
+# ---
+# 3. Fit your samples' mutational profiles to the COSMIC signatures
+# The fit_to_signatures() function takes two key arguments:
+# - The mutation matrix of your samples (mut_matrix)
+# - The matrix of known reference signatures (cosmic_signatures)
+fit_res <- fit_to_signatures(
+  mut_matrix, 
+  cosmic_signatures
+)
+
+# ---
+# 4. View the results
+# The 'fit_res' object contains two key parts:
+# - $contribution: The weights or exposures of each COSMIC signature in each of your samples.
+# - $reconstructed: The reconstructed mutation profiles based on the fitted signatures.
+head(fit_res$contribution)
+
+write.csv(fit_res$contribution, file = 'sbs96.tsv', row.names = TRUE)
+					</script>
+					</code>
+					</pre>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>				
+					<h2>Preparing Mutational Signatures</h2>
+					<p align="left">
+					The next step is to prepare your data for <b>mutational signature analysis</b>. This process involves formatting the mutation counts into a matrix that can be used by specialized bioinformatics tools.
+					</p>
+					
+					<p align="left">
+					<b>The Task:</b>
+					</p>
+					<p align="left">
+					Your task is to write a script in R, Python, or a similar language that prepares the input file for your chosen tool. You have two primary options:</p>
+
+					<ol>
+					<li>
+					<p>
+					<span class="special-style">MutationPatterns</span>: 
+					<em>To use this tool, your script must generate a data file in its specific input format. 
+					This typically requires creating a matrix where rows correspond to the 96 trinucleotide substitution types 
+					and columns represent your samples.</em>
+					</p>
+					</li>
+					<li>
+					<p>
+					<span class="special-style">Sigprofiler</span>: 
+					<em>If you decide to use this tool, you can skip the data preparation step, as </em>
+					<span class="special-style">Sigprofiler</span> <em>is designed to process the input VCF file directly.</em>
+					</p>
+					</li>
+					</ol>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Mutational Signatures: Interpreting Your Results I</h2>
+					<p align="left">You've now successfully completed the computational part of your analysis. The final step is to interpret the results you have achieved, which are the mutational signatures of your sample. These signatures are a combination of a mutational profile (a bar plot) and an exposure value. The exposure represents the number of mutations that are likely caused by a specific mutational signature.
+					
+					<p align="left">
+					<b>What to Look For:</b>
+					</p>
+					<ul>
+					<li><b>Signature Profiles:</b> Your results will include a profile for each identified signature. The profiles are 96-channel bar plots that represent the unique pattern of mutations associated with a specific mutagenic process (e.g., UV exposure, tobacco smoke). By comparing these profiles to known signatures (like those in the COSMIC database), you can infer the aetiology of the mutations.
+					</li>
+					</ul>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Mutational Signatures: Interpreting Your Results II</h2>
+					<p align="left">
+					<b>What to Look For:</b>
+					</p>
+					<ul>
+					<li><b>Exposure Values:</b> The exposure values are the most important part of your results. They tell you the contribution of each signature to the total mutational burden in your sample. A high exposure value for a signature means that the corresponding mutagenic process had a significant impact on your sample.
+					</li>
+					<li><b>Residual Mutations:</b> Pay attention to any residual mutations that were not assigned to a signature. 
+					These unassigned mutations may indicate the presence of a novel or uncharacterized mutational process.
+					</li>
+					</ul>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Decomposing Signatures with COSMIC I</h2>
+					<p align="left">
+					You will now use a specialized bioinformatics tool to <b>deconvolve</b> or <b>decompose</b> the mutational signatures you found.
+					This process involves comparing your sample's unique mutational profile to the <b>COSMIC database</b>, which contains a 
+					comprehensive list of known mutational signatures and their associated <b>aetiologies</b> (causes).
+					</p>
+					<p align="left">
+					<b>The Goal:</b>
+					<p>
+					<p align="left">
+					The objective is to determine which of the known signatures contribute to the overall mutational pattern 
+					observed in your data. The result is an exposure value for each COSMIC signature, representing its contribution 
+					to your sample's mutational load.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Decomposing Signatures with COSMIC II</h2>
+					<p align="left">
+					<b>Key Steps:</b>
+					</p>
+					<p align="left">
+					<ol>
+					<li><b>Input Your Data:</b> Use the signature file you prepared in the previous step as input for your analysis tool.</li>
+					<li><b>Compare to COSMIC:</b> The tool will mathematically compare your sample's 96-channel profile to the signatures in the COSMIC database.</li>
+					<li><b>Decompose the Profile:</b> The tool will break down your sample's profile into a linear combination of the most likely COSMIC signatures.</li>
+					<li><b>Obtain Exposures:</b> You will receive a list of COSMIC signatures and their corresponding exposure values, indicating their contribution to your sample's mutations. </li>
+					</ol>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Analyzing Results and Overfitting I</h2>
+					<p align="left">
+					After comparing your data to the <b>COSMIC signatures</b>, you need to interpret the results with a critical eye. 
+					It's not enough to simply see which signatures were found; 
+					you must also consider whether the model might have <b>overfitted</b> the data. 
+					Overfitting occurs when a model fits the noise or random fluctuations in the data rather than the 
+					underlying biological signal. This can lead to a false identification of a signature.
+					</p>
+					<p align="left">
+					<b>Key Indicators of Overfitting</b>
+					</p>
+					<p align="left">
+					<ul>
+					<li><b>High Number of Signatures:</b> If the model identifies an unusually large number of signatures for a single sample, it might be overfitting. A complex model can fit every tiny variation, including noise, by attributing them to a new signature.
+					</li>
+					<li><b>Low Exposure Values:</b> Pay close attention to signatures with very low exposure values. An exposure value close to zero suggests the signature contributed very little to the mutational profile. In these cases, it's possible the model assigned a signature just to account for a few random mutations.
+					</li>
+					</ul>
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->				
+				<section>
+					<h2>Analyzing Results and Overfitting II</h2>
+					<p align="left">
+					<b>Key Indicators of Overfitting</b>
+					</p>
+					<p align="left">
+					<ul>
+					<li><b>High Reconstruction Error:</b> Most mutational signature analysis tools provide a measure of reconstruction error. A high reconstruction error indicates that the model did not accurately replicate the original mutational profile, suggesting a poor fit.
+					</li>
+					<li><b>Biological Plausibility:</b> Consider the biological context. For example, if your sample is from a lung cancer patient who has never smoked, but the model attributes a high exposure to Signature 4 (tobacco smoke), this could be a sign of overfitting.
+					</li>
+					</ul>
+					</p>
+					<p align="left">
+					By checking for these issues, you can ensure that your interpretation of the mutational signatures is robust and biologically meaningful.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>End</h2>
+					<a href="#/0">Back to the first slide</a>
+				</section> 
+				<!-- ------------------------------------------------------------------------------------------ -->
+			</div>
+
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			Reveal.initialize({
+				center: true,
+				hash: true,
+				// Slides will stretch to fit the viewport by default.
+				// You can override this and set a fixed size.
+				width: 1700, // or a percentage like '90%'
+				height: 1000, // or a percentage like '90%'
+				slideNumber: true,
+				// Set min/max stretch values
+				minScale: 0.2,
+				maxScale: 1.0,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+
+	</body>
+</html>

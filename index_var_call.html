@@ -1,0 +1,1936 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Variant Calling</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700;800&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/white.css" id="theme"> -->
+		<link rel="stylesheet" href="dist/theme/sky.css" id="theme">
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			.special-style {
+				background-color: #DDDCDC;
+				color: #447da4;
+				font-family: 'Courier New', Courier, monospace;
+				padding: 2px 4px; /* Optional: adds a little space around the text */
+				border-radius: 8px; /* Creates the smooth corners */
+			}
+		</style>
+		<style>
+		.reveal strong, .reveal b {
+		  font-weight: 100 !important;
+		  text-shadow: 0.03em 0 0 currentColor, -0.03em 0 0 currentColor;
+		}
+		</style>
+		<style>
+		/* Generic utility class */
+		.reveal .shrink-80 {
+		  font-size: 80% !important;
+		}
+		</style>
+		<style>
+		/* Generic utility class */
+		.reveal .shrink-60 {
+		  font-size: 60% !important;
+		}
+		</style>
+		<style>
+			.left-align-list {
+				text-align: left;
+			  }
+        .highlight-yellow {
+            color: yellow;
+        }
+			.small-list-item {
+				font-size: 80%; /* Reduces the font size to 80% of the normal text */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        /* Base styles for all code blocks */
+        .code-block-container pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        /* Classic Terminal Style */
+        .classic-terminal {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Modern Card Style */
+        .modern-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        /* Minimalist Style */
+        .minimalist {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+    </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+				  <h1 style="color:#447da4">Exercises</h1>
+				  Variant calling
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>Variant Calling Tutorial</h2>
+					<p align="left">
+					This tutorial will provide you with the practical skills needed to analyze next-generation sequencing data in a 
+					clinical and research context. Upon completion of this session, you will be able to:
+					</p>
+						<ol>
+							<li><em><b>Interpret sequencing evidence</b>: 
+							master the use of Integrative Genomics Viewer (IGV) to visually inspect and validate genomic features, variant calls, and alignment artifacts.</em></li>
+							<li><em><b>Run a somatic call pipeline</b>: apply a bioinformatics workflow based on best practices to accurately identify somatic variants from a 
+							matched pair of tumor and normal samples.</em></li>
+							<li><em><b>Predict functional impact</b>: use tools such as the Variant Effect Predictor (VEP) to annotate variants and predict their biological consequences, 
+							from amino acid changes to effects on gene expression.</em></li>
+							<li><em><b>Prioritize actionable variants</b>: develop a strategic approach to filter and prioritize mutations with the highest 
+							probability of being oncogenic drivers or therapeutic targets in a cancer genome.</em></li>
+						</ol>
+					As we proceed, code snippets will be provided to help you build the system step-by-step.
+					<p class="shrink-80" align="left">
+					<b>Attribution</b>: This tutorial is inspired by the <em>Precision medicine course</em>, from the <em>Griffith lab</em> and 
+					<em>Cancer variant analysis</em> from <em>SIB</em>.
+					</p>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>					
+					<h2>Tutorial Outline</h2>
+					<br>
+					<ol>
+						<li><a href="#setup" style="color:#447da4;"><b>Setup:</b> Tools of the trade</a></li>
+						<li><a href="#igv" style="color:#447da4;"><b>IGV Tutorial:</b> A Guide to Visualizing NGS Data</a></li>
+						<li><a href="#data_qual" style="color:#447da4;"><b>Data Quality:</b> The First Step to Confident Calls</a></li>
+						<li><a href="#var_call" style="color:#447da4;"><b>Variant Calling:</b> The Art of Finding Genetic Changes</a></li>
+						<li><a href="#var_ann" style="color:#447da4;"><b>Variant Annotation and Filtering:</b> Turning Variants into Insights</a></li>
+					</ol>
+				</section>	
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<section id="setup">	
+						<h2 style="color:#447da4">1. Setup</h2>
+						<h3 style="color:#447da4">Tools of the trade</h3>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Setup I</h2>
+						<ul>
+							<li><a href="#/samtools">samtools</a></li>
+							<li><a href="#/Referenza">GRCh37 (hg19) reference genome</a></li>
+							<li><a href="#/R_Python">R or python or your preferred scripting language</a></li>
+							<li><a href="#/MutationaPatterns">MutationaPatterns</a></li>
+							<li><a href="#/Sigprofiler">ev. Sigprofiler</a></li>
+						</ul>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Setup II</h2>
+						download data....
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Setup III</h2>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>	
+					  <h2>End of Setup</h2>
+					  <a href="#setup">Back to top</a>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<section id="igv">	
+						<h2 style="color:#447da4">2. IGV Tutorial</h2>
+						<h3 style="color:#447da4">A Guide to Visualizing NGS Data</h3>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>				
+						<h2>Exploring BAM Files with IGV</h2>
+						<p align="left">
+						We will be visualizing read alignments using IGV, a popular visualization tool for NGS data.
+						</p>
+						<p align="left">
+						<strong>Dataset for IGV</strong>
+						<br>
+						We will be using publicly available Illumina sequence data from the HCC1143 cell line. 
+						The HCC1143 cell line was generated from a 52 year old caucasian woman with breast cancer. 
+						Additional information on this cell line can be found here:  
+						</p>
+						<div style="text-align: left;">
+							<ul>
+							<li><a href="https://www.atcc.org/products/all/CRL-2321.aspx" target="_blank">HCC1143</a> (tumor, TNM stage IIA, grade 3, primary ductal carcinoma).</li>
+							</ul>
+						</div>
+						<p align="left">
+						From the github folder XXX please download the bam/bai files from HCC1143 (these files have been filtered to this region: <em>chr 21: 19000000-20000000</em>).
+						</p>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------ -->	
+					<section>				
+						<h3>Download hg19 reference genome</h3>
+						<p align="left">
+						To add a new genome in IGV go to 
+						<span class="special-style">Genomes</span> > <span class="special-style">Select Hosted Genome...</span> and then look for the desired Genome. Press <span class="special-style">OK</span> to download it.
+						</p>
+						<img src="assets/reference.png" class="r-stretch">
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------ -->	
+					<section>		
+						<h3>Load a Genome and some Data Tracks I</h3>
+						<p align="left">
+						By default, <span class="special-style">IGV</span> loads the Human <span class="special-style">GRCh38/hg38</span> reference genome. 
+						If you work with another version of the human genome, or another organism, you can change the genome by clicking 
+						the drop down menu in the upper-left corner. For this tutorial, we will be using Human <span class="special-style">GRCh37/hg19</span>.
+						We will also load additional tracks from the Server using 
+						(<span class="special-style">File</span> -> <span class="special-style">Load from Server...</span>):
+						</p>
+						<div style="text-align: left;">
+						<ul>
+							<li class="small-list-item"><span class="special-style">Available Datasets</span> -> <span class="special-style">Annotations</span> -> <span class="special-style">Genes</span> > <span class="special-style">Ensembl Genes</span></li>
+							<li class="small-list-item"><span class="special-style">Available Datasets</span> -> <span class="special-style">Annotations</span> -> <span class="special-style">Sequence and Regulation</span> -> <span class="special-style">GC Percentage</span></li>
+							<li class="small-list-item"><span class="special-style">Available Datasets</span> -> <span class="special-style">Annotations</span> -> <span class="special-style">Variantion and Repeats</span> -> <span class="special-style">dbSNP 1.4.7</span></li>
+							<li class="small-list-item"><span class="special-style">Available Datasets</span> -> <span class="special-style">Annotations</span> -> <span class="special-style">Variantion and Repeats</span> -> <span class="special-style">Repeat Masker</span></li>
+						</ul>
+						</div>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------ -->				
+					<section>
+						<h3>Load a Genome and some Data Tracks II</h3>
+						<img src="assets/load.data.tracks.png" class="r-stretch"><p>Load hg19 genome and additional data tracks</p>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------ -->				
+					<section>	
+						<h3>Navigation</h3>
+						<p align="left">
+						You should see listing of chromosomes in this reference genome. Choose 1, for chromosome 1.
+						</p>
+						<img src="assets/chromosomes.png" class="r-stretch"><p>Chromosome chooser</p>
+						<p align="left">
+						Navigate to <b>chr1:10,000-11,000</b> by entering this into the location field (in the top-left corner of the interface) and 
+						clicking <span class="special-style">Go</span>. 
+						This shows a window of chromosome 1 that is 1,000 base pairs wide and beginning at position 10,000.
+						You can navigate to a gene of interest by typing it in the same box the genomic coordinates are in and pressing Enter/Return. 
+						Try it for your favourite gene, or BRCA1 if you can not decide.
+						</p>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>				
+						<h3>Gene model</h3>
+						<p align="left">
+						Genes are represented as lines and boxes. Lines represent intronic regions, and boxes represent exonic regions. 
+						The arrows indicate the direction/strand of transcription for the gene. When an exon box become narrower in height, this indicates a UTR.
+						</p>
+						<img src="assets/gene_model.png" class="r-stretch"><p>Gene</p>
+						<p align="left">
+						When loaded, tracks are stacked on top of each other. You can identify which track is which by consulting the label to the left of each track.
+						</p>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Loading Read Alignments</h3>
+						<p align="left">
+						We will be using the breast cancer cell line HCC1143 to visualize alignments. 
+						For speed, only a small portion of chr21 will be loaded (19M:20M).
+						Dowanload <em>HCC1143.normal.21.19M-20M.bam</em> and <em>HCC1143.normal.21.19M-20M.bam.bai</em> from the Git repository to your local drive.
+						In IGV select Human (GRCh37/hg19) reference genome.
+						Then choose <span class="special-style">File > Load from File...</span>, select the bam file, and click 
+						OK. Note that the bam and index files must be in the same directory for 
+						IGV to load these properly.
+						</p>
+						<img src="assets/load_bam.png" class="r-stretch"><p>HCC1143 Alignments to hg19</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+						<h3>Visualizing read alignments I</h3>
+						<p align="left">
+						Navigate to a narrow window on chromosome 21: 
+						<span class="special-style">chr21:19,480,041-19,480,386</span>.
+						</p>
+						<p align="left">
+						To start our exploration, right-click on the read alignment track, and select the following options:
+						</p>
+						<div style="text-align: left;">
+							<ul style="list-style-type: disc; margin-left: 2em;">
+									<li><span class="special-style">Sort alignments by</span> -> <span class="special-style">start location</span></li>
+									<li><span class="special-style">Group alignments by</span> -> <span class="special-style">pair orientation</span></li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Visualizing read alignments II</h3>
+						<p align="left">
+						Experiment with the various settings by right clicking the read alignment track and toggling the options. 
+						Think about which would be best for specific tasks (e.g. quality control, SNP calling, CNV finding).
+						</p>
+						<img src="assets/sort_and_group.png" alt="Sorting and grouping flowchart">
+						<p align="left">
+						Changing how read alignments are sorted, grouped, and colored
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+						<h3>Visualizing read alignments III</h3>
+						<p align="left">
+						You will see reads represented by grey or white bars stacked on top of each other, where they were aligned to the reference genome. 
+						The reads are pointed to indicate their orientation (i.e. the strand on which they are mapped). 
+						</p>
+						<img src="assets/reads.png">
+						<p align="left">
+						Mouse over any read and notice that a lot of information is available. 
+						To toggle read display from hover to click, select the yellow box and change the setting.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+						<h3>Viewing read information for a single aligned read</h3>
+						<img src="assets/click_read.png" class="r-stretch">
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Inspecting SNPs, SNVs, and SVs</h3>
+						<p align="left">
+						In this section we will be looking in detail at 8 positions in the genome, and determining whether they represent real events or artifacts.
+						</p>
+						<p align="left">
+						<b>Two neighbouring SNPs</b>
+						</p>
+						<div style="text-align: left;">
+							<ul>
+							<li>Navigate to region <span class="special-style">chr21:19,479,237-19,479,814</span></li> 
+							<li>Note two heterozygous variants, one corresponds to a known dbSNP (<span class="special-style">G/T</span> on the right) 
+							the other does not (<span class="special-style">C/T</span> on the left)</li>
+							<li>Zoom in and center on the <span class="special-style">C/T</span> SNV on the left, sort by base (window 
+							<span class="special-style">chr21:19,479,321</span> is the SNV position)</li>
+							<li>Sort alignments by <span class="special-style">base</li>
+							<li>Color alignments by <span class="special-style">read strand</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+						<h3>Good quality SNVs/SNPs</h3>
+						<img src="assets/example1_color.png" class="r-stretch">
+						<div style="text-align: left;">
+							<ul>	
+								<li>High base qualities in all reads except one (where the alt allele is the last base of the read)</li>
+								<li>Good mapping quality of reads, no strand bias, allele frequency consistent with heterozygous mutation</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Homopolymer region with indel I</h3>
+						<p align="left">
+						Navigate to position <span class="special-style">chr21:19,518,412-19,518,497</span>
+						</p>
+						<img src="assets/example2a.png" class="r-stretch">
+						<div style="text-align: left;">
+							<ul>	
+								<li>Group alignments by <span class="special-style">read strand</span></li>
+								<li>Center on the A within the homopolymer run (<span class="special-style">chr21:19,518,470</span>), and 
+								<span class="special-style">Sort alignments by</span> -> <span class="special-style">base</span></li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+						<h3>Homopolymer region with indel II</h3>
+						<p align="left">
+						Center on the one base deletion (<span class="special-style">chr21:19,518,452</span>), and 
+						<span class="special-style">Sort alignments by</span> -> <span class="special-style">base</span>
+						</p>
+						<img src="assets/example2b.png" class="r-stretch">
+						<div style="text-align: left;">
+							<ul>
+								<li>The alt allele is either a deletion or insertion of one or two Ts</li>
+								<li>The remaining bases are mismatched, because the alignment is now out of sync</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Coverage by GC</h3>
+						<p align="left">
+						Navigate to position 
+						<span class="special-style">chr21:19,611,925-19,631,555</span>. 
+						Note that the range contains areas where coverage drops to zero in a few places.
+						</p>
+						<img src="assets/example3.png" class="r-stretch">
+						<div style="text-align: left;">
+							<ul>	
+								<li>Use <span class="special-style">Collapsed view</span></li>
+								<li><span class="special-style">Color alignments by</span> -> <span class="special-style">insert size and pair orientation</span></li>
+								<li><span class="special-style">Group alignments by</span> -> <span class="special-style">none</span>.</li>
+								<li>Load GC track (if not already loaded above)</li>
+								<li>See concordance of coverage with GC conten</li>
+							</ul>
+						</div>
+						</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+						<h3>Heterozygous SNPs</h3>
+						<p align="left">
+						Navigate to region <span class="special-style">chr21:19,666,833-19,667,007</span>
+						Sort by base (at position <span class="special-style">chr21:19,666,901</span>)
+						</p>
+						<img src="assets/example4.png" class="r-stretch">
+						<p align="left">
+						There is no linkage between alleles for these two SNPs because reads covering both only contain one or the other
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Low mapping quality</h3>
+						<p align="left">
+						Navigate to region <span class="special-style">chr21:19,800,320-19,818,162</span>
+						</p>
+						<img src="assets/example5.png" class="r-stretch">
+						<p align="left"></span>
+						Mapping quality plunges in all reads (white instead of grey). Once we load repeat elements, we see that there are two LINE elements that cause this.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Homozygous deletion I</h3>
+						<p align="left">
+						Navigate to region <span class="special-style">chr21:19,324,469-19,331,468</span>
+						</p>
+						<img src="assets/example6.png" class="r-stretch">
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Homozygous deletion II</h3>
+						<p align="left">
+						Then
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>Turn on <span class="special-style">View as Pairs</span> and <span class="special-style">Expanded</span> view</li>
+								<li>Use <span class="special-style">Color alignments by</span> -> <span class="special-style">insert size and pair orientation</span></li>
+								<li>Sort reads by insert size</li>
+								<li>Click on a red read pair to pull up information on alignments</li>
+							</ul>
+						</div>
+						<p align="left">
+						<b>Note:</b>
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>Typical insert size of read pair in the vicinity: 350bp</li>
+								<li>Insert size of red read pairs: 2,875bp</li>
+								<li>This corresponds to a homozygous deletion of 2.5kb</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+						<h3>Mis-alignment I</h3>
+						<p align="left">
+						Navigate to region <span class="special-style">chr21:19,102,154-19,103,108</span>
+						</p>
+						<img src="assets/example7.png" class="r-stretch">
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Mis-alignment II</h3>
+						<div style="text-align: left;">
+							<ul>
+								<li>This is a position where <em>AluY</em> element causes mis-alignment.</li>
+								<li>Misaligned reads have mismatches to the reference and well-aligned reads have partners on other chromosomes 
+								where additional <em>AluY</em> elements are encoded.</li>
+								<li>Zoom out until you can clearly see the contrast between the difficult alignment region 
+								(corresponding to an <em>AluY</em>) and regions with clean alignments on either side</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h3>Translocation</h3>
+						<p align="left">
+						Navigate to region <span class="special-style">chr21:19,089,694-19,095,362</span>
+						</p>
+						<img src="assets/example8.png" class="r-stretch">
+						<div style="text-align: left;">
+							<ul>
+								<li>Expanded view</li>
+								<li><span class="special-style">Color alignments by</span> -> <span class="special-style">insert size and pair orientation</span></li>
+								<li>Many reads with mismatches to reference</li>
+								<li>Read pairs in RL pattern (instead of LR pattern)</li>
+								<li>Region is flanked by reads with poor mapping quality (white instead of grey)</li>
+								<li>Presence of reads with pairs on other chromosomes (coloured reads at the bottom when scrolling down)</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->	
+					<section>
+					  <h2>End of IGV tutorial</h2>
+					  <a href="#igv">Back to top</a>
+					</section>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>					
+					<section id="data_qual">
+							<h2 style="color:#447da4">3. Data Quality</h2>
+							<h3 style="color:#447da4">The First Step to Confident Calls</h3>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+							<h2>Quality Control of BAM Files – Part I</h2>
+							<br>
+							<p align="left">
+							We will begin our exercises using pre-aligned BAM files. 
+							Start by downloading the dataset from the provided source. The directory structure is as follows:
+							</p>
+							<div style="text-align: left;">
+								<ul>
+									<li><span class="special-style">alignments</span>: contains BAM files for tumor and normal samples.</li>
+									<li><span class="special-style">reference</span>: contains the genome FASTA file and target intervals.</li>
+									<li><span class="special-style">resources</span>: includes variant files (VCF) from resources such as the
+									<a href="https://www.internationalgenome.org/" target="_blank">1000 genomes</a> project and 
+									<a href="https://gnomad.broadinstitute.org/" target="_blank">gnomAD</a>, 
+									and subsets of the clinvar and alphamissense databases.</li>
+									<li><span class="special-style">scripts</span>: an empty folder for storing your scripts.</li>
+								</ul>
+							</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+							<h2>Quality control of the bam files – Part II</h2>
+							<br>
+							<p align="left">
+							The dataset was prepared by the developers of the <em>Precision medicine bioinformatics course</em> at
+							the <em>Griffith lab</em>  (McDonnell Genome Institute, Washington University).
+							</p>
+							<p align="left">
+							It consists of whole-exome sequencing data from cell lines derived from:
+							</p>
+							<div style="text-align: left;">
+								<ul>
+									<li>A triple-negative breast cancer tumor <a href="https://www.cellosaurus.org/CVCL_1249" target="_blank">HCC1395</a></li>
+									<li>Matched normal tissue <a href="https://www.cellosaurus.org/CVCL_1250" target="_blank">HCC1395 BL</a></li>				
+								</ul>
+							</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+							<h2>Quality control of the bam files – Part III</h2>
+							<br>
+							<p align="left">
+							We begin by examining the BAM file headers to understand file content and processing details (<span class="special-style">samtools view -H</span>). 
+							Use the following command to inspect the headers:
+							<pre><code class="bash" data-trim data-line-numbers>
+							samtools view -H ../alignments/normal.recal.bam
+							</code></pre>
+							</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+							<h2>Quality control of the bam files – Part IV</h2>
+							<br>
+							<p align="left">
+							The output should include header lines containing information about the BAM file structure and processing.
+							<pre><code class="bash" data-trim>
+							@HD     VN:1.6  SO:coordinate
+							@SQ     SN:chr6 LN:170805979
+							@SQ     SN:chr17        LN:83257441
+							@RG     ID:HWI-ST466.C1TD1ACXX.normal   LB:normal       PL:ILLUMINA     SM:normal       PU:HWI-ST466.C1TD1ACXX
+							@PG     ID:bwa  PN:bwa  VN:0.7.17-r1188 CL:bwa mem /config/data/reference//ref_genome.fa /config/data/reads/normal_R1.fastq.gz /config/data/reads/normal_R2.fastq.gz
+							@PG     ID:samtools     PN:samtools     PP:bwa  VN:1.21 CL:samtools sort
+							@PG     ID:samtools.1   PN:samtools     PP:samtools     VN:1.21 CL:samtools view -bh
+							@PG     ID:MarkDuplicates       VN:Version:4.5.0.0      CL:MarkDuplicates --INPUT /config/data/alignments/normal.rg.bam --OUTPUT /config/data/alignments/normal.rg.md.bam --METRICS_FILE /config/data/alignments/marked_dup_metrics_normal.txt --MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP 50000 --MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 8000 --SORTING_COLLECTION_SIZE_RATIO 0.25 --TAG_DUPLICATE_SET_MEMBERS false --REMOVE_SEQUENCING_DUPLICATES false --TAGGING_POLICY DontTag --CLEAR_DT true --DUPLEX_UMI false --FLOW_MODE false --FLOW_QUALITY_SUM_STRATEGY false --USE_END_IN_UNPAIRED_READS false --USE_UNPAIRED_CLIPPED_END false --UNPAIRED_END_UNCERTAINTY 0 --FLOW_SKIP_FIRST_N_FLOWS 0 --FLOW_Q_IS_KNOWN_END false --FLOW_EFFECTIVE_QUALITY_THRESHOLD 15 --ADD_PG_TAG_TO_READS true --REMOVE_DUPLICATES false --ASSUME_SORTED false --DUPLICATE_SCORING_STRATEGY SUM_OF_BASE_QUALITIES --PROGRAM_RECORD_ID MarkDuplicates --PROGRAM_GROUP_NAME MarkDuplicates --READ_NAME_REGEX <optimized capture of last three ':' separated fields as numeric values> --OPTICAL_DUPLICATE_PIXEL_DISTANCE 100 --MAX_OPTICAL_DUPLICATE_SET_SIZE 300000 --VERBOSITY INFO --QUIET false --VALIDATION_STRINGENCY STRICT --COMPRESSION_LEVEL 2 --MAX_RECORDS_IN_RAM 500000 --CREATE_INDEX false --CREATE_MD5_FILE false --help false --version false --showHidden false --USE_JDK_DEFLATER false --USE_JDK_INFLATER false PN:MarkDuplicates
+							@PG     ID:GATK ApplyBQSR       VN:4.5.0.0      CL:ApplyBQSR --output /config/project/data/alignments/normal.recal.bam --bqsr-recal-file /config/project/data/alignments/normal.bqsr.recal.table --input /config/project/data/alignments/normal.rg.md.bam --preserve-qscores-less-than 6 --use-original-qualities false --quantize-quals 0 --round-down-quantized false --emit-original-quals false --global-qscore-prior -1.0 --interval-set-rule UNION --interval-padding 0 --interval-exclusion-padding 0 --interval-merging-rule ALL --read-validation-stringency SILENT --seconds-between-progress-updates 10.0 --disable-sequence-dictionary-validation false --create-output-bam-index true --create-output-bam-md5 false --create-output-variant-index true --create-output-variant-md5 false --max-variants-per-shard 0 --lenient false --add-output-sam-program-record true --add-output-vcf-command-line true --cloud-prefetch-buffer 40 --cloud-index-prefetch-buffer -1 --disable-bam-index-caching false --sites-only-vcf-output false --help false --version false --showHidden false --verbosity INFO --QUIET false --use-jdk-deflater false --use-jdk-inflater false --gcs-max-retries 20 --gcs-project-for-requester-pays  --disable-tool-default-read-filters false PN:GATK ApplyBQSR
+							@PG     ID:samtools.2   PN:samtools     PP:samtools.1   VN:1.18 CL:samtools view -H ../alignments/normal.recal.bam
+							</code></pre>
+							</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>
+							<h2>Quality control of the bam files – Part V</h2>
+							<br>
+							<p align="left">
+							1) BAM file sorting: How is the bam file sorted?
+							</p>
+							<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+							<p class="answer-text">From the <span class="special-style">@HD</span> tag, we can see that the bam file is sorted by <b>coordinate</b></p>
+							</div>
+							<p align="left">
+							2) Reference genome: Which chromosomes were used as reference?
+							</p>
+							<div class="fragment" data-fragment-index="2" align="left" style="color:#447da4">
+							<p class="answer-text">
+							Lines starting with <span class="special-style">@SQ</span> indicate that chromosomes 6 and 17 were used as the reference genome.
+							</p>
+							</div>
+							<p align="left">
+							3) Aligner: Which aligner was used?
+							</p>
+							<div class="fragment" data-fragment-index="3" align="left" style="color:#447da4">
+							<p class="answer-text">
+							The <span class="special-style">@PG</span>  tag shows the processing program. Here, the aligner used was <span class="special-style">bwa mem</span>.
+							</p>
+							</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>			
+							<h2>Quality control of the bam files – Part VI</h2>
+							<br>
+							<p align="left">
+							Next, we examine the alignment body. Start by inspecting a few alignment lines (<span class="special-style">samtools view</span>):
+							</p>
+							<p align="left">
+							1) What is likely the read length used?
+							</p>
+							<p align="left">
+							<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+								<p class="answer-text">
+								Run <span class="special-style">samtools view</span>
+								</p>
+							</div>
+							</p>
+							<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+								<p class="answer-text">
+									<pre><code class="bash" data-trim>						
+									samtools view ../alignments/normal.recal.bam | head -3
+									HWI-ST466:135068617:C1TD1ACXX:7:1114:9733:82689 163     chr6    60001   60      100M    =       60106   205     GATCTTATATAACTGTGAGATTAATCTCAGATAATGACACAAAATATAGTGAAGTTGGTAAGTTATTTAGTAAAGCTCATGAAAATTGTGCCCTCCATTC   ;B@EDB@A@A@DDDGBGBFCBC?DBEEGCGCAADAGCECDCDDDBABAGBECEGCBHH@?EGBCBCDDBHBAEEHGDFBBHBDDDBCHBGEFFEGEDBBG   MC:Z:100M       MD:Z:100        PG:Z:MarkDuplicates     RG:Z:HWI-ST466.C1TD1ACXX.normalNM:i:0  AS:i:100        XS:i:0
+									HWI-ST466:135068617:C1TD1ACXX:7:1303:2021:90688 99      chr6    60001   60      100M    =       60104   203     GATCTTATATAACTGTGAGATTAATCTCAGATAATGACACAAAATATAGTGAAGTTGGTAAGTTATTTAGTAAAGCTCATGAAAATTGTGCCCTCCATTC   >A@FDB@A?@>DDCE@FAF@?BAC>ECFCGBAADBEADBDCDDD@@A@FAFADD?ABF@@EF?@ABCDAFB?DCGEBEB@EBCDCBCHBFEFFDGFCBBG   MC:Z:100M       MD:Z:100        PG:Z:MarkDuplicates     RG:Z:HWI-ST466.C1TD1ACXX.normalNM:i:0  AS:i:100        XS:i:0
+									HWI-ST466:135068617:C1TD1ACXX:7:2304:7514:30978 113     chr6    60001   60      2S98M   =       61252   1194    TAGATCTTATATAACTGTGAGATTAATCTCAGATAATGACACAAAATATAGTGAAGTTGGTAAGTTATTTAGTAAAGCTCATGAAAATTGTGCCCTCCAT   >DHABFEACBBBCBGCECHEGBEACBDHCGCHCBDBBFAEAGBCCB@BAEECGBEEDBED>@EDDABDDADE@CBDFFBFBCFCCBADBDBDFFFAFF?@   MC:Z:60S40M     MD:Z:98 PG:Z:MarkDuplicates     RG:Z:HWI-ST466.C1TD1ACXX.normal NM:i:0AS:i:98  XS:i:0
+									</code></pre>
+								</p>
+							</div>
+							<p align="left">
+							<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+								<p class="answer-text">
+								From the CIGAR strings (
+								<span class="special-style">100M</span>, 
+								<span class="special-style">100M</span>, 
+								<span class="special-style">2S98M</span>
+								), we infer that the original reads were 100 base pairs in length.
+								</p>
+							</div>
+							</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+						<h2>Quality control of the bam files – Part VII</h2>
+						<br>
+						<p align="left">
+						We can also summarize alignment statistics using <span class="special-style">samtools flagstat</span>.
+						</p>
+						<p align="left">
+						1) Create a <span class="special-style">bash</span> script in the <span class="special-style">scripts</span> folder named <span class="special-style">01_samtools_flagstat.sh</span> 
+						to summarize the tumor BAM file.
+						</p>
+						<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+							<p class="answer-text">
+								<p align="left">
+								Write into your bash script the following instruction.
+								</p>
+								
+								<pre><code class="bash" data-trim>
+								#!/bin/bash
+								samtools flagstat ../alignments/tumor.recal.bam
+								</code></pre>
+								
+								<p align="left">
+								Make the script executable: 
+								</p>
+								
+								<pre><code class="bash" data-trim>
+								chmod +x 01_samtools_flagstat.sh
+								</code></pre>
+								
+								<p align="left">
+								Run the script:
+								</p>
+								
+								<pre><code class="bash" data-trim>
+								./01_samtools_flagstat.sh
+								</code></pre>
+							</p>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+						<h2>Quality control of the bam files – Part VII</h2>
+						<br>
+						<p align="left" style="color:#447da4">
+						The output look like this
+						</p>
+						<pre><code class="bash" data-trim>						
+						16674562 + 0 in total (QC-passed reads + QC-failed reads)
+						16663310 + 0 primary
+						0 + 0 secondary
+						11252 + 0 supplementary
+						1871521 + 0 duplicates
+						1871521 + 0 primary duplicates
+						16582919 + 0 mapped (99.45% : N/A)
+						16571667 + 0 primary mapped (99.45% : N/A)
+						16663310 + 0 paired in sequencing
+						8331655 + 0 read1
+						8331655 + 0 read2
+						16402064 + 0 properly paired (98.43% : N/A)
+						16480080 + 0 with itself and mate mapped
+						91587 + 0 singletons (0.55% : N/A)
+						23890 + 0 with mate mapped to a different chr
+						15733 + 0 with mate mapped to a different chr (mapQ>=5)
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+						<h2>Quality control of the bam files – Part VIII</h2>
+						<br>
+						<p align="left">
+						The output provides basic statistics, including:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>Total number of reads</li>
+								<li>Number of alignments marked as duplicates</li>
+							</ul>
+						</div>
+						<p align="left">
+						2) How many reads are in the bam files? 
+						And how many alignments are marked as duplicate?
+						</p>
+						<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+							<p class="answer-text">
+							For the tumor BAM file, there are 16,674,562 reads and 1,871,521 duplicate alignments.
+							</p>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h2>Quality control of the bam files – Part IX</h2>
+						<br>
+						<p align="left">
+						The BAM files appear ready for variant analysis:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>High read counts and alignment rates</li>
+								<li>Read groups are present</li>
+								<li>Duplicates are marked</li>
+								<li>Files are sorted by coordinate</li>
+							</ul>
+						</div>	
+						<p align="left">
+						Since this is whole-exome sequencing (WES) data, we also need to evaluate whether 
+						reads align to the target regions and assess coverage. This can be done using gatk <span class="special-style">gatk CollectHsMetrics</span>.
+						</p>
+						<p align="left">
+						Create a script <span class="special-style">02_gatk_collecthsmetrics.sh</span> to run <span class="special-style">gatk CollectHsMetrics</span> on both BAM files.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h2>Quality control of the bam files – Part X</h2>
+						<br>
+						<p align="left">
+						Example output from <span class="special-style">CollectHsMetrics</span> shows raw coverage and target enrichment statistics.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						#!/bin/bash
+						ALIGNDIR=../alignments
+						REFDIR=../reference
+						RESOURCEDIR=../resources
+						for sample in tumor normal
+						do
+							singularity exec\
+							--bind /storage \
+							depot.galaxyproject.org-singularity-gatk4-4.4.0.0--py36hdfd78af_0.img \
+							gatk CollectHsMetrics \
+							-I "$ALIGNDIR"/"$sample".recal.bam \
+							-O "$ALIGNDIR"/"$sample".recal.bam_hs_metrics.txt \
+							-R "$REFDIR"/ref_genome.fa \
+							--BAIT_INTERVALS "$REFDIR"/exome_regions.bed.interval_list \
+							--TARGET_INTERVALS "$REFDIR"/exome_regions.bed.interval_list
+						done
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h2>Quality control of the bam files – Part XI</h2>
+						<br>
+						<p align="left">
+						To simplify interpretation, parse the metrics using <span class="special-style">Multiqc</span>. 
+						Create a script <span class="special-style">03_multiqc.sh</span> and run:
+						</p>
+						<p align="left">
+						<pre><code class="bash" data-trim data-line-numbers>
+						singularity exec --bind /storage multiqc_latest.sif multiqc ../alignments/
+						</code></pre>
+						</p>
+						<p align="left">
+						This generates a multiqc_report.html file with hybrid-selection metrics. Documentation for these metrics is available <a href="https://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics" target="_blank">here</a>.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h2>Quality control of the bam files – Part XI</h2>
+						<br>
+						<p align="left">
+						Check the report (<em>multiqc_report.html</em>) generated by <span class="special-style">Multiqc</span>
+						<em>hybrid-selection metrics</em>.
+						</p>
+						<img src="assets/multiqc.png" class="r-stretch">
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+						<h2>Quality control of the bam files – Part XII</h2>
+						<br>
+						<p align="left">
+						Key observations from hybrid-selection metrics:
+						</p>
+						<p align="left">
+						1) Hybrid capture efficiency: How did the hybrid capture go?
+						</p>
+						<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+							<p class="answer-text">
+							Fold enrichment is approximately 22. 
+							</p>
+						</div>
+						<p align="left">
+						2) On-target bases: Are most bases on-target?
+						</p>
+						<div class="fragment" data-fragment-index="2" align="left" style="color:#447da4">
+							<p class="answer-text">
+								<div style="text-align: left;">
+									<ul>
+										<li>About 45% of usable bases are on-target.</li>
+										<li>Approximately 90% of bases are within 250 bp of target regions (<em>selected bases</em>).</li>
+									</ul>
+								</div>
+							</p>
+						</div>
+						<p align="left">
+						3) Coverage: What kind of coverages can we expect in the target regions?
+						</p>
+						<div class="fragment" data-fragment-index="3" align="left" style="color:#447da4">
+							<p class="answer-text">
+							De-duplicated coverage is 84x for the normal sample and 114x for the tumor sample, indicating sufficient coverage for downstream analysis.
+							</p>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>	
+					  <h2>End of Quality Control of BAM files</h2>
+					  <a href="data_qual">Back to top</a>
+					</section>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------------------ -->
+				<section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section id="var_call">
+						<h2 style="color:#447da4">4. Variant Calling</h2>
+						<h3 style="color:#447da4">The Art of Finding Genetic Changes</h3>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->	
+					<section>		
+						<h2>Variant Calling I</h2>
+						<br>
+						<p align="left">
+						After performing quality control on the BAM files, we can proceed to variant calling.
+						For this tutorial, we will use 
+						<span class="special-style">Mutect2</span>, a somatic variant caller from GATK 
+						(<a href="https://www.broadinstitute.org" target="_blank">Broad Institute</a>).
+						</p>
+						<p align="left">
+						In addition to the BAM files and the reference genome, <span class="special-style">Mutect2</span> requires several important inputs:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li class="small-list-item"><span class="special-style">--intervals</span>: 
+								defines the target regions to analyze, provided in the <span class="special-style">interval_list</span> format.
+								</li>
+								<li class="small-list-item"><span class="special-style">-normal</span>: 
+								the sample name of the matched normal sample, i.e. the <span class="special-style">SM</span> tag in the read group header.
+								</li>
+								<li class="small-list-item"><span class="special-style">--germline-resource</span>: 
+								a set of known germline variants with population allele frequencies. 
+								This helps estimate the probability that a variant in the normal sample is germline.
+								</li>
+								<li class="small-list-item"><span class="special-style">--panel-of-normals</span>: 
+								a VCF of technical artifact sites derived from normal samples.
+								</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling II</h2>
+						<br>
+						<p align="left">
+						Create a script called <span class="special-style">04_run_mutect2.sh</span>.
+						Consult the <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2" target="_blank">Mutect2 manual</a>
+						and replace the <span class="special-style">FIXME</span> placeholders in the command with the appropriate values for your data.
+						</p>
+						<p align="left">
+						Then, run the script.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						#!/bin/bash
+						
+						ALIGNDIR=~/project/course_data/alignments
+						REFDIR=~/project/course_data/reference
+						RESOURCEDIR=~/project/course_data/resources
+						VARIANTDIR=~/project/course_data/variants
+						
+						mkdir -p $VARIANTDIR
+						
+						gatk Mutect2 \
+						-R FIXME \
+						--intervals "$REFDIR"/exome_regions.bed.interval_list \
+						-I FIXME \
+						-normal FIXME \
+						--germline-resource "$RESOURCEDIR"/af-only-gnomad.hg38.subset.vcf.gz \
+						--panel-of-normals "$RESOURCEDIR"/1000g_pon.hg38.subset.vcf.gz \
+						-O "$VARIANTDIR"/somatic.vcf.gz
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling III</h2>
+						<br>
+						<p align="left">
+						💡 <b>Hint:</b>: To obtain the sample name (<span class="special-style">SM</span> tag) 
+						from a BAM file, required for the <span class="special-style">--normal</span>, you can type:
+						</p>
+						
+						<pre><code class="bash" data-trim data-line-numbers>
+						samtools view -H ../alignments/normal.recal.bam | grep '@RG'
+						</code></pre>
+						<p align="left">
+						You should get 
+						</p>
+						<pre><code class="bash" data-trim>
+						@RG     ID:HWI-ST466.C1TD1ACXX.normal   LB:normal       PL:ILLUMINA     SM:normal      PU:HWI-ST466.C1TD1ACXX
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling IV</h2>
+						<br>
+						<p align="left">
+						Solution
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						#!/bin/bash
+
+						ALIGNDIR=~/project/course_data/alignments
+						REFDIR=~/project/course_data/reference
+						RESOURCEDIR=~/project/course_data/resources
+						VARIANTDIR=~/project/course_data/variants
+
+						mkdir -p $VARIANTDIR
+
+						gatk Mutect2 \
+						-R "$REFDIR"/ref_genome.fa \
+						--intervals "$REFDIR"/exome_regions.bed.interval_list \
+						-I "$ALIGNDIR"/tumor.recal.bam \
+						-I "$ALIGNDIR"/normal.recal.bam \
+						-normal normal \
+						--germline-resource "$RESOURCEDIR"/af-only-gnomad.hg38.subset.vcf.gz \
+						--panel-of-normals "$RESOURCEDIR"/1000g_pon.hg38.subset.vcf.gz \
+						-O "$VARIANTDIR"/somatic.vcf.gz	
+						</code></pre>						
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling V</h2>
+						<br>
+						<p align="left"></span>
+						Once variants have been called, the next step is an initial filtering using <span class="special-style">FilterMutectCalls</span>.
+						</p>
+						<p align="left"></span>
+						This step accounts for:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>potential technical artifacts,</li>
+								<li>possible germline variants, and</li>
+								<li>sequencing errors.</li>
+							</ul>
+						</div>
+						<p align="left"></span>
+						It calculates an error probability and seeks to balance recall (keeping true variants) and precision (removing false positives).
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling VI</h2>
+						<br>
+						<p align="left">
+						Create a script called <span class="special-style">05_filter_mutect_calls.sh</span> and run the filtering command on your 
+						<span class="special-style">Mutect2</span> output.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>						
+						#!/bin/bash
+
+						REFDIR=~/project/course_data/reference
+						VARIANTDIR=~/project/course_data/variants
+
+						# fill the filter column
+						gatk FilterMutectCalls \
+						-R "$REFDIR"/ref_genome.fa \
+						-V "$VARIANTDIR"/somatic.vcf.gz \
+						-O "$VARIANTDIR"/somatic.filtered.vcf.gz
+
+						# create a vcf with variants passing filters (PASS)
+						bcftools view -f PASS "$VARIANTDIR"/somatic.filtered.vcf.gz -Oz \
+						> "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
+
+						bcftools index --tbi "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Questions to consider:</h3>
+						<br>
+						<p align="left">
+						1) How many variants remain after filtering?
+						</p>
+						<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+							<p class="answer-text">
+							<pre><code class="bash" data-trim data-line-numbers>	
+							zcat ../variants/somatic.filtered.PASS.vcf.gz | grep -v '^#' | wc -l
+							</code></pre>
+							</p>
+						</div>
+						<p align="left">
+						2) What were the main reasons variants were filtered out?
+						</p>
+						<div class="fragment" data-fragment-index="2" align="left" style="color:#447da4">
+							<p class="answer-text">
+								<pre><code class="bash" data-trim data-line-numbers>
+								singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools view -H ../variants/somatic.filtered.vcf.gz | cut -f 7 | sort | uniq -c | sort -nr
+								</code></pre>
+								<nr>
+								<pre><code class="bash" data-trim >	
+								133 PASS
+								 48 weak_evidence
+								 26 normal_artifact;strand_bias
+								 21 panel_of_normals
+								 17 normal_artifact
+								 13 normal_artifact;slippage;weak_evidence
+								 13 clustered_events;normal_artifact;strand_bias
+								 12 germline;multiallelic;normal_artifact;panel_of_normals
+								 12 base_qual;normal_artifact;strand_bias
+								  9 strand_bias;weak_evidence
+								  9 normal_artifact;weak_evidence
+								  7 slippage;weak_evidence
+								  ...
+								</code></pre>
+							</p>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling X</h2>
+						<br>
+						<p align="left">
+						To take a first look at the variant calls, we can display the top lines of the filtered VCF file (excluding the header) using <span class="special-style">bcftools view -H</span>:
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools view -H ../variants/somatic.filtered.vcf.gz | head
+						</code></pre>
+						<p align="left">
+						you should get
+						</p>
+						<pre><code class="bash" data-trim >
+						chr6    106265  .       A       G       .       map_qual;strand_bias;weak_evidence      AS_FilterStatus=weak_evidence,map_qual,strand_bias;AS_SB_TABLE=599,532|0,9;DP=1180;ECNT=1;GERMQ=93;MBQ=33,36;MFRL=254,410;MMQ=27,27;MPOS=8;NALOD=1.67;NLOD=80.04;POPAF=6;TLOD=3.99  GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:284,1:0.00671:285:125,0:149,1:276,1:173,111,0,1 0/1:847,8:0.01:855:381,3:423,5:816,8:426,421,0,8
+						chr6    325357  .       G       A       .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=1335,1391|205,129;DP=3173;ECNT=1;GERMQ=93;MBQ=35,31;MFRL=221,220;MMQ=50,42;MPOS=24;NALOD=2.98;NLOD=280.33;POPAF=6;TLOD=719.91      GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:982,0:0.001054:982:457,0:456,0:932,0:477,505,0,0    0/1:1744,334:0.161:2078:817,141:790,156:1641,324:858,886,205,129
+						chr6    325783  .       G       C       .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=1331,1364|230,295;DP=3313;ECNT=1;GERMQ=93;MBQ=36,35;MFRL=247,206;MMQ=49,43;MPOS=25;NALOD=3.12;NLOD=291.5;POPAF=3.33;TLOD=1292.31   GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:969,0:0.0009626:969:293,0:266,0:1037,0:502,467,0,0  0/1:1726,525:0.224:2251:474,147:432,119:1826,499:829,897,230,295
+						chr6    325901  .       G       A       .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=1300,1302|188,168;DP=3022;ECNT=2;GERMQ=93;MBQ=30,32;MFRL=242,268;MMQ=40,40;MPOS=28;NALOD=-2.178;NLOD=271.54;POPAF=2.18;TLOD=1030.6 GT:AD:AF:DP:F1R2:F2R1:FAD:PGT:PID:PS:SB 0|0:973,5:0.005447:978:428,4:408,0:968,14:0|1:325901_G_A:325901:472,501,4,1     0|1:1629,351:0.183:1980:762,185:628,148:1610,381:0|1:325901_G_A:325901:828,801,184,167
+						chr6    325916  .       GTGCTGTATCTGCTGGTGCCTGGAGAGTCATCTGCGCTGGGCTTCTGCGTCCTGGTGTGTGCAA        G       .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=2790,2616|195,148;DP=5950;ECNT=2;GERMQ=93;MBQ=36,36;MFRL=243,270;MMQ=47,40;MPOS=22;NALOD=-2.148;NLOD=456.31;POPAF=3.83;TLOD=937.7  GT:AD:AF:DP:F1R2:F2R1:FAD:PGT:PID:PS:SB 0|0:1985,7:0.004142:1992:426,6:401,1:1711,16:0|1:325901_G_A:325901:1014,971,4,3     0|1:3421,336:0.116:3757:729,161:631,130:2913,371:0|1:325901_G_A:325901:1776,1645,191,145
+						chr6    1742560 .       A       G       .       panel_of_normals        AS_FilterStatus=SITE;AS_SB_TABLE=72,96|31,50;DP=262;ECNT=1;GERMQ=93;MBQ=32,33;MFRL=219,241;MMQ=60,60;MPOS=27;NALOD=1.69;NLOD=14.14;PON;POPAF=0.364;TLOD=235.6       GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:48,0:0.02:48:26,0:17,0:47,0:20,28,0,0       0/1:120,81:0.41:201:44,33:61,42:111,77:52,68,31,50
+						chr6    1916336 .       G       A       .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=68,47|39,26;DP=193;ECNT=1;GERMQ=83;MBQ=30,33;MFRL=233,234;MMQ=60,60;MPOS=26;NALOD=1.65;NLOD=13.24;POPAF=1.44;TLOD=187.23   GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:46,0:0.022:46:12,0:29,0:44,0:31,15,0,0      0/1:69,65:0.482:134:43,30:20,27:64,60:37,32,39,26
+						chr6    1930220 .       GA      TT      .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=40,169|10,33;DP=259;ECNT=1;GERMQ=93;MBQ=37,34;MFRL=229,210;MMQ=60,60;MPOS=21;NALOD=1.79;NLOD=18.36;POPAF=6;TLOD=152.54     GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:64,0:0.016:64:29,0:27,0:61,0:11,53,0,0      0/1:145,43:0.207:188:53,21:83,15:141,36:29,116,10,33
+						chr6    2674999 .       A       C       .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=75,17|50,10;DP=155;ECNT=1;GERMQ=63;MBQ=35,36;MFRL=224,222;MMQ=60,60;MPOS=23;NALOD=1.54;NLOD=10.23;POPAF=2.4;TLOD=190.32    GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:34,0:0.028:34:19,0:15,0:34,0:27,7,0,0       0/1:58,60:0.514:118:25,22:27,33:53,56:48,10,50,10
+						chr6    2834013 .       C       G       .       PASS    AS_FilterStatus=SITE;AS_SB_TABLE=42,87|21,52;DP=214;ECNT=1;GERMQ=93;MBQ=38,36;MFRL=217,242;MMQ=60,60;MPOS=25;NALOD=1.68;NLOD=13.85;POPAF=6;TLOD=245.04      GT:AD:AF:DP:F1R2:F2R1:FAD:SB    0/0:53,0:0.02:53:21,0:22,0:46,0:18,35,0,0       0/1:76,73:0.494:149:31,40:38,30:73,71:24,52,21,52
+						</code></pre>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling VIII</h2>
+						<br>
+						<p align="left">
+						This shows the main VCF columns for the first few variants:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li><span class="special-style">CHROM</span>,<span class="special-style">POS</span> →
+								genomic coordinates of the variant</li>
+								<li><span class="special-style">REF</span>,<span class="special-style">ALT</span> →
+								reference and alternative alleles</li>
+								<li><span class="special-style">QUAL</span>,<span class="special-style">FILTER</span> →
+								quality score and applied filters</li>
+								<li><span class="special-style">INFO</span>,<span class="special-style">FORMAT</span>,<span class="special-style">SAMPLE</span> columns → 
+								detailed annotations (e.g. depth, allele frequency, likelihoods)</li>
+							</ul>
+						</div>
+						<p align="left">
+						👉 At this stage, you should notice that both the <span class="special-style">INFO</span> and 
+						<span class="special-style">FORMAT</span> fields are populated, which we’ll explore in more detail next.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling VIII</h2>
+						<br>
+						<p align="left">
+						To explore what the <span class="special-style">FILTER</span> field contains:
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools view -h ../variants/somatic.filtered.vcf.gz | grep "^##FILTER"
+						</code></pre>
+						<pre><code data-trim class="language-plaintext">
+						##FILTER=&lt;ID=PASS,Description="All filters passed"&gt;
+						##FILTER=&lt;ID=FAIL,Description="Fail the site if all alleles fail but for different reasons."&gt;
+						##FILTER=&lt;ID=base_qual,Description="alt median base quality"&gt;
+						##FILTER=&lt;ID=clustered_events,Description="Clustered events observed in the tumor"&gt;
+						##FILTER=&lt;ID=contamination,Description="contamination"&gt;
+						##FILTER=&lt;ID=duplicate,Description="evidence for alt allele is overrepresented by apparent duplicates"&gt;
+						##FILTER=&lt;ID=fragment,Description="abs(ref - alt) median fragment length"&gt;
+						##FILTER=&lt;ID=germline,Description="Evidence indicates this site is germline, not somatic"&gt;
+						##FILTER=&lt;ID=haplotype,Description="Variant near filtered variant on same haplotype."&gt;
+						##FILTER=&lt;ID=low_allele_frac,Description="Allele fraction is below specified threshold"&gt;
+						##FILTER=&lt;ID=map_qual,Description="ref - alt median mapping quality"&gt;
+						##FILTER=&lt;ID=multiallelic,Description="Site filtered because too many alt alleles pass tumor LOD"&gt;
+						##FILTER=&lt;ID=n_ratio,Description="Ratio of N to alt exceeds specified ratio"&gt;
+						##FILTER=&lt;ID=normal_artifact,Description="artifact_in_normal"&gt;
+						##FILTER=&lt;ID=orientation,Description="orientation bias detected by the orientation bias mixture model"&gt;
+						##FILTER=&lt;ID=panel_of_normals,Description="Blacklisted site in panel of normals"&gt;
+						##FILTER=&lt;ID=position,Description="median distance of alt variants from end of reads"&gt;
+						##FILTER=&lt;ID=possible_numt,Description="Allele depth is below expected coverage of NuMT in autosome"&gt;
+						##FILTER=&lt;ID=slippage,Description="Site filtered due to contraction of short tandem repeat region"&gt;
+						##FILTER=&lt;ID=strand_bias,Description="Evidence for alt allele comes from one read direction only"&gt;
+						##FILTER=&lt;ID=strict_strand,Description="Evidence for alt allele is not represented in both directions"&gt;
+						##FILTER=&lt;ID=weak_evidence,Description="Mutation does not meet likelihood threshold"&gt;
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<br>
+						<p align="left">
+						The <span class="special-style">weak_evidence</span> filter indicates that these variants did not meet the likelihood threshold.
+						In practice, this means the combined error probability — accounting for technical artifacts, possible germline variants, and sequencing noise — was too high.
+						</p>
+						<p align="left">
+						Other filters in <span class="special-style">Mutect2</span> are hard filters, which apply strict cutoffs on individual features (e.g., depth, mapping quality).
+						</p>
+						<p align="left">
+						Next, let’s explore the VCF in more detail to better understand:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>what kinds of variants remain, and</li>
+								<li>characteristics such as their <em>variant allele frequency</em> (VAF).</li>
+							</ul>
+						</div>
+					</section>		
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Calling XIII</h2>
+						<br>	
+						<p align="left">
+						To summarize specific information from the VCF, you can use <span class="special-style">bcftools</span> query.
+						For example, for getting the likelihood <span class="special-style">TLOD</span>
+						of variant and depth <span class="special-style">DP</span> of each sample, you can do the following (for the first 20 variants):
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools query -f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%DP;]\n' ../variants/somatic.filtered.vcf.gz | head -20
+						</code></pre>
+						<br>
+						<pre><code class="bash" data-trim >	
+							chr6    106265  map_qual;strand_bias;weak_evidence              3.99    normal=285;tumor=855;
+							chr6    325357  PASS            719.91  normal=982;tumor=2078;
+							chr6    325783  PASS            1292.31 normal=969;tumor=2251;
+							chr6    325901  PASS            1030.6  normal=978;tumor=1980;
+							chr6    325916  PASS            937.7   normal=1992;tumor=3757;
+							chr6    1742560 panel_of_normals                235.6   normal=48;tumor=201;
+							chr6    1916336 PASS            187.23  normal=46;tumor=134;
+							chr6    1930220 PASS            152.54  normal=64;tumor=188;
+							chr6    2674999 PASS            190.32  normal=34;tumor=118;
+							chr6    2834013 PASS            245.04  normal=53;tumor=149;
+							chr6    2840548 PASS            274.4   normal=45;tumor=183;
+							chr6    3110986 weak_evidence           3.03    normal=61;tumor=219;
+							chr6    3723708 PASS            266.67  normal=58;tumor=201;
+							chr6    4892169 weak_evidence           4.43    normal=41;tumor=201;
+							chr6    5103987 germline;multiallelic;normal_artifact;panel_of_normals          13.57,257.27    normal=44;tumor=149;
+							chr6    6250887 PASS            260.99  normal=54;tumor=196;
+							chr6    7176847 PASS            107.39  normal=36;tumor=116;
+							chr6    7585458 PASS            171.88  normal=72;tumor=249;
+							chr6    7833697 PASS            122.24  normal=15;tumor=77;
+							chr6    7883281 germline                99.5    normal=17;tumor=60;	
+						</code></pre>						
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>	
+						<h2>Variant Calling XIV</h2>
+						<br>
+						<p align="left">
+						Alternatively, extract the <em>variant allele frequency</em> (<span class="special-style">AF</span>) for each sample, and compare it to the FILTER column.
+						You should observe that when the filter is <span class="special-style">weak_evidence</span>, the tumor’s VAF is typically low.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+							singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools query -f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%AF;]\n' ../variants/somatic.filtered.vcf.gz | head -20
+						</code></pre>
+						<br>
+						<pre><code class="bash" data-trim >		
+							chr6    106265  map_qual;strand_bias;weak_evidence              3.99    normal=0.00671;tumor=0.01;
+							chr6    325357  PASS            719.91  normal=0.001054;tumor=0.161;
+							chr6    325783  PASS            1292.31 normal=0.0009626;tumor=0.224;
+							chr6    325901  PASS            1030.6  normal=0.005447;tumor=0.183;
+							chr6    325916  PASS            937.7   normal=0.004142;tumor=0.116;
+							chr6    1742560 panel_of_normals                235.6   normal=0.02;tumor=0.41;
+							chr6    1916336 PASS            187.23  normal=0.022;tumor=0.482;
+							chr6    1930220 PASS            152.54  normal=0.016;tumor=0.207;
+							chr6    2674999 PASS            190.32  normal=0.028;tumor=0.514;
+							chr6    2834013 PASS            245.04  normal=0.02;tumor=0.494;
+							chr6    2840548 PASS            274.4   normal=0.021;tumor=0.522;
+							chr6    3110986 weak_evidence           3.03    normal=0.017;tumor=0.019;
+							chr6    3723708 PASS            266.67  normal=0.017;tumor=0.42;
+							chr6    4892169 weak_evidence           4.43    normal=0.024;tumor=0.02;
+							chr6    5103987 germline;multiallelic;normal_artifact;panel_of_normals          13.57,257.27    normal=0.037,0.825;tumor=0.077,0.834;
+							chr6    6250887 PASS            260.99  normal=0.018;tumor=0.459;
+							chr6    7176847 PASS            107.39  normal=0.026;tumor=0.319;
+							chr6    7585458 PASS            171.88  normal=0.015;tumor=0.283;
+							chr6    7833697 PASS            122.24  normal=0.057;tumor=0.513;
+							chr6    7883281 germline                99.5    normal=0.05;tumor=0.476;
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+					  <h2>End of Variant Calling</h2>
+					  <a href="#var_call">Back to the Variant Calling I</a>
+					</section>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------------------ -->
+				<section>
+					<section id="var_ann">
+						<h2 style="color:#447da4">5. Variant Annotation and Filtering</h2>
+						<h3 style="color:#447da4">Turning Variants into Insights</h3>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering -Part I</h2>
+						<br>
+						<p align="left">
+						<b>Ensembl VEP (Variant Effect Predictor)</b>
+						</p>
+						<p align="left">
+						VEP is a versatile and widely used tool for annotating, analyzing, and prioritizing genomic variants.
+						In cancer genomics, it plays a key role in assessing the functional consequences of somatic mutations.
+						With VEP, we can address questions such as:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>How damaging is a specific somatic mutation, based on reference databases?</li>
+								<li>What is the impact of this mutation in the cancer type under study?</li>
+								<li>Is the mutation already known in this cancer?</li>
+								<li>Is the mutation associated with sensitivity or resistance to certain chemotherapies?</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering II</h2>
+						<br>
+						<p align="left">
+						<b>Why do we need VEP?</b>
+						</p>
+						<p align="left">
+						Modern sequencing technologies detect thousands of somatic mutations, which are rarely examined individually.
+						We need systematic tools to summarize, prioritize, and interpret these variants.
+						</p>
+						<p align="left">
+						VEP helps to:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>Classify SNVs consistently.</li>
+								<li>Highlight the most biologically or clinically relevant variants.</li>
+								<li>Focus analyses on mutations most likely to have functional consequences.</li>
+							</ul>
+						</div>
+					</section>	
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering II</h2>
+						<br>
+						<p align="left">	
+						<b>Transcript selection</b>
+						</p>
+						<p align="left">
+						VEP reports variant consequences across all overlapping transcripts. This can result in multiple annotations per variant.
+						Several strategies exist to simplify this output:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li class="small-list-item"><span class="special-style">--pick</span>: 
+								Selects one consequence per variant using a predefined severity hierarchy (HIGH > MODERATE > LOW > MODIFIER).
+								</li>
+								<li class="small-list-item"><span class="special-style">--pick_allele</span>: 
+								Selects one consequence per variant allele.
+								</li>
+								<li class="small-list-item"><span class="special-style">--pick_allele_gene</span>: 
+								Selects one consequence per variant allele per gene.
+								</li>
+								<li class="small-list-item"><span class="special-style">--per_gene</span>: 
+								Selects one consequence per gene.
+								</li>
+								<li class="small-list-item"><span class="special-style">--flag_pick</span>: 
+								Flags the chosen consequence but retains all other annotations.
+								</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>		
+						<h2>Variant Annotation and Filtering III</h2>
+						<p align="left">
+						<b>Consequence Priority</b>
+						</p>
+						<p align="left">
+						VEP ranks consequences by predicted severity, prioritizing variants with the greatest potential impact on gene function.
+						</p>
+						<img src="assets/consequences.svg" class="r-stretch">
+						<p class="shrink-60">
+							Image from the Ensembl <a href="https://www.ensembl.org/info/genome/variation/prediction/predicted_data.html" target="_blank">VEP</a> website.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>		
+						<h2>Variant Annotation and Filtering III</h2>
+						<p align="left">
+						<b>Order of severity Priority</b>
+						</p>
+						<img src="assets/severity.png" class="r-stretch">
+						<p class="shrink-60">
+						Image from the Ensembl <a href="https://www.ensembl.org/info/genome/variation/prediction/predicted_data.html" target="_blank">VEP</a> website.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>	
+						<h2>Variant Annotation and Filtering IV</h2>
+						<br>
+						<p align="left">
+						<b><span class="special-style">--cache</span> option</b>
+						</p>
+						<p align="left"></span>
+						<div style="text-align: left;">
+							<ul>
+								<li>By default, VEP installs its cache and plugins under ~/.vep/.</li>
+								<li>For this course, you should point VEP to /data/.vep using:</li>
+								<pre><code class="bash" data-trim data-line-numbers>
+								--cache /data/.vep
+								</code></pre>
+								Otherwise, VEP will not locate the local cache.
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering V</h2>
+						<br>
+						<p align="left">
+						<b>Input data</b>
+						</p>
+						<p align="left">
+						Copy the following variants into <span class="special-style">../variants/cancer_variants.vcf</span>
+						</p>
+						<pre><code class="language-text" data-trim data-line-numbers>
+						##fileformat=VCFv4.2
+						#CHROM      POS          ID       REF  ALT  QUAL FILTER  INFO
+						chr1     11190510     rs6603781    G    A    .    PASS    .
+						chr3    178936091    rs63751289    G    A    .    PASS    .
+						chr4     55141055     rs1800744    A    G    .    PASS    .
+						chr5    112175770   rs121913343    C    T    .    PASS    .
+						chr7     55242465   rs121913529    A    T    .    PASS    .
+						chr7    140453136   rs121913530    A    T    .    PASS    .
+						chr10    89624230    rs61751507    G    A    .    PASS    .
+						chr11   108098576   rs386833395    G    A    .    PASS    .
+						chr13    32914438    rs80357090    T    C    .    PASS    .
+						chr13    32936646    rs28897743    C    T    .    PASS    .
+						chr17     7577121    rs28934578    C    T    .    PASS    .
+						chr17     7674894    rs28934574    G    A    .    PASS    .
+						chr17    41245466    rs28897686    G    A    .    PASS    .
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering V</h2>
+						<br>
+						<p align="left">
+						<b>Task</b> 
+						</p>
+						<p align="left">
+						Annotate these variants with VEP and identify which genes are affected.
+						</p>
+						<p align="left">
+						VEP accepts VCF (.vcf or .vcf.gz + index) and several other input formats.
+						</p>
+						<p align="left">
+						See the <a href="https://www.ensembl.org/info/docs/tools/vep/vep_formats.html" target="_blank">VEP input formats documentation</a> 
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering VI</h2>
+						<br>
+						<p align="left">
+						Create a script called <span class="special-style">06_vep.sh</span> and run.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+							vep -i cancer_variants.vcf \
+								--cache /data/.vep \
+								--species homo_sapiens \
+								--offline \
+								--force_overwrite \
+								--assembly GRCh38 \
+								--format vcf \
+								--symbol \
+								--sift b \
+								--polyphen b \
+								--pick \
+								--domains \
+								--output_file output.txt
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+					<h2>Variant Annotation and Filtering VIII</h2>
+						<br>
+						<p align="left">
+						<b>Example output</b>
+						</p>
+						<pre style="text-align: left;"><code class="language-text" data-trim data-line-numbers="6">
+						## VEP command-line: vep --assembly GRCh38 --cache /data/.vep --database 0 --force_overwrite --format vcf --input_file cancer_variants.vcf --offline --output_file output.txt --pick --symbol
+						#Uploaded_variation Location    Allele  Gene    Feature Feature_type    Consequence cDNA_position   CDS_position    Protein_position    Amino_acids Codons  Existing_variation  Extra
+						rs121913529 chr7:55242465   T   ENSG00000280890 ENST00000626532 Transcript  intron_variant,non_coding_transcript_variant    -   -   -   -   -   -   IMPACT=MODIFIER;STRAND=-1;SYMBOL=ELDR;SYMBOL_SOURCE=HGNC;HGNC_ID=HGNC:49511
+						rs28934578  chr17:7577121   T   ENSG00000161960 ENST00000293831 Transcript  missense_variant    597 580 194 D/Y Gac/Tac -   IMPACT=MODERATE;STRAND=1;SYMBOL=EIF4A1;SYMBOL_SOURCE=HGNC;HGNC_ID=HGNC:3282
+						rs28897743  chr13:32936646  T   -   -   -   intergenic_variant  -   -   -   -   -   -   IMPACT=MODIFIER
+						rs28934574  chr17:7674894   A   ENSG00000141510 ENST00000269305 Transcript  stop_gained 779 637 213 R/* Cga/Tga -   IMPACT=HIGH;STRAND=-1;SYMBOL=TP53;SYMBOL_SOURCE=HGNC;HGNC_ID=HGNC:11998
+						rs28897686  chr17:41245466  A   ENSG00000241595 ENST00000334109 Transcript  upstream_gene_variant   -   -   -   -   -   -   IMPACT=MODIFIER;DISTANCE=4221;STRAND=1;SYMBOL=KRTAP9-4;SYMBOL_SOURCE=HGNC;HGNC_ID=HGNC:18902
+						</code></pre>	
+						<p align="left">
+						This example shows <span class="special-style">rs28934574</span>, a TP53 stop-gained mutation commonly observed in cancer
+						</p>
+						<p align="left">
+						👉 Try running VEP without <span class="special-style">--pick</span> or with <span class="special-style">--everything</span> to explore the difference.
+						Running VEP also produces an <span class="special-style">output.txt_summary.html</span> file with annotation statistics.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering IX</h2>
+						<br>
+						<p align="left">
+						<b>The shortcut option</b>
+						</p>
+						<p align="left">
+						The shortcut option <span class="special-style">--everything</span> (<span class="special-style">-e</span>) expands the annotation with:
+						</p>
+						<p align="left">
+						<span class="special-style">--sift b</span>, 
+						<span class="special-style">--polyphen b</span>, 
+						<span class="special-style">--ccds</span>, 
+						<span class="special-style">--hgvs</span>, 
+						<span class="special-style">--symbol</span>, 
+						<span class="special-style">--numbers</span>, 
+						<span class="special-style">--domains</span>,<br> 
+						<span class="special-style">--regulatory</span>, 
+						<span class="special-style">--canonical</span>, 
+						<span class="special-style">--protein</span>, 
+						<span class="special-style">--biotype</span>, 
+						<span class="special-style">--af</span>, 
+						<span class="special-style">--af_1kg</span>, 
+						<span class="special-style">--af_esp</span>, 
+						<span class="special-style">--af_gnomade</span>, 
+						<span class="special-style">--af_gnomadg</span>, 
+						<span class="special-style">--max_af</span>, 
+						<span class="special-style">--pubmed</span>, 
+						<span class="special-style">--uniprot</span>, 
+						<span class="special-style">--mane</span>, 
+						<span class="special-style">--tsl</span>,<br>
+						<span class="special-style">--appris</span>, 
+						<span class="special-style">--variant_class</span>, 
+						<span class="special-style">--gene_phenotype</span>, 
+						<span class="special-style">--mirna</span>
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XI</h2>
+						<br>
+						<p align="left">
+						<b>Damage prediction tools</b>
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li><span class="special-style">SIFT</span>: Predicts functional impact based on sequence homology and amino acid properties.</li>
+								<li><span class="special-style">PolyPhen</span>: Combines evolutionary, sequence, and structural features for prediction.</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XII</h2>
+						<br>
+						<p align="left">
+						<b><span class="special-style">Mutect2</span> results annotation</b>
+						</p>
+						<p align="left">
+						In the example above we annotated a simple VCF.
+						Now, let’s extend this to Mutect2 somatic calls from WES of chromosomes 6 and 17.
+						</p>
+						<p align="left">
+						These calls yield a table of variants, which can be enriched with functional and clinical annotations.	
+						</p>	
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+					<h2>Variant Annotation and Filtering XIII</h2>
+						<br>
+						<p align="left">
+						<b>Extract from the resulting Mutect2 somatic call</b>
+						</p>
+						<p align="left">
+						Let’s use VEP to annotate this file
+						</p>
+						<pre class="modern-card"><code>
+							##fileformat=VCFv4.2 
+							#CHROM     POS    ID   REF  ALT  QUAL  FILTER  INFO 
+							chr6     325357    .    G    A    .     PASS     .
+							chr6     325783    .    G    C    .     PASS     .
+							chr6     325901    .    G    A    .     PASS     .
+							chr6    1916336    .    G    A    .     PASS     .
+							chr6    2674999    .    A    C    .     PASS     .
+							chr6    2834013    .    C    G    .     PASS     .
+							chr6    2840548    .    C    T    .     PASS     .
+							chr6    3723708    .    C    G    .     PASS     .
+							chr17    745040    .    G    T    .     PASS     .
+							chr17   1492466    .    C    T    .     PASS     .
+							chr17   2364457    .    T    G    .     PASS     .
+							chr17   3433669    .    G    T    .     PASS     .
+							chr17   4545725    .    T    C    .     PASS     .
+							chr17   4934441    .    G    T    .     PASS     .
+							chr17   5007047    .    C    T    .     PASS     .
+							chr17   7560755    .    G    A    .     PASS     .
+							chr17   7588500    .    G    C    .     PASS     .
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XIV</h2>
+						<br>
+						<p align="left"></span>
+						The somatic variant call can be annotated with this command
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						vep -i ~/project/course_data/resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
+						--cache /data/.vep \
+						--species homo_sapiens \
+						--assembly GRCh38 \
+						--offline \
+						--format vcf \
+						--symbol \
+						--force_overwrite \
+						--everything \
+						--output_file chr6ch17_mutect2_annotated.txt
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XV</h2>
+						<br>
+						<p align="left">
+						<b>Alternative output formats</b>
+						</p>
+						<p align="left">
+						VEP can also generate TSV-formatted results.
+						</p>
+						<p align="left">
+						See the <a href="https://www.ensembl.org/info/docs/tools/vep/vep_formats.html" target="_blank">VEP formats documentation</a>.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVI</h2>
+						<p align="left">
+						interesting variants 
+						chr6ch17_mutect2_annotated.txt???
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVI</h2>	
+						<br>
+						<p align="left">
+						<b>Filtering annotated results</b>
+						</p>
+						<p align="left">
+						When analyzing <span class="special-style">chr6ch17_mutect2_annotated.txt</span>, we may want to keep only deleterious or moderate/high impact variants.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						filter_vep \
+						-i chr6ch17_mutect2_annotated.txt \
+						-o chr6ch17_mutect2_annotated_filtered.txt \
+						--filter "(IMPACT is HIGH or IMPACT is MODERATE) or (SIFT match deleterious or PolyPhen match probably_damaging)"
+						</code></pre>
+						<p align="left">
+						⚠️ Note:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>Using OR retrieves variants that meet either criterion.</li>
+								<li>Using AND is more stringent, keeping only variants supported by both predictions.</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>	
+						<br>
+						<p align="left">
+						<b>Adding cancer-specific annotations</b>
+						</p>
+						<p align="left">
+						We can integrate additional resources such as <span class="special-style">ClinVar</span> for cancer-specific interpretation.
+						</p>
+						<p align="left">
+						<b>Objective:</b> Add ClinVar data to the VEP output and filter for potentially pathogenic variants
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVI</h2>	
+						<br>
+						<p align="left">
+						Solution
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>						
+						# Download ClinVar VCF
+
+						# Run VEP with cancer-specific annotations
+						vep -i ~/project/course_data/resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
+							--cache /data/.vep \
+							--assembly GRCh38 \
+							--format vcf \
+							--force_overwrite \
+							--fork 2 \
+							--everything \
+							--custom ~/project/course_data/resources/clinvar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN \
+							--output_file chr6ch17_mutect2_annotated_with_clinVar.txt
+
+						# Filter results
+						filter_vep \
+						-i chr6ch17_mutect2_annotated_with_clinVar.txt \
+						-o chr6ch17_mutect2_annotated_with_clinVar_filtered.txt \
+						--force_overwrite \
+						--filter "(IMPACT is HIGH or IMPACT is MODERATE) or \
+						(SIFT match deleterious or PolyPhen match probably_damaging) or \
+						(ClinVar_CLNSIG match pathogenic)"
+
+						# Generate summary (using simple grep/awk commands)
+						echo "Mutation Type Summary:" > summary.txt
+						grep -v "#" chr6ch17_mutect2_annotated_with_clinVar_filtered.txt | cut -f7 | sort | uniq -c >> summary.txt
+						</code></pre>						
+						
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVI</h2>	
+						<br>
+						<p align="left">
+						<b>ClinVar interpretation categories</b>
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li><b>Pathogenic</b>: Strong evidence variant causes disease</li>
+								<li><b>Likely pathogenic</b>: Probable disease-causing</li>
+								<li><b>Uncertain significance (VUS)</b>: Insufficient evidence</li>
+								<li><b>Likely benign</b>: Probably not disease-causing</li>
+								<li><b>Benign</b>: Strong evidence variant is harmless</li>
+								<li><b>Conflicting</b>: interpretations: Different submitters disagree</li>
+								<li><b>Not provided</b>: No interpretation given</li>
+								<li><b>Drug response</b>: Affects response to therapy</li>
+								<li><b>Other</b>: Miscellaneous interpretations</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>
+						<br>
+						<p align="left">
+						<b>Visualization</b>
+						</p>
+						<p align="left">
+						Once VEP annotations are ready (e.g., <span class="special-style">chr6ch17_mutect2_annotated_with_clinVar.txt</span>),we can visualize results in R:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>Distribution of variant consequences</li>
+								<li>Consequences by chromosome</li>
+								<li>Consequences colored by predicted impact</li>
+								<li>Most common variant classes</li>
+								<li>Most common biotypes</li>
+							</ul>
+						</div>	
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVI</h2>	
+						<br>
+						<p align="left">
+						<b>Examples of possible plots in R</b>
+						</p>
+						<pre><code class="language-r" data-trim data-line-numbers>
+							# get libraries
+							library(tidyverse);library(magrittr)
+							# VEP output in
+							vep_data <- read.table("chr6ch17_mutect2_annotated_with_clinVar.txt", 
+												   header=F, 
+												   sep="\t", 
+												   comment.char="#")
+							# The standard VEP column names are:
+							colNames <- c("#Uploaded_variation", "Location", "Allele", "Gene", "Feature", "Feature_type",
+							"Consequence", "cDNA_position", "CDS_position", "Protein_position", "Amino_acids",
+							"Codons", "Existing_variation", "Extra")
+							# Set column names
+							colnames(vep_data) <- colNames
+							# Split when it contains multiple values
+							consequences_df <- vep_data %>%
+							  separate_rows(Consequence, sep="&") %>%
+							  select(Consequence)
+							# get chr
+							vep_data <- vep_data %>%
+							  separate(Location, into = c("chr", "position"), sep=":") %>% 
+							  mutate(chr = factor(chr, levels = c("chr6", "chr17")))
+							# Extract IMPACT from Extra column
+							vep_data$IMPACT <- gsub(".*IMPACT=([^;]+).*", "\\1", vep_data$Extra)
+							# get nice data out of the df
+							extract_field <- function(data, field) {
+							  gsub(paste0(".*", field, "=([^;]+).*"), "\\1", data$Extra)
+							}
+							# combine multiple fields
+							  mutate(
+								IMPACT = extract_field(., "IMPACT"),
+								SYMBOL = extract_field(., "SYMBOL"),
+								VARIANT_CLASS = extract_field(., "VARIANT_CLASS"),
+								BIOTYPE = extract_field(., "BIOTYPE")
+							  )
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>
+						<br>
+						<p align="left">
+						<b>Next steps</b>
+						</p>
+						<p align="left">
+						With an annotated set of somatic variants, we can:
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>Add other databases (COSMIC, CancerHotspots, OncoKB, etc.).</li>
+								<li>Use additional VEP plugins depending on the biological question.</li>
+								<li>Investigate candidate driver genes.</li>
+								<li>Consider population frequencies (to exclude common variants).</li>
+								<li>Assess drug–gene interactions.</li>
+								<li>Explore the literature for functional insights.</li>
+								<li>Visualize results for clearer interpretation.</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>
+						<br>
+						<p align="left">
+						<b>1. Consequence plot, to visualize the distribution of consequences </b>
+						</p>
+						<pre><code class="language-r" data-trim data-line-numbers>
+						# consequence plot
+						ggplot(vep_data, aes(x=reorder(Consequence, table(Consequence)[Consequence]))) +
+						  geom_bar() +
+						  coord_flip() +
+						  theme_minimal() +
+						  labs(title="Distribution of \n Variant Consequences",
+							   x="Consequence Type",
+							   y="Count")
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>
+						<br>
+						<p align="left">
+						<b>2. Consequence plot, by chromosome</b>
+						</p>
+						<pre><code class="language-r" data-trim data-line-numbers>
+						# consequence plot 
+						ggplot(vep_data, aes(x=reorder(Consequence, table(Consequence)[Consequence]))) +
+						  geom_bar() +
+						  coord_flip() +
+						  theme_minimal() +
+						  labs(title="Distribution of \n Variant Consequences",
+							   x="Consequence Type",
+							   y="Count") +
+						  facet_grid(~chr) +
+						  theme(
+							legend.position = "bottom"
+						  )
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>
+						<br>
+						<p align="left">
+						<b>3. Can we see the consequence colored by impact</b>
+						<pre><code class="language-r" data-trim data-line-numbers>
+						# Impact + Consequence plot
+						ggplot(vep_data, aes(x=reorder(Consequence, table(Consequence)[Consequence]), fill=IMPACT)) +
+						  geom_bar() +
+						  coord_flip() +
+						  theme_minimal() +
+						  scale_fill_brewer(palette="Set1") +
+						  labs(title="Variant Consequences \n by Impact",
+							   x="Consequence Type",
+							   y="Count") +
+						  theme(
+							legend.position = "bottom"
+						  )
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>
+						<br>
+						<p align="left">
+						<b>4. Can we see the consequence colored by impact by chromosome</b>
+						</p>
+						<pre><code class="language-r" data-trim data-line-numbers>
+						# Impact + consequence plot x chr
+						ggplot(vep_data, aes(x=reorder(Consequence, table(Consequence)[Consequence]), fill=IMPACT)) +
+						  geom_bar() +
+						  coord_flip() +
+						  theme_minimal() +
+						  scale_fill_brewer(palette="Set1") +
+						  labs(title="Variant Consequences \n by Impact",
+							   x="Consequence Type",
+							   y="Count") +
+						  facet_grid(~chr) +
+						  theme(
+							legend.position = "bottom"
+						  )
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XVII</h2>
+						<br>
+						<p align="left">
+						<b>5. What are the most common variant classes? </b>
+						</p>
+						<pre><code class="language-r" data-trim data-line-numbers>
+						# variant class plot
+						vep_data %>%
+						  count(VARIANT_CLASS) %>%  # Count the classees
+						  arrange(desc(n)) %>%  # Sort in descending ord
+						  ggplot(aes(x = reorder(VARIANT_CLASS, n), y = n)) +
+						  geom_bar(stat = "identity", fill = "steelblue") +
+						  coord_flip() +
+						  theme_minimal() +
+						  labs(title = "Distribution of \n Variant Classes",
+							   x = "Variant Class",
+							   y = "Count")
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>Variant Annotation and Filtering XXII</h2>
+						<br>
+						<p align="left">
+						<b>6. What are the most common biotypes? </b>
+						</p>
+						<pre><code class="language-r" data-trim data-line-numbers>
+						# biotype distribution
+						ggplot(vep_data, aes(x=reorder(BIOTYPE, table(BIOTYPE)[BIOTYPE]))) +
+						  geom_bar(fill="steelblue") +
+						  coord_flip() +
+						  theme_minimal() +
+						  labs(title="Distribution of \n Biotypes",
+							   x="Biotype",
+							   y="Count")
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+					<h2>Variant Annotation and Filtering XXIII</h2>
+						<br>
+						<p align="left">
+						<b>References</b>
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li class="shrink-60">McLaren W, et al. The Ensembl Variant Effect Predictor. Genome Biology (2016)</li>
+								<li class="shrink-60">Eilbeck K, et al. The Sequence Ontology: a tool for the unification of genome annotations. Genome Biology (2005)</li>
+								<li class="shrink-60">Richards S, et al. Standards and guidelines for the interpretation of sequence variants. Genetics in Medicine (2015).</li>
+								<li class="shrink-60">Cancer variant analysis course, SIB.</li>
+								<li class="shrink-60">Precision medicine bioinformatics course, Griffith labMcDonnell Genome Institute - Washington University.</li>
+							</ul>
+						</div>
+					</section>
+				 	</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section> 
+					  <h2>End of Variant Annotation and Filtering</h2>
+					  <a href="#var_ann">Back to top</a>				
+					</section>
+				</section>
+				<!-- ------------------------------------------------------------------------------------------------------ -->
+				<section>
+					<h2>End</h2>
+					<a href="#/0">Back to the first slide</a>
+				</section> 
+				<!-- ------------------------------------------------------------------------------------------------------ -->
+			</div>
+		</div>
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			Reveal.initialize({
+				center: true,
+				hash: true,
+				// Slides will stretch to fit the viewport by default.
+				// You can override this and set a fixed size.
+				width: 1700, // or a percentage like '90%'
+				height: 1000, // or a percentage like '90%'
+				slideNumber: true,
+				minScale: 0.2,
+				maxScale: 1.0,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
