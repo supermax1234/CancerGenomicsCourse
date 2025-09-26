@@ -6,7 +6,7 @@ This repository contains the materials for the **Variant calling and filtering**
 
 The course is divided into a theoretical part and a practical exercise.
 
-* **Theory:** The file <a href="variant_calling.pdf" target="_blank">`var_calling.pdf`</a>
+* **Theory:** The file <a href="var_calling.pdf" target="_blank">`var_calling.pdf`</a>
 contains all the theoretical content of the lesson.
 
 * **Exercises:** You will find the input files needed to complete the exercises in the `Exercises` folder.
