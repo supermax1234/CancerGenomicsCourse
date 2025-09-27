@@ -1298,13 +1298,14 @@
 						<pre><code class="bash" data-trim data-line-numbers>
 						#!/bin/bash
 						
-						ALIGNDIR=~/project/course_data/alignments
-						REFDIR=~/project/course_data/reference
-						RESOURCEDIR=~/project/course_data/resources
-						VARIANTDIR=~/project/course_data/variants
+						ALIGNDIR=../alignments
+						REFDIR=../reference
+						RESOURCEDIR=../resources
+						VARIANTDIR=../variants
 						
 						mkdir -p $VARIANTDIR
 						
+						singularity exec --bind /storage gatk4.img \
 						gatk Mutect2 \
 						-R FIXME \
 						--intervals "$REFDIR"/exome_regions.bed.interval_list \
@@ -1325,6 +1326,7 @@
 						</p>
 						
 						<pre><code class="bash" data-trim data-line-numbers>
+						singularity exec --bind /storage samtools.sif \
 						samtools view -H ../alignments/normal.recal.bam | grep '@RG'
 						</code></pre>
 						<p align="left">
@@ -1344,13 +1346,14 @@
 						<pre><code class="bash" data-trim data-line-numbers>
 						#!/bin/bash
 
-						ALIGNDIR=~/project/course_data/alignments
-						REFDIR=~/project/course_data/reference
-						RESOURCEDIR=~/project/course_data/resources
-						VARIANTDIR=~/project/course_data/variants
+						ALIGNDIR=../alignments
+						REFDIR=../reference
+						RESOURCEDIR=../resources
+						VARIANTDIR=../variants
 
 						mkdir -p $VARIANTDIR
 
+						singularity exec --bind /storage gatk4.img \
 						gatk Mutect2 \
 						-R "$REFDIR"/ref_genome.fa \
 						--intervals "$REFDIR"/exome_regions.bed.interval_list \
@@ -1394,10 +1397,11 @@
 						<pre><code class="bash" data-trim data-line-numbers>						
 						#!/bin/bash
 
-						REFDIR=~/project/course_data/reference
-						VARIANTDIR=~/project/course_data/variants
+						REFDIR=../reference
+						VARIANTDIR=../variants
 
 						# fill the filter column
+						singularity exec --bind /storage gatk4.img \
 						gatk FilterMutectCalls \
 						-R "$REFDIR"/ref_genome.fa \
 						-V "$VARIANTDIR"/somatic.vcf.gz \
@@ -1407,7 +1411,7 @@
 						bcftools view -f PASS "$VARIANTDIR"/somatic.filtered.vcf.gz -Oz \
 						> "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
 
-						bcftools index --tbi "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
+						singularity exec --bind /storage bcftools.img bcftools index --tbi "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
 						</code></pre>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
@@ -1430,7 +1434,7 @@
 						<div class="fragment" data-fragment-index="2" align="left" style="color:#447da4">
 							<p class="answer-text">
 								<pre><code class="bash" data-trim data-line-numbers>
-								singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools view -H ../variants/somatic.filtered.vcf.gz | cut -f 7 | sort | uniq -c | sort -nr
+								singularity exec --bind /storage bcftools.img bcftools view -H ../variants/somatic.filtered.vcf.gz | cut -f 7 | sort | uniq -c | sort -nr
 								</code></pre>
 								<nr>
 								<pre><code class="bash" data-trim >	
@@ -1459,7 +1463,7 @@
 						To take a first look at the variant calls, we can display the top lines of the filtered VCF file (excluding the header) using <span class="special-style">bcftools view -H</span>:
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools view -H ../variants/somatic.filtered.vcf.gz | head
+						singularity exec --bind /storage bcftools.img bcftools view -H ../variants/somatic.filtered.vcf.gz | head
 						</code></pre>
 						<p align="left">
 						you should get
@@ -1509,7 +1513,7 @@
 						To explore what the <span class="special-style">FILTER</span> field contains:
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools view -h ../variants/somatic.filtered.vcf.gz | grep "^##FILTER"
+						singularity exec --bind /storage bcftools.img bcftools view -h ../variants/somatic.filtered.vcf.gz | grep "^##FILTER"
 						</code></pre>
 						<pre><code data-trim class="language-plaintext">
 						##FILTER=&lt;ID=PASS,Description="All filters passed"&gt;
@@ -1566,7 +1570,8 @@
 						of variant and depth <span class="special-style">DP</span> of each sample, you can do the following (for the first 20 variants):
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools query -f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%DP;]\n' ../variants/somatic.filtered.vcf.gz | head -20
+						singularity exec --bind /storage bcftools.img bcftools query \
+						-f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%DP;]\n' ../variants/somatic.filtered.vcf.gz | head -20
 						</code></pre>
 						<br>
 						<pre><code class="bash" data-trim >	
@@ -1601,7 +1606,8 @@
 						You should observe that when the filter is <span class="special-style">weak_evidence</span>, the tumor’s VAF is typically low.
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-							singularity exec --bind /storage depot.galaxyproject.org-singularity-bcftools-1.17--haef29d1_0.img bcftools query -f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%AF;]\n' ../variants/somatic.filtered.vcf.gz | head -20
+							singularity exec --bind /storage bcftools.img bcftools query \
+							-f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%AF;]\n' ../variants/somatic.filtered.vcf.gz | head -20
 						</code></pre>
 						<br>
 						<pre><code class="bash" data-trim >		
@@ -1810,6 +1816,7 @@
 						Create a script called <span class="special-style">06_vep.sh</span> and run.
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
+							singularity exec --bind /storage vep.sif \
 							vep -i cancer_variants.vcf \
 								--cache /data/.vep \
 								--species homo_sapiens \
@@ -1926,7 +1933,7 @@
 						<p align="left">
 						Let’s use VEP to annotate this file
 						</p>
-						<pre class="modern-card"><code>
+						<pre><code class="language-text" data-trim data-line-numbers>
 							##fileformat=VCFv4.2 
 							#CHROM     POS    ID   REF  ALT  QUAL  FILTER  INFO 
 							chr6     325357    .    G    A    .     PASS     .
@@ -1956,7 +1963,8 @@
 						The somatic variant call can be annotated with this command
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						vep -i ~/project/course_data/resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
+						singularity exec --bind /storage vep.sif \
+						vep -i ../resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
 						--cache /data/.vep \
 						--species homo_sapiens \
 						--assembly GRCh38 \
@@ -2001,6 +2009,7 @@
 						When analyzing <span class="special-style">chr6ch17_mutect2_annotated.txt</span>, we may want to keep only deleterious or moderate/high impact variants.
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
+						singularity exec --bind /storage vep.sif \
 						filter_vep \
 						-i chr6ch17_mutect2_annotated.txt \
 						-o chr6ch17_mutect2_annotated_filtered.txt \
@@ -2041,17 +2050,19 @@
 						# Download ClinVar VCF
 
 						# Run VEP with cancer-specific annotations
-						vep -i ~/project/course_data/resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
+						singularity exec --bind /storage vep.sif \
+						vep -i ../resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
 							--cache /data/.vep \
 							--assembly GRCh38 \
 							--format vcf \
 							--force_overwrite \
 							--fork 2 \
 							--everything \
-							--custom ~/project/course_data/resources/clinvar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN \
+							--custom ../resources/clinvar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN \
 							--output_file chr6ch17_mutect2_annotated_with_clinVar.txt
 
 						# Filter results
+						singularity exec --bind /storage vep.sif \
 						filter_vep \
 						-i chr6ch17_mutect2_annotated_with_clinVar.txt \
 						-o chr6ch17_mutect2_annotated_with_clinVar_filtered.txt \
