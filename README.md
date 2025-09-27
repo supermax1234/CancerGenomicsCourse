@@ -9,6 +9,8 @@ The course is divided into a theoretical part and a practical exercise.
 * **Theory:** The file <a href="var_calling.pdf" target="_blank">`var_calling.pdf`</a>
 contains all the theoretical content of the lesson.
 
+## **Lesson 2: Variant calling and filtering**
+
 * **Exercises:** You will find the input files needed to complete the exercises in the `Exercises` folder.
 
 ***
