@@ -129,21 +129,424 @@
 					<section>
 						<h2>Setup I</h2>
 						<ul>
+							<li><a href="#/igv">IGV</a></li>
+							<li><a href="#/bcftools">bcftools</a></li>
+							<li><a href="#/gatk4">GATK4</a></li>
+							<li><a href="#/multiqc">MultiQC</a></li>
 							<li><a href="#/samtools">samtools</a></li>
-							<li><a href="#/Referenza">GRCh37 (hg19) reference genome</a></li>
-							<li><a href="#/R_Python">R or python or your preferred scripting language</a></li>
-							<li><a href="#/MutationaPatterns">MutationaPatterns</a></li>
-							<li><a href="#/Sigprofiler">ev. Sigprofiler</a></li>
+							<li><a href="#/vep">VEP</a></li>
 						</ul>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>
-						<h2>Setup II</h2>
-						download data....
+					<section id="igv">
+						<h2>Running IGV (Integrative Genomics Viewer) 💻</h2>
+						<br>
+						<p align="left">
+						IGV is available as a powerful **Desktop Application** (Java-based) and a convenient **Web App** (JavaScript-based).
+						</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Setup III</h2>
+						<h3>Option 1: IGV Web App (Recommended for Quick Access) ✅</h3>
+						<br>
+						<p align="left">
+						If you don't already have the desktop version installed, the **Web App** is the fastest way to start viewing your data.
+						</p>
+						<pre><code data-trim data-noescape>
+							# Go to the official Web App URL
+							https://igv.org/app/
+						</code></pre>
+						<div style="text-align: left;">
+							<ul>
+								<li>**No Installation** required—it runs entirely in your modern web browser.</li>
+								<li>Load files directly from your **local machine** or a **public URL** (e.g., BAM, VCF, BigWig).</li>
+								<li>No data is uploaded; the viewer runs as a secure, client-side application.</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Option 2: IGV Desktop Application (For Full Power) 🚀</h3>
+						<br>
+						<p align="left">
+						The desktop version provides a more robust and flexible experience, particularly for very large or complex datasets.
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>**Requires Java** and a local download (Windows, Mac, or Linux).</li>
+								<li>Allows you to allocate more **RAM** (memory) for extremely large-scale data files.</li>
+								<li>Provides access to **advanced tools** like IGVtools for local data manipulation.</li>
+							</ul>
+						</div>
+						<p align="left">
+						<em>Use the desktop version if you run into performance issues with the Web App or need advanced features.</em>
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section id="bcftools">
+						<h2>Installing bcftools 🛠️</h2>
+						<br>
+						<p align="left">
+						We recommend using a package manager like Conda/Mamba for simple, isolated installations.
+						</p>
+						
+						<p align="left">
+						<b>Method 1: Conda/Mamba (Recommended)</b>
+						<pre><code class="bash" data-trim data-line-numbers>
+							mamba create -n bcftools_env bcftools
+							conda activate bcftools_env
+							bcftools --version
+						</code></pre>
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li class="fragment" data-fragment-index="1" align="left"><b>Mamba</b> is often faster than Conda.</li>
+								<li class="fragment" data-fragment-index="2" align="left">The environment name (`bcftools_env`) is arbitrary.</li>
+								<li class="fragment" data-fragment-index="3" align="left">This method handles dependencies automatically.</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 2: From Source (Advanced)</h3>
+						<br>
+						<p align="left">
+						Requires `git`, `make`, and `gcc` (or similar compiler).
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+							git clone --branch=develop https://github.com/samtools/bcftools.git
+							cd bcftools
+							make
+							sudo make install
+						</code></pre>
+						</br>
+						<p align="left">
+							<b>Remind</b>: users that "make install" might require specifying an install path with PREFIX.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Verification</h3>
+						<br>
+						<p align="left">
+						Run the help command to ensure it's installed correctly:
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						bcftools
+						</code></pre>
+						<p align="left">
+						The output should display the usage summary.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section id="gatk4">
+						<h2>Installing GATK4 (Genome Analysis Toolkit)</h2>
+						<br>
+						<p align="left">
+						GATK is a Java-based tool, but **GATK4** has complex Python/R dependencies for tools like CNV and CNNScoreVariants.
+						</p>
+						<p align="left">
+						<b>Recommendation:</b> Use a container or Conda/Mamba to manage dependencies.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 1: Conda / Mamba (Recommended for Local Use)</h3>
+						<br>
+						<p align="left">
+						This is the most common way to get an isolated environment and automatically handle all dependencies.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						# 1. Create a Conda/Mamba environment
+						mamba create -n gatk4_env gatk4 -c bioconda -c conda-forge
+						# 2. Activate the environment
+						conda activate gatk4_env
+						# 3. Test the installation
+						gatk --version
+						</code></pre>
+						<p align="left">
+						GATK4 requires **Java 1.8 (Java 8)** or newer, which Mamba installs automatically.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 2: Docker / Singularity (Best for HPC)</h3>
+						</br>
+						<p align="left">
+						The Broad Institute provides official containers with everything pre-configured.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+						# Docker command to pull the official image
+						docker pull broadinstitute/gatk:latest
+
+						# Docker command to run a simple tool
+						docker run --rm broadinstitute/gatk:latest gatk --list
+
+						# For Singularity (as mentioned in your context)
+						singularity pull docker://broadinstitute/gatk:latest
+						# Then run:
+						singularity run gatk_latest.sif gatk --version
+						</code></pre>
+						<p align="left">
+						Using containers ensures **100% reproducibility** across different machines.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 3: Download Binaries (Requires Java & PATH Setup)</h3>
+						<br>
+						<p align="left">
+						Download the ZIP archive from the official Broad Institute GitHub releases page.
+						</p>
+						<pre><code class="bash" data-trim data-line-numbers>
+							# 1. Download and unzip the package
+							wget https://github.com/broadinstitute/gatk/releases/download/[VERSION]/gatk-[VERSION].zip
+							unzip gatk-[VERSION].zip
+
+							# 2. Add the wrapper script to your PATH
+							export PATH="/path/to/gatk-package/:\$PATH"
+						</code></pre>
+						<p align="left">
+						You must have Java 8+ installed separately, and this method requires careful setup of Python/R dependencies for some tools.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section id="multiqc">	
+						<h2>Installing MultiQC 📊</h2>
+						<br>
+						<p align="left">
+						MultiQC aggregates results from multiple bioinformatics tools (FastQC, Samtools, etc.) into a single, interactive report.
+						</p>
+						<p align="left">
+						It's a Python tool, so installation is easiest using a package manager.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 1: Conda / Mamba (Recommended)</h3>
+						<br>
+						<p align="left">
+						Using Conda/Mamba is preferred as it manages the Python environment separately from your system's Python.
+						</p>
+						<pre><code data-trim data-noescape>
+							# 1. Create a Conda environment (optional, but good practice)
+							mamba create -n multiqc_env multiqc -c bioconda
+							conda activate multiqc_env
+
+							# 2. Alternatively, install into an existing environment
+							# (Ensure bioconda and conda-forge channels are configured)
+							conda install multiqc
+
+							# 3. Verify
+							multiqc --version
+						</code></pre>
+						<p align="left">
+						MultiQC is part of the **Bioconda** channel, which must be configured in your Conda setup.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 2: Pip (Python's Package Installer)</h3>
+						<br>
+						<p align="left">
+						This is the fastest method if you already use a Python environment manager like `venv` or `virtualenv`.
+						</p>
+						<pre><code data-trim data-noescape>
+							# Install MultiQC globally or in a virtual environment
+							pip install multiqc
+
+							# If permissions are an issue (not recommended, but a quick fix)
+							# pip install --user multiqc
+						</code></pre>
+						<p align="left">
+						Always use `pip` within a **virtual environment** (`venv` or Conda) to avoid conflicts with your system Python.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Basic Usage and Output 🖱️</h3>
+						<br>
+						<p align="left">
+						Run the command inside the directory that contains your QC log files (e.g., FastQC output, Samtools logs).</p>
+						<pre><code data-trim data-noescape>
+						# MultiQC searches the current directory recursively
+						multiqc .
+								</code></pre>
+						<p align="left">
+						Output is a single, self-contained HTML file:
+						</p>
+						<pre><code data-trim data-noescape>
+							multiqc_report.html
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section id="samtools">	
+						<h2>Installing SAMtools (and HTSlib) 🧬</h2>
+						<p>SAMtools is a core toolkit for manipulating alignment files (SAM/BAM/CRAM) and is tightly linked with <strong>HTSlib</strong>.</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 1: Conda / Mamba (Recommended) ✅</h3>
+						<br>
+						<p align="left">This is the best practice method as it automatically handles all dependencies (like HTSlib, zlib, and ncurses) and avoids system conflicts.
+						</p>
+						<pre><code data-trim data-noescape>
+						# 1. Ensure Bioconda and Conda-forge channels are configured
+						# (Run this once)
+						conda config --add channels conda-forge
+						conda config --add channels bioconda
+
+						# 2. Create a new environment and install SAMtools
+						mamba create -n samtools_env samtools
+						conda activate samtools_env
+
+						# 3. Verify the installation
+						samtools --version
+						</code></pre>
+						<p align="left">Using **Mamba** instead of Conda for creation/installation is often faster for resolving bioinformatics dependencies.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 2: Compilation from Source (Advanced) ⚙️</h3>
+						<br>
+						<p align="left">Requires development tools, HTSlib, and library dependencies (e.g., `libncurses-dev`). Use only if package managers fail or a specific version is needed.
+						</p>
+						<pre><code data-trim data-noescape>
+						# 1. Download source code (SAMtools and HTSlib)
+						wget http://www.htslib.org/download/samtools-1.x.tar.bz2
+						tar -xf samtools-1.x.tar.bz2
+						cd samtools-1.x
+
+						# 2. Build and install (HTSlib is often built first, or included)
+						./configure --prefix=/path/to/install
+						make
+						make install
+						</code></pre>
+						<p align="left">
+						Compiling from source requires you to manually manage the **$PATH** variable to execute the commands.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Essential SAMtools Commands 📌</h3>
+						<br>
+						<p align="left">After alignment (e.g., with BWA or Bowtie), these are the core utilities you'll use on your BAM/CRAM files.
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li><code>samtools view</code>: **Convert** between SAM, BAM, CRAM, and filter alignments.</li>
+								<li><code>samtools sort</code>: **Sort** alignments by position or read name (required for indexing).</li>
+								<li><code>samtools index</code>: **Create index** files (<code>.bai</code> or <code>.crai</code>) for fast random access.</li>
+								<li><code>samtools mpileup</code>: **Generate pileup** from multiple BAM/CRAM files for variant calling.</li>
+								<li><code>samtools flagstat</code>: **Calculate statistics** on alignment flags (e.g., total reads, mapped reads).</li>
+							</ul>
+						</div>
+						<pre><code data-trim data-noescape>
+							samtools sort input.bam -o sorted.bam
+							samtools index sorted.bam
+						</code></pre>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section id="vep">	
+						<h2>Installing Ensembl Variant Effect Predictor (VEP) 🧬</h2>
+						<br>
+						<p align="left">VEP is a powerful Perl script for annotating VCFs. It requires Perl modules and large, species-specific **cache files** for offline use.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Method 1: Conda / Mamba (Recommended for Setup) ✅</h3>
+						<br>
+						<p align="left">This method easily installs the VEP script and all necessary Perl dependencies (like the Ensembl Perl API).
+						</p>
+						<pre><code data-trim data-noescape>
+							# 1. Create a VEP-specific environment
+							mamba create -n vep_env "ensembl-vep"
+							conda activate vep_env
+
+							# 2. VEP is installed, but the CACHE is NOT.
+							# The cache must be downloaded manually or via the VEP installer.
+							# Recommended location: $HOME/.vep/
+						</code></pre>
+						<p align="left">
+						<strong>Advantage:</strong> Resolves complex Perl and other non-Perl dependencies in one step.
+						</p>
+						<p align="left"
+						<strong>Disadvantage:</strong> You still need to manage the cache files.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Step 2: Installing the VEP Cache (Mandatory for Offline Use) 💾</h3>
+						<br>
+						<p align="left">
+						You must download the species-specific cache file for offline, high-speed annotation.
+						</p>
+						<pre><code data-trim data-noescape>
+							# 1. Clone the repository to get the installer script
+							git clone https://github.com/Ensembl/ensembl-vep.git
+							cd ensembl-vep
+
+							# 2. Run the installer script for the cache
+							# (This will be a large download, e.g., ~10-20 GB for human)
+							perl INSTALL.pl
+
+							# Follow the prompts:
+							# a) Skip API installation (if using Conda VEP)
+							# b) Select 'y' to install cache files
+							# c) Select your species and assembly (e.g., 'homo_sapiens_vep_115_GRCh38.tar.gz')
+						</code></pre>
+						<p align="left">
+						<strong>Best Practice:</strong> Use the cache (<code>--cache</code> flag) for large files; use the online database (<code>--database</code> flag) for small, quick tests.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->	
+					<section>
+						<h3>Method 2: Official Perl Installer (Alternative) ⚙️</h3>
+						<br>
+						<p align="left">
+						The original method; the single script handles both VEP, dependencies, and cache installation.
+						</p>
+						<pre><code data-trim data-noescape>
+						# 1. Clone the repository
+						git clone https://github.com/Ensembl/ensembl-vep.git
+						cd ensembl-vep
+
+						# 2. Run the all-in-one installer script
+						# This installs: VEP script, Perl dependencies, and the cache.
+						perl INSTALL.pl
+						</code></pre>
+						<p align="left">
+						<strong>Caveat:</strong> This method can sometimes struggle with dependency resolution if your system's Perl environment is complex or outdated.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h3>Testing the Installation and Basic Run ▶️</h3>
+						<br>
+						<p align="left">
+						Always test with an example file and ensure you specify the use of the cache.
+						</p>
+						<pre><code data-trim data-noescape>
+							# Activate the Conda environment (if used)
+							conda activate vep_env
+
+							# The VEP executable is typically in your PATH (Conda) 
+							# or the cloned directory (Manual Install)
+							./vep \
+								-i examples/homo_sapiens_GRCh38.vcf \
+								-o my_vep_output.txt \
+								--cache \
+								--force_overwrite
+						</code></pre>
+						<p align="left">
+						The <code>--cache</code> flag tells VEP to use the local cache files you downloaded.
+						</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>	
