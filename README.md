@@ -68,8 +68,6 @@ These files are used to extract and analyze mutational signatures as part of the
 
 ---
 
-#### SINGULARITY
-
 ## SINGULARITY
 
 At the following link
