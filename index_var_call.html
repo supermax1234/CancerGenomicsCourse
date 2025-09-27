@@ -1745,7 +1745,7 @@
 						</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
-					<section>	
+<!-- 					<section>	
 						<h2>Variant Annotation and Filtering - Part VI</h2>
 						<br>
 						<p align="left">
@@ -1762,6 +1762,71 @@
 								Otherwise, VEP will not locate the local cache.
 							</ul>
 						</div>
+					</section> -->
+					<!-- ------------------------------------------------------------------------------------------------------ -->	
+					<section>
+						<h2>VEP Options and Documentation</h2>
+						<br>
+						<p align="left">
+						To find comprehensive information and all available options for the VEP command-line script:
+						</p>
+						<div style="text-align: left;">
+							<ul style="font-size: 1.1em; text-align: left; margin-top: 20px;">
+								<li>The Official Source: The Ensembl VEP documentation website provides the definitive guide.</li>
+								<li>Search for: <em>Ensembl VEP script documentation</em> or <em>VEP command line options</em>.</li>
+								<li>Key Information to Look For:
+									<ul style="margin-top: 10px;">
+										<li>Input/Output formats (VCF, ENSEMBL, etc.)</li>
+										<li>Annotation flags (
+										<span class="special-style">--sift</span>, 
+										<span class="special-style">--polyphen</span>, 
+										<span class="special-style">--regulatory</span>, 
+										<span class="special-style">--everything</span>)</li>
+										<li>Performance options (
+										<span class="special-style">--fork</span>, 
+										<span class="special-style">--offline</span>, 
+										<span class="special-style">--cache</span>
+										)</li>
+										<li>Custom annotation and Plugin documentation</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<p align="left">
+						Consult the documentation before every major run.
+						</p>
+						</section>
+					<!-- ------------------------------------------------------------------------------------------------------ -->
+					<section>
+						<br>
+						<p align="left">
+						Installing the VEP Cache (<span class="special-style">--dir_cache</span>)
+						</p>
+						<p align="left">
+						Using a **local cache** is essential for fast and efficient VEP annotation.
+						</p>
+						<div style="text-align: left;">
+							<ul style="font-size: 1.1em; text-align: left; margin-top: 20px;">
+								<li>What is it? A local copy of all transcript models, regulatory features, and variant data for a species/assembly (e.g., Human GRCh38).</li>
+								<li>Why use it? Enables <em>offline</em> mode (
+								<span class="special-style">--offline</span>
+								) and provides significantly faster annotation speed compared to connecting to the remote Ensembl database.</li>
+								<li>How to Install (Recommended):
+									<pre><code class="bash" data-trim data-line-numbers>
+										# 1. Run the VEP installer script
+										perl INSTALL.pl 
+
+										# 2. Select 'y' to install cache files
+										# 3. Choose your species and assembly (e.g., homo_sapiens_vep_115_GRCh38)</code></pre>
+								</li>
+								<li>How to Use in VEP:
+									<pre><code class="bash" data-trim data-line-numbers>
+									# Use --cache and specify the directory if not using the default ($HOME/.vep)
+									./vep -i variants.vcf --cache --dir_cache /path/to/my/cache/
+									</code></pre>
+								</li>
+							</ul>
+						</div>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
@@ -1771,7 +1836,7 @@
 						<b>Input data</b>
 						</p>
 						<p align="left">
-						Copy the following variants into <span class="special-style">../variants/cancer_variants.vcf</span>
+						Copy the following variants into <span class="special-style">../variants/cancer_variants.vcf</span> (use tab as column separator)
 						</p>
 						<pre><code class="language-text" data-trim data-line-numbers>
 						##fileformat=VCFv4.2
@@ -1931,7 +1996,7 @@
 						<b>Extract from the resulting Mutect2 somatic call</b>
 						</p>
 						<p align="left">
-						Let’s use VEP to annotate this file
+						Let’s use VEP to annotate this file (use tab as column separator)
 						</p>
 						<pre><code class="language-text" data-trim data-line-numbers>
 							##fileformat=VCFv4.2 
