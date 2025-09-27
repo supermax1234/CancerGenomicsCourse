@@ -127,15 +127,24 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Setup I</h2>
-						<ul>
-							<li><a href="#/igv">IGV</a></li>
-							<li><a href="#/bcftools">bcftools</a></li>
-							<li><a href="#/gatk4">GATK4</a></li>
-							<li><a href="#/multiqc">MultiQC</a></li>
-							<li><a href="#/samtools">samtools</a></li>
-							<li><a href="#/vep">VEP</a></li>
-						</ul>
+						<h2>Setup: Tools of the trade</h2>
+						<br>
+						<p>
+						To perform the exercises, you need the following tools installed on your machine. 
+						</p>
+						<div>
+							<ul>
+								<li><a href="#/igv">IGV</a></li>
+								<li><a href="#/bcftools">bcftools</a></li>
+								<li><a href="#/gatk4">GATK4</a></li>
+								<li><a href="#/multiqc">MultiQC</a></li>
+								<li><a href="#/samtools">samtools</a></li>
+								<li><a href="#/vep">VEP</a></li>
+							</ul>
+						</div>
+						<p>
+						Alternatively, you can use the Singularity images available on GIT (you need <em>Singularity</em>). 
+						</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section id="igv">
@@ -594,7 +603,7 @@
 					</section>	
 					<!-- ------------------------------------------------------------------------------------------ -->	
 					<section>		
-						<h3>Load a Genome and some Data Tracks I</h3>
+						<h3>Load a Genome and some Data Tracks - Part I</h3>
 						<p align="left">
 						By default, <span class="special-style">IGV</span> loads the Human <span class="special-style">GRCh38/hg38</span> reference genome. 
 						If you work with another version of the human genome, or another organism, you can change the genome by clicking 
@@ -613,7 +622,7 @@
 					</section>	
 					<!-- ------------------------------------------------------------------------------------------ -->				
 					<section>
-						<h3>Load a Genome and some Data Tracks II</h3>
+						<h3>Load a Genome and some Data Tracks - Part II</h3>
 						<img src="assets/load.data.tracks.png" class="r-stretch"><p>Load hg19 genome and additional data tracks</p>
 					</section>	
 					<!-- ------------------------------------------------------------------------------------------ -->				
@@ -659,7 +668,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>
-						<h3>Visualizing read alignments I</h3>
+						<h3>Visualizing read alignments - Part I</h3>
 						<p align="left">
 						Navigate to a narrow window on chromosome 21: 
 						<span class="special-style">chr21:19,480,041-19,480,386</span>.
@@ -676,7 +685,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h3>Visualizing read alignments II</h3>
+						<h3>Visualizing read alignments - Part II</h3>
 						<p align="left">
 						Experiment with the various settings by right clicking the read alignment track and toggling the options. 
 						Think about which would be best for specific tasks (e.g. quality control, SNP calling, CNV finding).
@@ -688,7 +697,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-						<h3>Visualizing read alignments III</h3>
+						<h3>Visualizing read alignments - Part III</h3>
 						<p align="left">
 						You will see reads represented by grey or white bars stacked on top of each other, where they were aligned to the reference genome. 
 						The reads are pointed to indicate their orientation (i.e. the strand on which they are mapped). 
@@ -738,7 +747,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h3>Homopolymer region with indel I</h3>
+						<h3>Homopolymer region with indel - Part I</h3>
 						<p align="left">
 						Navigate to position <span class="special-style">chr21:19,518,412-19,518,497</span>
 						</p>
@@ -753,7 +762,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>
-						<h3>Homopolymer region with indel II</h3>
+						<h3>Homopolymer region with indel - Part II</h3>
 						<p align="left">
 						Center on the one base deletion (<span class="special-style">chr21:19,518,452</span>), and 
 						<span class="special-style">Sort alignments by</span> -> <span class="special-style">base</span>
@@ -810,7 +819,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h3>Homozygous deletion I</h3>
+						<h3>Homozygous deletion - Part I</h3>
 						<p align="left">
 						Navigate to region <span class="special-style">chr21:19,324,469-19,331,468</span>
 						</p>
@@ -818,7 +827,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h3>Homozygous deletion II</h3>
+						<h3>Homozygous deletion - Part II</h3>
 						<p align="left">
 						Then
 						</p>
@@ -843,7 +852,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>
-						<h3>Mis-alignment I</h3>
+						<h3>Mis-alignment - Part I</h3>
 						<p align="left">
 						Navigate to region <span class="special-style">chr21:19,102,154-19,103,108</span>
 						</p>
@@ -851,7 +860,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h3>Mis-alignment II</h3>
+						<h3>Mis-alignment - Part II</h3>
 						<div style="text-align: left;">
 							<ul>
 								<li>This is a position where <em>AluY</em> element causes mis-alignment.</li>
@@ -1070,7 +1079,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-						<h2>Quality control of the bam files – Part VII</h2>
+						<h2>Quality control of the bam files – Part VIII</h2>
 						<br>
 						<p align="left" style="color:#447da4">
 						The output look like this
@@ -1096,7 +1105,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-						<h2>Quality control of the bam files – Part VIII</h2>
+						<h2>Quality control of the bam files – Part IX</h2>
 						<br>
 						<p align="left">
 						The output provides basic statistics, including:
@@ -1119,7 +1128,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h2>Quality control of the bam files – Part IX</h2>
+						<h2>Quality control of the bam files – Part X</h2>
 						<br>
 						<p align="left">
 						The BAM files appear ready for variant analysis:
@@ -1142,7 +1151,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h2>Quality control of the bam files – Part X</h2>
+						<h2>Quality control of the bam files – Part XI</h2>
 						<br>
 						<p align="left">
 						Example output from <span class="special-style">CollectHsMetrics</span> shows raw coverage and target enrichment statistics.
@@ -1168,7 +1177,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h2>Quality control of the bam files – Part XI</h2>
+						<h2>Quality control of the bam files – Part XII</h2>
 						<br>
 						<p align="left">
 						To simplify interpretation, parse the metrics using <span class="special-style">Multiqc</span>. 
@@ -1185,7 +1194,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h2>Quality control of the bam files – Part XI</h2>
+						<h2>Quality control of the bam files – Part XIII</h2>
 						<br>
 						<p align="left">
 						Check the report (<em>multiqc_report.html</em>) generated by <span class="special-style">Multiqc</span>
@@ -1195,7 +1204,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h2>Quality control of the bam files – Part XII</h2>
+						<h2>Quality control of the bam files – Part XIV</h2>
 						<br>
 						<p align="left">
 						Key observations from hybrid-selection metrics:
@@ -1245,7 +1254,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->	
 					<section>		
-						<h2>Variant Calling I</h2>
+						<h2>Variant Calling - Part I</h2>
 						<br>
 						<p align="left">
 						After performing quality control on the BAM files, we can proceed to variant calling.
@@ -1276,7 +1285,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling II</h2>
+						<h2>Variant Calling - Part II</h2>
 						<br>
 						<p align="left">
 						Create a script called <span class="special-style">04_run_mutect2.sh</span>.
@@ -1308,7 +1317,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling III</h2>
+						<h2>Variant Calling - Part III</h2>
 						<br>
 						<p align="left">
 						💡 <b>Hint:</b>: To obtain the sample name (<span class="special-style">SM</span> tag) 
@@ -1327,7 +1336,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling IV</h2>
+						<h2>Variant Calling - Part IV</h2>
 						<br>
 						<p align="left">
 						Solution
@@ -1355,7 +1364,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling V</h2>
+						<h2>Variant Calling - Part V</h2>
 						<br>
 						<p align="left"></span>
 						Once variants have been called, the next step is an initial filtering using <span class="special-style">FilterMutectCalls</span>.
@@ -1376,7 +1385,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling VI</h2>
+						<h2>Variant Calling - Part VI</h2>
 						<br>
 						<p align="left">
 						Create a script called <span class="special-style">05_filter_mutect_calls.sh</span> and run the filtering command on your 
@@ -1444,7 +1453,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling X</h2>
+						<h2>Variant Calling - Part VII</h2>
 						<br>
 						<p align="left">
 						To take a first look at the variant calls, we can display the top lines of the filtered VCF file (excluding the header) using <span class="special-style">bcftools view -H</span>:
@@ -1470,7 +1479,7 @@
 					</section>	
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling VIII</h2>
+						<h2>Variant Calling - Part VIII</h2>
 						<br>
 						<p align="left">
 						This shows the main VCF columns for the first few variants:
@@ -1494,7 +1503,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling VIII</h2>
+						<h2>Variant Calling - Part IX</h2>
 						<br>
 						<p align="left">
 						To explore what the <span class="special-style">FILTER</span> field contains:
@@ -1549,7 +1558,7 @@
 					</section>		
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Calling XIII</h2>
+						<h2>Variant Calling - Part X</h2>
 						<br>	
 						<p align="left">
 						To summarize specific information from the VCF, you can use <span class="special-style">bcftools</span> query.
@@ -1585,7 +1594,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>	
-						<h2>Variant Calling XIV</h2>
+						<h2>Variant Calling - Part XI</h2>
 						<br>
 						<p align="left">
 						Alternatively, extract the <em>variant allele frequency</em> (<span class="special-style">AF</span>) for each sample, and compare it to the FILTER column.
@@ -1632,7 +1641,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering -Part I</h2>
+						<h2>Variant Annotation and Filtering - Part I</h2>
 						<br>
 						<p align="left">
 						<b>Ensembl VEP (Variant Effect Predictor)</b>
@@ -1653,7 +1662,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering II</h2>
+						<h2>Variant Annotation and Filtering - Part II</h2>
 						<br>
 						<p align="left">
 						<b>Why do we need VEP?</b>
@@ -1675,7 +1684,7 @@
 					</section>	
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering II</h2>
+						<h2>Variant Annotation and Filtering - Part III</h2>
 						<br>
 						<p align="left">	
 						<b>Transcript selection</b>
@@ -1706,7 +1715,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>		
-						<h2>Variant Annotation and Filtering III</h2>
+						<h2>Variant Annotation and Filtering - Part IV</h2>
 						<p align="left">
 						<b>Consequence Priority</b>
 						</p>
@@ -1720,7 +1729,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>		
-						<h2>Variant Annotation and Filtering III</h2>
+						<h2>Variant Annotation and Filtering - Part V</h2>
 						<p align="left">
 						<b>Order of severity Priority</b>
 						</p>
@@ -1731,7 +1740,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>	
-						<h2>Variant Annotation and Filtering IV</h2>
+						<h2>Variant Annotation and Filtering - Part VI</h2>
 						<br>
 						<p align="left">
 						<b><span class="special-style">--cache</span> option</b>
@@ -1750,7 +1759,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering V</h2>
+						<h2>Variant Annotation and Filtering - Part VII</h2>
 						<br>
 						<p align="left">
 						<b>Input data</b>
@@ -1778,7 +1787,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering V</h2>
+						<h2>Variant Annotation and Filtering - Part VIII</h2>
 						<br>
 						<p align="left">
 						<b>Task</b> 
@@ -1795,7 +1804,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering VI</h2>
+						<h2>Variant Annotation and Filtering - Part IX</h2>
 						<br>
 						<p align="left">
 						Create a script called <span class="special-style">06_vep.sh</span> and run.
@@ -1818,7 +1827,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-					<h2>Variant Annotation and Filtering VIII</h2>
+					<h2>Variant Annotation and Filtering - Part X</h2>
 						<br>
 						<p align="left">
 						<b>Example output</b>
@@ -1842,7 +1851,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering IX</h2>
+						<h2>Variant Annotation and Filtering - Part XI</h2>
 						<br>
 						<p align="left">
 						<b>The shortcut option</b>
@@ -1880,7 +1889,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XI</h2>
+						<h2>Variant Annotation and Filtering - Part XII</h2>
 						<br>
 						<p align="left">
 						<b>Damage prediction tools</b>
@@ -1894,7 +1903,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XII</h2>
+						<h2>Variant Annotation and Filtering - Part XIII</h2>
 						<br>
 						<p align="left">
 						<b><span class="special-style">Mutect2</span> results annotation</b>
@@ -1909,7 +1918,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-					<h2>Variant Annotation and Filtering XIII</h2>
+					<h2>Variant Annotation and Filtering - Part XIV</h2>
 						<br>
 						<p align="left">
 						<b>Extract from the resulting Mutect2 somatic call</b>
@@ -1941,7 +1950,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XIV</h2>
+						<h2>Variant Annotation and Filtering - Part XV</h2>
 						<br>
 						<p align="left"></span>
 						The somatic variant call can be annotated with this command
@@ -1961,7 +1970,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XV</h2>
+						<h2>Variant Annotation and Filtering - Part XVI</h2>
 						<br>
 						<p align="left">
 						<b>Alternative output formats</b>
@@ -1975,7 +1984,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVI</h2>
+						<h2>Variant Annotation and Filtering - Part XVII</h2>
 						<p align="left">
 						interesting variants 
 						chr6ch17_mutect2_annotated.txt???
@@ -1983,7 +1992,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVI</h2>	
+						<h2>Variant Annotation and Filtering - Part XVIII</h2>	
 						<br>
 						<p align="left">
 						<b>Filtering annotated results</b>
@@ -2009,7 +2018,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>	
+						<h2>Variant Annotation and Filtering - Part XIX</h2>	
 						<br>
 						<p align="left">
 						<b>Adding cancer-specific annotations</b>
@@ -2023,7 +2032,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVI</h2>	
+						<h2>Variant Annotation and Filtering - Part XX</h2>	
 						<br>
 						<p align="left">
 						Solution
@@ -2059,7 +2068,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVI</h2>	
+						<h2>Variant Annotation and Filtering - Part XXI</h2>	
 						<br>
 						<p align="left">
 						<b>ClinVar interpretation categories</b>
@@ -2080,7 +2089,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>
+						<h2>Variant Annotation and Filtering - Part XXII</h2>
 						<br>
 						<p align="left">
 						<b>Visualization</b>
@@ -2100,7 +2109,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVI</h2>	
+						<h2>Variant Annotation and Filtering - Part XXIII</h2>	
 						<br>
 						<p align="left">
 						<b>Examples of possible plots in R</b>
@@ -2144,7 +2153,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>
+						<h2>Variant Annotation and Filtering - Part XXIV</h2>
 						<br>
 						<p align="left">
 						<b>Next steps</b>
@@ -2166,7 +2175,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>
+						<h2>Variant Annotation and Filtering - Part XXV</h2>
 						<br>
 						<p align="left">
 						<b>1. Consequence plot, to visualize the distribution of consequences </b>
@@ -2184,7 +2193,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>
+						<h2>Variant Annotation and Filtering - Part XXVI</h2>
 						<br>
 						<p align="left">
 						<b>2. Consequence plot, by chromosome</b>
@@ -2206,7 +2215,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>
+						<h2>Variant Annotation and Filtering - Part XXVII</h2>
 						<br>
 						<p align="left">
 						<b>3. Can we see the consequence colored by impact</b>
@@ -2227,7 +2236,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>
+						<h2>Variant Annotation and Filtering - Part XXVIII</h2>
 						<br>
 						<p align="left">
 						<b>4. Can we see the consequence colored by impact by chromosome</b>
@@ -2250,7 +2259,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XVII</h2>
+						<h2>Variant Annotation and Filtering - Part XXIX</h2>
 						<br>
 						<p align="left">
 						<b>5. What are the most common variant classes? </b>
@@ -2271,7 +2280,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h2>Variant Annotation and Filtering XXII</h2>
+						<h2>Variant Annotation and Filtering - Part XXX</h2>
 						<br>
 						<p align="left">
 						<b>6. What are the most common biotypes? </b>
@@ -2289,7 +2298,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-					<h2>Variant Annotation and Filtering XXIII</h2>
+					<h2>Variant Annotation and Filtering - Part XXXI</h2>
 						<br>
 						<p align="left">
 						<b>References</b>
