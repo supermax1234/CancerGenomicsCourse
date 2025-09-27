@@ -1,0 +1,6 @@
+*.bai
+*.bam
+*.bed
+*.interval_list
+*.dict
+/Exercises/VAR_CALLING
