@@ -10,11 +10,9 @@ The course is divided into a theoretical part and a practical exercise.
 contains all the theoretical content of the lesson.
 
 
-* **Lesson 2 Exercises:** You will find the input files needed to complete the exercises in the `Exercises` folder.
-
-A step-by-step guide to help you complete the exercises is available at the following link:
-
-<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
+* **Lesson 2 Exercises:** A step-by-step guide to help you complete the exercises is available at the following link:
+		<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
+		You will find the input files needed to complete the exercises in the `Exercises` folder.
 
 ***
 
@@ -27,11 +25,9 @@ The course is divided into a theoretical part and a practical exercise.
 * **Lesson 3 Theory:** The file <a href="mut_sig.pdf" target="_blank">`mut_sig.pdf`</a>
 contains all the theoretical content of the lesson.
 
-* **Lesson 4 Exercises:** You will find the input files needed to complete the exercises in the `Exercises` folder.
-
-A step-by-step guide to help you complete the exercises is available at the following link:
-
-<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
+* **Lesson 4 Exercises:** A step-by-step guide to help you complete the exercises is available at the following link:
+	<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
+	You will find the input files needed to complete the exercises in the `Exercises` folder.
 
 ***
 
