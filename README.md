@@ -27,7 +27,7 @@ Exercises/
 ```
 
 All necessary files for the **Variant Calling and Filtering** exercises can be downloaded from this Google Drive link:  
-📎 [Download all files](https://drive.google.com/file/d/1wBYC19AOuDebq7aTkJCDt4--3QQ4DxTS/view?usp=drive_link)
+📎 [Download all files](https://drive.google.com/file/d/1wY8ypFzz9aRgLw7JdQoyqfnknXjD8hRV/view?usp=drive_link)
 
 ---
 
@@ -65,6 +65,26 @@ Exercises/
 ```
 
 These files are used to extract and analyze mutational signatures as part of the exercise.
+
+---
+
+#### SINGULARITY
+
+## SINGULARITY
+
+At the following link
+
+📎 [Download all files](https://drive.google.com/drive/folders/1tHzehPXqDuoGbfCe-gcW9x9Oi2J9SCb1?usp=drive_link)
+
+you can find **Singularity images** for
+* `bcftools`
+* `gatk4`
+* `multiqc`
+* `samtools`
+* `vep`
+
+if you prefer to use Singularity instead of installing each tool. You must have **Singularity installed** on your machine (in Windows via a VM).
+
 
 ---
 
