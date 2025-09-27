@@ -12,6 +12,10 @@ contains all the theoretical content of the lesson.
 
 * **Lesson 2 Exercises:** You will find the input files needed to complete the exercises in the `Exercises` folder.
 
+A step-by-step guide to help you complete the exercises is available at the following link:
+
+<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
+
 ***
 
 ### **Mutational Signatures**
@@ -25,12 +29,9 @@ contains all the theoretical content of the lesson.
 
 * **Lesson 4 Exercises:** You will find the input files needed to complete the exercises in the `Exercises` folder.
 
-***
-
-### **Getting Started**
-
 A step-by-step guide to help you complete the exercises is available at the following link:
 
 <a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
 
 ***
+
