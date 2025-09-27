@@ -1,33 +1,71 @@
 # Cancer Genomics Course
 
-### **Variant calling and filtering**
+## Module 1: Variant Calling and Filtering
 
-This repository contains the materials for the **Variant calling and filtering** module of the **Cancer Genomics Course**.
+This repository contains the materials for the **Variant Calling and Filtering** module of the **Cancer Genomics Course**. The module consists of a theoretical lesson and a practical exercise.
 
-The course is divided into a theoretical part and a practical exercise.
+### 📘 Lesson 1: Theory
 
-* **Lesson 1 Theory:** The file <a href="var_calling.pdf" target="_blank">`var_calling.pdf`</a>
-contains all the theoretical content of the lesson.
+All theoretical content is available in the following PDF:
 
+- [`var_calling.pdf`](var_calling.pdf)
 
-* **Lesson 2 Exercises:** A step-by-step guide to help you complete the exercises is available at the following link:
-		<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
-		You will find the input files needed to complete the exercises in the `Exercises` folder.
+### 🧪 Lesson 2: Exercises
 
-***
+A step-by-step guide for completing the practical exercises is available here:  
+👉 [https://supermax1234.github.io/CancerGenomicsCourse/](https://supermax1234.github.io/CancerGenomicsCourse/)
 
-### **Mutational Signatures**
+#### IGV Tutorial Files
 
-This repository contains the materials for the **Mutational Signatures** module of the **Cancer Genomics Course**.
+The following files required for the IGV tutorial can be found in the `Exercises/IGV` folder:
 
-The course is divided into a theoretical part and a practical exercise.
+```text
+Exercises/
+└── IGV/
+├── HCC1143.normal.21.19M-20M.bam
+└── HCC1143.normal.21.19M-20M.bam.bai
+```
 
-* **Lesson 3 Theory:** The file <a href="mut_sig.pdf" target="_blank">`mut_sig.pdf`</a>
-contains all the theoretical content of the lesson.
+All necessary files for the **Variant Calling and Filtering** exercises can be downloaded from this Google Drive link:  
+📎 [Download all files](https://drive.google.com/file/d/1wBYC19AOuDebq7aTkJCDt4--3QQ4DxTS/view?usp=drive_link)
 
-* **Lesson 4 Exercises:** A step-by-step guide to help you complete the exercises is available at the following link:
-	<a href="https://supermax1234.github.io/CancerGenomicsCourse/" target="_blank">`https://supermax1234.github.io/CancerGenomicsCourse`</a>
-	You will find the input files needed to complete the exercises in the `Exercises` folder.
+---
 
-***
+## Module 2: Mutational Signatures
 
+This module provides materials for the **Mutational Signatures** section of the course. Like the previous module, it includes both theoretical content and practical exercises.
+
+### 📘 Lesson 3: Theory
+
+All theoretical content is available in the following PDF:
+
+- [`mut_sig.pdf`](mut_sig.pdf)
+
+### 🧪 Lesson 4: Exercises
+
+A step-by-step guide for the exercises is available here:  
+👉 [https://supermax1234.github.io/CancerGenomicsCourse/](https://supermax1234.github.io/CancerGenomicsCourse/)
+
+#### VCF Files for Signature Extraction
+
+The VCF files required for the **Mutational Signatures** exercises are located in the `Exercises/MUT_SIGNATURES` folder:
+
+```text
+Exercises/
+└── MUT_SIGNATURES/
+├── sample_01.vcf
+├── sample_02.vcf
+├── sample_03.vcf
+├── sample_04.vcf
+├── sample_05.vcf
+├── sample_06.vcf
+├── sample_07.vcf
+├── sample_08.vcf
+└── sample_09.vcf
+```
+
+These files are used to extract and analyze mutational signatures as part of the exercise.
+
+---
+
+Feel free to explore the repository and follow the step-by-step instructions to complete the course modules.
