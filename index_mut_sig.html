@@ -109,6 +109,7 @@
 					<ol>
 						<li><a href="#tools_necessari" style="color:#447da4;"><b>Setup:</b> Tools of the trade</a></li>
 						<li><a href="#mut_sig" style="color:#447da4;"><b>Mutational Signatures:</b> Deconvolution of mutational processes in cancer genomes</a></li>
+						<li><a href="#silico_sig" style="color:#447da4;"><b>Simulation of mutations:</b> In silico generation of possible outcomes</a></li>
 					</ol>
 				</section>	
 				<!-- ------------------------------------------------------------------------------------------ -->	
@@ -481,7 +482,7 @@
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section id="mut_sig">	
 						<h2 style="color:#447da4">2. Mutational Signatures</h2>
-						<h3 style="color:#447da4">Deconvolution of mutational processes in cancer genomes.</h3>
+						<h3 style="color:#447da4">Deconvolution of mutational processes in cancer genomes</h3>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>	
@@ -1118,7 +1119,434 @@
 						<a href="#mut_sig">Back to top</a>
 					</section> 
 					<!-- ------------------------------------------------------------------------------------------ -->
-				</section> 		
+				</section> 	
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<!-- ------------------------------------------------------------------------------------------ -->
+				<section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section id="silico_sig">	
+						<h2 style="color:#447da4">3. Simulation of mutations</h2>
+						<h3 style="color:#447da4">in silico generation of possible outcomes</h3>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->	
+					<section>
+						<p align="left">
+						<b>💡 Motivation: Why simulate mutational signatures?</b>
+						</p>
+						<p align="left">
+						<ul>
+						<li>Mutational signatures represent the footprints left by different DNA damage and repair processes.</li>
+						<li>They are inferred from observed somatic mutations across cancer genomes.</li>
+						<li>However, in real tumor data:</li>
+							<ul>
+								<li>multiple signatures are active at once,</li>
+								<li>their proportions vary across patients and over time,</li>
+								<li>sequencing noise and variant calling biases add complexity.</li>
+							</ul>
+						</ul>
+						</p>
+						<p align="left">
+						<b>🧬 Simulating mutations with known signature composition allows us to:</b>
+						</p>
+						<p align="left">
+						<ul>
+							<li>Test how well inference tools (e.g., SigProfiler, MutationalPatterns) recover the true signals.</li>
+							<li>Explore how mixing different signatures affects accuracy.</li>
+							<li>Evaluate the impact of sample size, noise, and selection bias on signature identification.</li>
+						</ul>
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>⚗️ Exercise: Simulate and infer mutational signatures</b>
+						</p>
+						<p align="left">
+						You will:
+						<ol>
+						<li>Use a Python script (or your preferred programming language) to generate synthetic VCF files from COSMIC SBS profiles.</li>
+							<ul>
+								<li>Example: 70% SBS1 + 30% SBS7c (or any two signatures).</li>
+								<li>Each variant is placed in a realistic trinucleotide context.</li>
+							</ul>
+						<li>Analyze the resulting VCF using a mutational signature inference tool of your choice:</li>
+							<ul>
+								<li>🧩 SigProfilerExtractor (Python)</li>
+								<li>📊 MutationalPatterns (R)</li>
+								<li>or another method you want to test.</li>
+							</ul>
+						<li>Compare the inferred vs expected signature composition.</li>
+						</ol>
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>🎯 Questions to explore</b>
+						</p>
+						<div style="text-align: left;">
+							<ul>
+								<li>How accurate is the signature inference with 100, 500, or 1000 mutations?</li>
+								<li>How does adding a second signature (e.g., 70:30 vs 50:50) change the result?</li>
+								<li>At what level of mixing do the methods start to confuse signatures?</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>🧬 Simulating Mutational Signatures — Step-by-Step Exercise</b>
+						</p>
+						<p align="left">
+						You will generate synthetic mutations that follow real COSMIC mutational signatures. The two scripts (for example, in Python) are:
+						</p>
+						<p align="left">
+						<ol>
+							<li><span class="special-style">01_generate_random_coords.py</span> — randomly selects genomic positions</li>
+							<li><span class="special-style">02_apply_cosmic_signatures.py</span> — applies real mutational profiles to generate a VCF file.</li>
+						</ol>
+						</p>
+						<p align="left">
+						Between the two, you will use <span class="special-style">samtools</span> to extract trinucleotide context.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>🪄 Step 1 – Input: Exonic BED file</b>
+						</p>
+						<p align="left">
+						To make the VCF <em>realistic</em>, we generate genomic coordinates only within the regions (exons) defined by a bed file. 
+						You can generate a bed file of your choice with this structure:
+						</p>
+						<div style="text-align: left;">
+							<pre><code class="bash" data-trim data-line-numbers>
+							chr1    11868    12227
+							chr1    12612    12721
+							chr1    13221    14409
+							...
+							</code></pre>
+						</div>
+						<p align="left">
+						(no header, 0-based coordinates).
+						</p>
+						<p align="left">
+						Otherwise, use the <span class="special-style">exome_regions.bed</span> file provided on the git page for this course.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>💻 Step 2 – Script 1: Generate random positions inside exons</b>
+						</p>
+						<p align="left">
+						Create a Python script <span class="special-style">01_generate_random_coords.py</span> that generates <em>N</em> (sufficiently large) coordinates within the regions defined by the bed file.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<!-- <section>
+						<p align="left">
+						<b>💻 Step 2 – Script 1: Generate random positions inside exons</b>
+						</p>
+						<p align="left">
+						Here is a draft algorithm that you can customise.
+						</p>
+						<p align="left">
+							<pre><code class="python" data-trim data-line-numbers>
+							# 01_generate_random_coords.py
+
+							import random
+
+							bed_file = "exome_regions.bed"
+							output_file = "random_positions.txt"
+							N = 1000   # number of random coordinates
+
+							# Load exonic regions
+							regions = []
+							with open(bed_file) as f:
+								for line in f:
+									chrom, start, end = line.strip().split()[:3]
+									regions.append((chrom, int(start), int(end)))
+
+							# Randomly sample positions
+							coords = []
+							while len(coords) < N:
+								chrom, start, end = random.choice(regions)
+								pos = random.randint(start, end - 1)
+								coords.append((chrom, pos))
+
+							# Write output
+							with open(output_file, "w") as out:
+								for chrom, pos in coords:
+									out.write(f">{chrom}:{pos}-{pos}\n")
+									out.write("N\n")  # placeholder for sequence context
+							</code></pre>
+						</p>
+					</section> -->
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						Your script should produce a file like:
+						<p align="left">
+							<pre><code class="bash" data-trim data-line-numbers>
+								>chr1:12345-12345
+								N
+								>chr2:67890-67890
+								N
+								...
+							</code></pre>
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>🧬 Step 3 – Add sequence context</b>
+						</p>
+						<p align="left">
+						Now use <span class="special-style">samtools</span> to extract the reference sequence around each position.
+						We’ll use a window of 1 base before and after the mutation site (3 bases total).
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+<!-- 					<section>
+						<p align="left">
+						<b>🧬 Step 3 – Add sequence context</b>
+						</p>
+						<p align="left">
+						You can use this command:
+						</p>
+						<p align="left">
+						<pre><code class="bash" data-trim data-line-numbers>
+						samtools faidx reference.fa $(awk '/^>/{print substr($0,2)}' random_positions.txt) \
+						  | awk '{if($0 ~ /^>/){print $0} else {print toupper($0)}}' \
+						  > file_positions.txt
+						</code></pre>
+					</section> -->
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						Now your file looks like:
+						</p>
+						<div style="text-align: left;">
+							<pre><code class="bash" data-trim data-line-numbers>
+							>chr8:23540144-23540146
+							CCT
+							>chr7:55273252-55273254
+							ACA
+							...
+							</code></pre>
+						</div>
+						<p align="left">
+						This file will be the input for the next step.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>🌐 Step 4 – Download COSMIC mutational signatures</b>
+						</p>
+						<div style="text-align: left;">
+						<ol>
+							<li>Visit the COSMIC mutational signatures database:<br>👉 https://cancer.sanger.ac.uk/signatures/</li>
+							<li>Select a signature, e.g.:</li>
+								<ul>
+									<li><b>SBS1</b> (spontaneous deamination)</li>
+									<li><b>SBS7c</b> (ultraviolet light exposure)</li>
+									<li>or others like <b>SBS13</b> (APOBEC)</li>
+								</ul>
+							<li>On the signature page, click:<br><em>Download signature in numerical form</em><br>
+							This will give you a <span class="special-style">.txt</span> file with mutation type probabilities.</li>
+						</ol>
+						</div>
+						<p align="left">
+						💡 You can download multiple signatures to mix them later.
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>🧩 Step 5 – Convert COSMIC file to simplified 2-column format</b>
+						</p>
+						<p align="left">
+						You will reformat the downloaded file to only keep the trinucleotide substitution label (e.g. <span class="special-style">A[C>A]A</span>) 
+						and the probability value. The COSMIC profile file should look like this:
+						</p>
+						<div style="text-align: left;">
+							<pre><code class="bash" data-trim data-line-numbers>
+							A[C>A]A	0.000886157
+							A[C>A]C	0.002280405
+							A[C>A]G	0.000177031
+							...
+							</code></pre>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b>🧠 Step 6 – Apply COSMIC signatures and simulate mutations</b>
+						</p>
+						<p align="left">
+						Write a script <span class="special-style">02_apply_cosmic_signatures.py</span> 
+						that uses the COSMIC SBS96 profiles to simulate actual mutations.<br>
+						You can mix two signatures (e.g. 70% SBS1 + 30% SBS7c).
+						</p>
+						<p align="left">
+						In the following slides, you will find tips on how to structure the various modules of the script. 
+						</p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<h4>🧩 Algorithm structure</h4>
+						</p>
+						<br>
+						<p align="left">
+						<b># 1️⃣ LOAD POSITIONS WITH TRINUCLEOTIDES</b>
+						</p>
+						<div style="text-align: left;">
+						<ul>
+							<li>Input: file containing <em>chromosome</em>, <em>position</em>, <em>reference base</em> and <em>trinucleotide context</em>. 
+							Use the file you generated with script <span class="special-style">01_generate_random_coords.py</span> and re-annotated with samtools (trinucleotide).</li>
+							<li>This file contains potential mutation sites (usually extracted from exons or the input bed file).</li>
+							<li>Each row represents a possible point where a mutation could occur.</li>
+						</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b># 2️⃣ LOAD COSMIC PROFILE(S)</b>
+						</p>
+						<div style="text-align: left;">
+						<ul>
+							<li>Read the downloaded COSMIC signature file(s) (e.g. 
+							<span class="special-style">SBS1.txt</span> and <span class="special-style">SBS7c.txt</span>).</li>
+							<li>Each file maps a trinucleotide mutation (e.g. <span class="special-style">A[C>A]A</span>) to its relative probability.</li>
+							<li>Normalize - if necessary - so each signature sums to 1.</li>
+						</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b># 3️⃣ MERGE SIGNATURES ACCORDING TO MIX_RATIO</b>
+						</p>
+						<div style="text-align: left;">
+						<ul>
+							<li>Combine the signatures according to the chosen proportions (e.g. 0.7 SBS1 + 0.3 SBS7c).</li>
+							<li><b>Result:</b> one combined mutational profile, representing the mixed process acting in the simulated sample.</li>
+						</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b># 4️⃣ CONTEXT FREQUENCIES IN THE INPUT FILE</b>
+						</p>
+						<div style="text-align: left;">
+						<ul>
+							<li>Check which trinucleotide contexts are available in your positions file.</li>
+							<li>In particular, check that you have sufficient mutations (e.g. <span class="special-style">A[C>A]A</span>) if the COSMIC profiles require it.</li>
+							<li>Optionally, compute the relative abundance of each context.</li>
+						</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<strong># 5️⃣ SIMULATE MUTATIONS</strong>
+						</p>
+						<div style="text-align: left;">
+						<ul>
+							<li>For each mutation to simulate:</li>
+								<ul>
+									<li>Randomly choose a mutation type according to the combined COSMIC probabilities.</li>
+									<li>Find a compatible genomic position in the input table with matching reference base/context.</li>
+									<li>Record the mutated base and position.</li>
+								</ul>
+						</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<p align="left">
+						<b># 6️⃣ WRITE OUTPUT VCF</b>
+						</p>
+						<div style="text-align: left;">
+						<ul>
+							<li>Save the simulated variants as a standard <span class="special-style">.vcf</span> file.</li>
+							<li>Include chromosome, position, REF, ALT, and ev. any metadata (e.g. signature mix).</li>
+							<div style="text-align: left;">
+								<pre><code class="bash" data-trim data-line-numbers>
+										##fileformat=VCFv4.2
+										##source=MutSigSimulator
+										#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+										chr2	48023034	.	T	C	.	PASS	.
+										chr5	57750784	.	T	A	.	PASS	.
+										...
+								</code></pre>
+							</div>
+							<li>This file will be used for visualization and signature inference testing.</li>
+						</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+					  <p align="left">
+					  <b>🔬 Inspect and Infer Mutational Signatures</b>
+					  </p>
+					  <div style="text-align: left;">
+						  <ol>
+							<li><strong>Plot the 96-channel mutation profile</strong> from your simulated VCF.</li>
+							<ul>
+							  <li>Each channel represents one of the 96 possible trinucleotide substitutions (e.g. <span class="special-style">A[C>T]A</span>).</li>
+							  <li>Visualize frequencies to check whether your synthetic data matches the expected COSMIC pattern.</li>
+							</ul>
+							<li><strong>Infer the mutational signatures</strong> using specialized tools:</li>
+							<ul>
+							  <li><code>SigProfilerExtractor</code> (Python)</li>
+							  <li><code>MutationalPatterns</code> (R)</li>
+							</ul>
+							<li>Compare the <em>inferred</em> signatures with the <em>ground truth mix</em> used during simulation.</li>
+						  </ol>
+					  </div>
+					  <p align="left">
+						👉 Goal: test the precision of signature inference tools and visualize how clearly each signature is recovered.
+					  </p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+					  <p align="left">
+					  <b>🧠 Explore Further</b>
+					  </p>
+					  <div style="text-align: left;">
+						  <ul>
+							<li>🔄 <strong>Try different COSMIC signatures</strong></li>
+							<ul>
+							  <li>Some, like <code>SBS5</code>, are <em>flat</em> and harder to detect — why?</li>
+							  <li>Others (e.g. <code>SBS1</code>, <code>SBS13</code>) show distinct patterns easier to identify.</li>
+							</ul>
+							<li>⚖️ <strong>Change the mixture proportions</strong></li>
+							<ul>
+							  <li>Test different ratios (e.g. 90/10, 50/50) and see how the inferred profiles change.</li>
+							</ul>
+							<li>📈 <strong>Vary the number of simulated variants (N)</strong></li>
+							<ul>
+							  <li>Fewer mutations introduce <em>sampling noise</em> — what happens to inference accuracy?</li>
+							</ul>
+						  </ul>
+					  </div>
+					  <p align="left">
+						👉 Observe how the clarity and stability of the inferred mutational signatures depend on the data quantity and composition.
+					  </p>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->
+					<section>
+						<h2>End</h2>
+						<a href="#silico_sig">Back to top</a>
+					</section> 
+					<!-- ------------------------------------------------------------------------------------------ -->
+				</section> 					
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section>
 					<h2>End</h2>
