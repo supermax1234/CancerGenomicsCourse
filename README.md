@@ -72,7 +72,8 @@ These files are used to extract and analyze mutational signatures as part of the
 
 At the following link
 
-📎 [Download all files](https://drive.google.com/drive/folders/1tHzehPXqDuoGbfCe-gcW9x9Oi2J9SCb1?usp=drive_link)
+📎 [Download all files (var_calling)](https://drive.google.com/drive/folders/1tHzehPXqDuoGbfCe-gcW9x9Oi2J9SCb1?usp=drive_link)
+📎 [Download all files (mut_sig)](https://drive.google.com/drive/folders/1RV1d_VgDFDu9V-pDKuFu0QK_BrzXOQux?usp=drive_link)
 
 you can find **Singularity images** for
 * `bcftools`
