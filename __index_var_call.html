@@ -82,53 +82,16 @@
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section>
 				  <h1 style="color:#447da4">Exercises</h1>
-				  Alignment & Variant calling
+				  Variant calling
 				</section>
 				<!-- ------------------------------------------------------------------------------------------ -->
 				<section>
-					<h3>Introduction to Somatic Variant Analysis</h3>
+					<h2>Variant Calling Tutorial</h2>
 					<p align="left">
-					This tutorial will provide you with the practical skills needed to analyze next-generation sequencing data in a clinical and research context. 
-					Upon completion of this session, you will be able to:
+					This tutorial will provide you with the practical skills needed to analyze next-generation sequencing data in a 
+					clinical and research context. Upon completion of this session, you will be able to:
 					</p>
-<!-- 						<ol>
-							<li><em><b>Interpret sequencing evidence</b>: 
-							master the use of Integrative Genomics Viewer (IGV) to visually inspect and validate genomic features, variant calls, and alignment artifacts.</em></li>
-							<li><em><b>Run a somatic call pipeline</b>: apply a bioinformatics workflow based on best practices to accurately identify somatic variants from a 
-							matched pair of tumor and normal samples.</em></li>
-							<li><em><b>Predict functional impact</b>: use tools such as the Variant Effect Predictor (VEP) to annotate variants and predict their biological consequences, 
-							from amino acid changes to effects on gene expression.</em></li>
-							<li><em><b>Prioritize actionable variants</b>: develop a strategic approach to filter and prioritize mutations with the highest 
-							probability of being oncogenic drivers or therapeutic targets in a cancer genome.</em></li>
-						</ol> -->
 						<ol>
-							<li>
-							<em><b>Inspect & Assess QC:</b> Master quality control metrics using FastQC, fastp, and MultiQC to evaluate raw sequencing data and library complexity.</em>
-							</li>
-							<li>
-							<em><b>Align & Process Reads:</b> Execute high-performance read mapping with bwa-mem2, sort/index BAM files, and manage alignment outputs.</em>
-							</li>
-							<li>
-							<em><b>Mark PCR Duplicates:</b> Identify and flag PCR duplicates using GATK to prevent downstream analytical bias.</em>
-							</li>
-							<li>
-							<em><b>Recalibrate Base Qualities:</b> Run Base Quality Score Recalibration (BQSR) to correct systematic sequencing errors using known variant databases.</em>
-							</li>
-							<li>
-							<em><b>Inspect with IGV:</b> Master the use of Integrative Genomics Viewer (IGV) to visually inspect and validate genomic features, variant calls, and alignment artifacts.</em>
-							</li>
-							<li>
-							continue...
-							</li>
-						</ol>
-					</p>
-				</section>
-				<!-- ------------------------------------------------------------------------------------------ -->
-				<section>
-					<h2>Introduction to Somatic Variant Analysis</h2>
-					<p align="left">
-					</p>
-<!-- 						<ol>
 							<li><em><b>Interpret sequencing evidence</b>: 
 							master the use of Integrative Genomics Viewer (IGV) to visually inspect and validate genomic features, variant calls, and alignment artifacts.</em></li>
 							<li><em><b>Run a somatic call pipeline</b>: apply a bioinformatics workflow based on best practices to accurately identify somatic variants from a 
@@ -137,20 +100,7 @@
 							from amino acid changes to effects on gene expression.</em></li>
 							<li><em><b>Prioritize actionable variants</b>: develop a strategic approach to filter and prioritize mutations with the highest 
 							probability of being oncogenic drivers or therapeutic targets in a cancer genome.</em></li>
-						</ol> -->
-						<ol start="6">
-							<li>
-							<em><b>Run a Somatic Pipeline:</b> Apply a bioinformatics workflow based on GATK Best Practices to accurately identify somatic variants from a matched pair of tumor and normal samples.</em>
-							</li>
-							<li>
-							<em><b>Predict Functional Impact:</b> Use annotation tools to evaluate variants and predict their biological consequences.</em>
-							</li>
-							<li>
-							<em><b>Prioritize Actionable Variants:</b> Develop a strategic approach to filter and prioritize mutations with the highest probability of being oncogenic drivers or therapeutic targets in a cancer genome.</em>
-							</li>
-							</ol>
-					</p>
-					<p align="left">
+						</ol>
 					As we proceed, code snippets will be provided to help you build the system step-by-step.
 					<p class="shrink-80" align="left">
 					<b>Attribution</b>: This tutorial is inspired by the <em>Precision medicine course</em>, from the <em>Griffith lab</em> and 
@@ -162,15 +112,9 @@
 					<h2>Tutorial Outline</h2>
 					<br>
 					<ol>
-						<li><a href="#setup" style="color:#447da4;"><b>Setup</b></a></li>
+						<li><a href="#setup" style="color:#447da4;"><b>Setup:</b> Tools of the trade</a></li>
 						<li><a href="#igv" style="color:#447da4;"><b>IGV Tutorial:</b> A Guide to Visualizing NGS Data</a></li>
-						<li><a href="#data_qual" style="color:#447da4;"><b>Data Quality, Alignment & Preprocessing:</b></a></li>
-						<ul>
-							<li>Initial QC (<span class="special-style">FastQC</span>, <span class="special-style">fastp</span>, <span class="special-style">MultiQC</span>
-							<li>Read Alignment (<span class="special-style">bwa-mem2</span>, <span class="special-style">SAM</span> to <span class="special-style">BAM</span>)</li>
-							<li>BAM Processing (<span class="special-style">MarkDuplicates</span>, <span class="special-style">BAM</span> metrics)</li>
-							<li>Quality Calibration (<span class="special-style">BaseRecalibrator</span>, <span class="special-style">ApplyBQSR</span>)</li>
-						</ul>
+						<li><a href="#data_qual" style="color:#447da4;"><b>Data Quality:</b> The First Step to Confident Calls</a></li>
 						<li><a href="#var_call" style="color:#447da4;"><b>Variant Calling:</b> The Art of Finding Genetic Changes</a></li>
 						<li><a href="#var_ann" style="color:#447da4;"><b>Variant Annotation and Filtering:</b> Turning Variants into Insights</a></li>
 					</ol>
@@ -179,7 +123,7 @@
 				<section>
 					<section id="setup">	
 						<h2 style="color:#447da4">1. Setup</h2>
-						<!-- <h3 style="color:#447da4">Tools of the trade</h3> -->
+						<h3 style="color:#447da4">Tools of the trade</h3>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
@@ -957,1055 +901,8 @@
 							<h2 style="color:#447da4">3. Data Quality</h2>
 							<h3 style="color:#447da4">The First Step to Confident Calls</h3>
 					</section>
-					
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-							<h3>Data Quality & Pre-processing – Dataset Overview</h3>
-							<br>
-							<p align="left">
-							<b>The HCC1395 Dataset</b>
-							<p>
-<!-- 							<p align="left">
-							We will begin our exercises using raw sequencing data in FASTQ format.
-							Start by downloading the dataset. The directory structure is as follows:
-							</p> -->
-							<div style="text-align: left;">
-								<ul>
-									<li>
-									<b>Source & Origin</b>: Prepared by the developers of the Precision medicine bioinformatics course at the <em>Griffith lab</em> 
-									(<em>McDonnell Genome Institute, Washington University</em>).
-									</li>
-									<li>
-									<b>Biological Samples</b>: Whole-exome sequencing (WES) data from paired cell lines:
-									</li>
-										<ul>
-											<li>
-												<b>Tumor</b>: Triple-negative breast cancer HCC1395
-											</li>
-											<li>
-												<b>Normal</b>: Matched normal tissue HCC1395 BL
-											</li>
-										</ul>
-									<li>
-									<b>Cluster Location</b>: All course data, references, and resources are hosted on the IBU cluster under:
-									<span class="special-style">/data/courses/cancergenomics/VAR_CALLING</span>
-									</li>
-									<li>
-									<b>Performance Optimization</b>: To ensure fast turnaround times during the practical session, reads have been subsetted and extracted specifically from Chromosome 6 and Chromosome 17.							
-									</li>
-								</ul>
-							</div>							
-<!-- 							<div style="text-align: left;">
-								<ul>
-									<li><span class="special-style">alignments</span>: contains BAM files for tumor and normal samples.</li>
-									<li><span class="special-style">reference</span>: contains the genome FASTA file and target intervals.</li>
-									<li><span class="special-style">resources</span>: includes variant files (VCF) from resources such as the
-									<a href="https://www.internationalgenome.org/" target="_blank">1000 genomes</a> project and 
-									<a href="https://gnomad.broadinstitute.org/" target="_blank">gnomAD</a>, 
-									and subsets of the clinvar and alphamissense databases.</li>
-									<li><span class="special-style">scripts</span>: an empty folder for storing your scripts.</li>
-								</ul>
-							</div> -->
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-							<h3>Cluster Environment & SLURM Guidelines</h3>
-							<br>
-							<p align="left">
-							<b>Cluster Environment & Job Submission</b>
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li><b>No Running on the Master Node</b>: Never run heavy compute jobs, alignments, or variant calling directly on the login/master node. 
-									Always submit your jobs to the cluster queue using <span class="special-style">SLURM</span> (<span class="special-style">sbatch</span>).</li>
-									
-									<li><b>Standard SLURM Header</b>: Use the following template for your assignment scripts on the IBU cluster:
-										<pre><code class="bash" data-trim data-line-numbers>
-										#!/bin/bash
-										#SBATCH --job-name=class_assignment
-										#SBATCH --partition=pibu_el8
-										#SBATCH --nodes=1
-										#SBATCH --ntasks-per-node=4
-										#SBATCH --mem=32G
-										#SBATCH --time=02:00:00
-										#SBATCH --reservation=class407009
-										</code></pre>
-										</p>
-									</li>
-									
-									<li><b>Resource Customization</b>: You can adjust parameters like 
-									<span class="special-style">--job-name</span>, 
-									<span class="special-style">--ntasks-per-node</span>, 
-									<span class="special-style">--mem</span>, and 
-									<span class="special-style">--time</span> 
-									depending on the step, but please be mindful of cluster sharing and other users' needs.
-									
-									<li>
-									<b>Limitations</b>: max 8 CPUs and 64 GB memory per student (on Thursday 13:00 - 17:15)
-									</li>
-								</ul>
-							</div>
-
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-							<h3>Workflow & File Organization Best Practices</h3>
-							<br>
-							<p align="left">
-							<b>Organizing Your Pipeline & Files</b>
-							<div style="text-align: left;">
-								<ul> 
-									<li>
-										<b>Prefix Your Folders & Scripts with Numbers</b>: 
-										Structure your working directories and script files sequentially (e.g., 
-										<span class="special-style">01_raw_data/</span>, 
-										<span class="special-style">02_qc/</span>, 
-										<span class="special-style">03_alignment/</span>, 
-										<span class="special-style">04_preprocessing/</span>
-										). This keeps everything visually organized and ordered from start to finish.
-									</li>
-									<li>
-										<b>Sequential Script Naming</b>: Name your individual submission scripts to match the workflow step (e.g., 
-										<span class="special-style">01_fastqc_normal.sh</span>, 
-										<span class="special-style">02_fastp_normal.sh</span>, 
-										<span class="special-style">03_bwa_align.sh</span>).
-									</li>
-									<li>
-										<b>Chain Your Data Step-by-Step</b>:
-										<ul>
-										<li>
-										Always use the most recently generated output file as the input for your next tool (e.g., input 
-										<span class="special-style">normal_marked.bam</span> into BQSR, then input 
-										<span class="special-style">normal_bqsr.bam</span> into downstream steps).
-										</li>
-										<li>
-										Keeping your output files clearly named prevents confusion and ensures you are always working on the latest corrected data.
-										</li>
-										</ul>
-									</li>
-								</ul>							
-<!-- 								<ul>
-									<li><b>Prefix Your Folders & Scripts with Numbers</b>: Name your scripts sequentially so they stay ordered in your directory 
-									(e.g., 
-									<span class="special-style">01_fastqc_normal.sh</span>, 
-									<span class="special-style">02_fastp_normal.sh</span>, 
-									<span class="special-style">03_bwa_align.sh</span>). This makes it easy to track your workflow from start to finish.
-									</li>
-									<li><b>Chain your data step-by-step</b></li>
-										<ul>
-											<li>Always use the most recently generated output file as the input for your next tool 
-											(e.g., input 
-											<span class="special-style">normal_marked.bam</span> into BQSR, then input 
-											<span class="special-style">normal_bqsr.bam</span> into downstream steps).</li>
-											<li>Keeping your output files clearly named prevents confusion and ensures you are always working on the latest corrected data.</li>
-										</ul>
-								</ul> -->
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-							<h3>Assessing Raw FASTQ Quality</h3>
-							<br>
-							<p align="left">
-							<b>FastQC</b><br>
-							<span class="special-style">FastQC</span> provides a comprehensive quality overview of sequencing data. 
-							It serves to detect potential artifacts, low-quality bases, or adapter contamination early in the pipeline, and is an excellent tool for an initial inspection before proceeding to alignment.
-							</p>
-							<p align="left">
-							<br>
-							<b>Exercise:</b>
-							<br>
-							Your task is to write two SLURM submission scripts to run <span class="special-style">FastQC</span> on the raw FASTQ files for both the normal and tumor samples. 
-							You will need to generate four reports: two for the normal sample (<span class="special-style">R1</span>, <span class="special-style">R2</span>) and two for the tumor sample (<span class="special-style">R1</span>, <span class="special-style">R2</span>).
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li><b>Input</b>: <em>normal_R*.fastq.gz</em> & <em>tumor_R*.fastq.gz</em> (under <span class="special-style">/data/courses/cancergenomics/VAR_CALLING/fastq</span>)</li>
-									<li><b>Output</b>: HTML reports and zip archives for each file</li>
-								</ul>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-							<h3>Exploring FastQC Command-Line Usage</h3>
-							<br>
-							<p align="left">
-							<b>FastQC: Exploring Command-Line Options</b>
-							<br>
-							Before running the full quality control analysis on your <span class="special-style">FASTQ</span> files, explore the tool's help documentation in your terminal.
-							</p>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							fastqc --help
-							</code></pre>
-							</p>
-							<div style="text-align: left;">
- 								Look closely at the synopsis and options. 
-								<ul>
-									<li>What do the 
-									<span class="special-style">-t</span> and 
-									<span class="special-style">-o</span> arguments do?</li>
-									<li>Why is specifying threads important when processing large high-throughput sequencing datasets on a cluster?</li>
-								</ul>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Results & Discussion</h3>
-							<br>
-							<p align="left">
-							Open the generated <span class="special-style">FastQC HTML</span> report and evaluate:
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>What is the per-base sequence quality along the reads?</li> 
-									<li>Does it tend to deteriorate towards the 3' end?</li>
-									<li>Regarding the sequence quality scores: how do they look? </li>
-									<li>Do you think this data is usable?</li>
-									<li>Are there any warnings regarding adapter contamination that require attention?</li>
-								</ul>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							
-							R1=normal_R1.fastq.gz
-							R2=normal_R2.fastq.gz
-							singularity exec \
-							  --bind /storage \
-							  depot.galaxyproject.org-singularity-fastqc-0.11.9--0.img \
-							  fastqc -t 4 $R1 $R2
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Alternative QC & Trimming with fastp</h3>
-							<br>
-							<p align="left">
-							<br><b>FastP</b>:</br> 
-							While <span class="special-style">FastQC</span> is great for inspection, 
-							<span class="special-style">FastP</span> is an all-in-one 
-							<span class="special-style">FASTQ</span> preprocessor that performs quality filtering, adapter trimming, and quality control simultaneously—saving time and 
-							eliminating intermediate disk writes.
-							</p>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							Your task is to write a SLURM submission script to run <span class="special-style">FastP</span> on your normal and tumor paired-end 
-							<span class="special-style">FASTQ</span> files. 
-							It will automatically detect adapters, trim low-quality bases, and output cleaned <span class="special-style">FASTQ</span> files along with an 
-							<span class="special-style">HTML</span> report.
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-							<h3>Exploring FastP Command-Line Usage</h3>
-							<br>
-							<p align="left">
-							<b>FastP: Exploring Command-Line Options</b>
-							<br>
-							Before running the full quality control analysis on your <span class="special-style">FASTQ</span> files, explore the tool's help documentation in your terminal.
-							</p>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							fastp --help
-							</code></pre>
-							</p>
-							<div style="text-align: left;">
-								Look closely at the synopsis and options. 
- 								<ul>
-									<li>What do the 
-									<span class="special-style">-i</span>, 
-									<span class="special-style">-I</span>,  
-									<span class="special-style">-o</span>, 
-									<span class="special-style">-O</span>, 
-									<span class="special-style">-j</span>,
-									<span class="special-style">-h</span>,
-									<span class="special-style">-l</span> and 
-									<span class="special-style">-w</span> arguments do?</li>
-								</ul>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Results & Discussion</h3>
-							<br>
-							<p align="left">
-							Open the generated <span class="special-style">FastP HTML</span> report and evaluate:
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>What is the insert size peak estimated by 
-									<span class="special-style">fastp</span>*? 
-									<li>What are the total reads before and after filtering?</li>
-									<li>How many reads passed filters? What percentage of reads were dropped?</li>
-								</ul>
-							</div>
-							<br>
-							<div style="text-align: left; font-size: 28px;">
-							*Note: <em>The reads were extracted from BAM files, you might notice a high percentage - e.g., ~86% - of reads with unknown/unpaired length characteristics</em>.
-							</div>		
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							
-							R1=normal_R1.fastq.gz
-							R2=normal_R2.fastq.gz
-							id=normal
-
-							singularity exec \
-							  --bind /storage \
-							  depot.galaxyproject.org-singularity-fastp-0.23.4--h5f740d0_0.img \
-							  fastp \
-							  -i ${R1} \
-							  -I ${R2} \
-							  -o ${id}.R1.fq.gz \
-							  -O ${id}.R2.fq.gz \
-							  -h ${id}.html
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Data Quality & Aggregation</h3>
-							<br>
-							<p align="left">
-							<b>Summarizing Results with MultiQC</b>
-							<br>
-							<span class="special-style">MultiQC</span> is an invaluable tool that aggregates statistics and metrics from multiple bioinformatics analysis tools 
-							(such as 
-							<span class="special-style">FastQC</span>, 
-							<span class="special-style">fastp</span>, 
-							<span class="special-style">BWA</span>, 
-							<span class="special-style">Samtools</span>, and 
-							<span class="special-style">GATK</span>) across many samples into a single, interactive, customizable 
-							<span class="special-style">HTML</span> report that is extremely easy to share and review.
-							</p>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							Your task is to write a SLURM submission script to run 
-							<span class="special-style">MultiQC</span>  on your working directory. 
-							It will automatically scan all subdirectories and files, recognize outputs from tools like 
-							<span class="special-style">FastQC</span>  and 
-							<span class="special-style">fastp</span>, and compile them into a unified dashboard.
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Results & Discussion</h3>
-							<br>
-							<p align="left">
-							Open the generated <span class="special-style">MultiQC HTML</span> report and inspect:
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>Which tool logs and outputs were successfully recognized by <span class="special-style">MultiQC</span>?</li>
-								</ul>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							
-							singularity exec \
-							  --bind /storage \
-							  depot.galaxyproject.org-singularity-multiqc-1.15--pyhdfd78af_0.img \
-							  multiqc .
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Read Alignment & BWA</h3>
-							<br>
-							<p align="left">
-							<b>Read Alignment: From Reads to Genomes</b>
-							<br>
-							<div style="text-align: left;font-size: 32px;">
-								<ul>
-								<li>
-								What is Read Alignment?
-									<ul>
-									<li>
-										Sequencing machines output millions of short, disconnected DNA reads. Read alignment (or mapping) is the computational process of finding the correct chromosomal origin for each read by matching its sequence against a reference genome.
-									</li>
-									</ul>
-								</li>
-								<li>
-								The Challenge:
-									<ul>
-									<li>
-										The human reference genome is ~3 billion base pairs long, and sequencing data contains errors, SNPs, and structural variations. Aligners must efficiently handle mismatches, gaps, and repetitive regions.
-									</li>
-									</ul>
-								</li>
-								<li>
-								The BWA Algorithm family:
-									<ul>
-									<li>
-										BWA (Burrows-Wheeler Aligner): Developed by Heng Li, BWA revolutionized short-read mapping by using the Burrows-Wheeler Transform to index the genome rapidly and align millions of reads with high memory efficiency.
-									</li>
-									<li>
-										BWA-MEM: Designed specifically for longer reads (70bp to 1Mbp) and high-accuracy pairwise alignment, it became the gold standard for NGS pipelines due to its speed and robustness against errors.
-									</li>
-									</ul>
-									</li>
-									</ul>
-								</div>							
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Read Alignment - BWA</h3>
-							<br>
-							<p align="left">
-							<b>Mapping Reads with bwa-mem2</b>
-							<br>
-							<span class="special-style">bwa-mem2</span> is the next-generation version of the widely used <span class="special-style">BWA-MEM</span> algorithm. 
-							It is optimized to be significantly faster and more memory-efficient while maintaining identical alignment accuracy.
-							</p>
-							<p align="left">
-							<b>Reference Indexing</b>: 
-							<br>
-							Before alignment can begin, the reference genome <span class="special-style">FASTA</span> file must be pre-indexed using <span class="special-style">bwa-mem2 index</span>. 
-							This creates data structures (such as FM-indexes) that allow the algorithm to rapidly search and map millions of short reads.
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-<!-- 					<section>		
-							<h3>Mapping Reads with bwa-mem2</h3>
-							<br>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							Your task is to write a SLURM submission script to align the normal and tumor paired-end <span class="special-style">FASTQ</span> files against the reference genome 
-							using <span class="special-style">bwa-mem2</span>. 
-							Ensure you include proper <em>Read Group</em> (<span class="special-style">-R</span>) metadata and pipe the output directly into 
-							<span class="special-style">samtools view</span> to generate a compressed 
-							<span class="special-style">BAM</span> file.
-							(??????)index
-							</p>
-					</section> -->
-					<section>
-						<h3>Read Alignment Exercise: Mapping with bwa-mem2</h3>
-						<br>
-						<p align="left">
-						<b>Exercise</b>:
-						<br>
-						Your task is to write a <span class="special-style">SLURM</span> submission script to align the normal and tumor 
-						paired-end <span class="special-style">FASTQ</span> files against the reference genome using <span class="special-style">bwa-mem2</span>. 
-						</p>
-						<p align="left">
-						<b>Key Requirements</b>:
-						</p>
-						<div style="text-align: left;">
-							<ul>
-								<li>Include proper <strong>Read Group</strong> metadata (<span class="special-style">-R</span>) to ensure compatibility with downstream GATK tools.</li>
-								<li>Pipe the output directly into <span class="special-style">samtools view</span> to generate a compressed <span class="special-style">BAM</span> file on the fly without writing uncompressed SAM to disk.</li>
-								<li>Use the reference genome and pre-built <span class="special-style">bwa-mem2</span> index files located at:
-									<br>
-									<span class="special-style">/data/courses/cancergenomics/VAR_CALLING/bwa_idx</span>
-								</li>
-							</ul>
-						</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							ID=normal
-							PLATFORM=ILLUMINA
-							REF=genome.fa
-							R1=normal_R1.fastq.gz 
-							R2=normal_R2.fastq.gz
-							OUT_BAM=normal_aligned.bam
-							
-							singularity exec \
-							  --bind /storage \
-							  depot.galaxyproject.org-singularity-bwa-mem2-2.2.1--he513fc3_0.img \
-							  bwa-mem2 mem -t 16 \
-							  -R "@RG\tID:$ID\tSM:$ID\tPL:$PLATFORM" \
-							  $REF \
-							  $R1 $R2 | \
-							samtools view -b -@ 4 -o $OUT_BAM -
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<br><b>Breakdown of the Alignment Command</b></br>
-							<div style="text-align: left;font-size: 30px;">
-							<ul>
-							<li>
-							<span style="font-family: 'Courier New', Courier, monospace;">bwa-mem2 mem -t 16</span>:<br>
-							Runs the core alignment algorithm using 16 CPU threads (
-							<span style="font-family: 'Courier New', Courier, monospace;">-t 16</span>) to speed up mapping against the reference genome.
-							</li>
-							<li>
-							<span style="font-family: 'Courier New', Courier, monospace;">
-							-R "@RG\tID:$ID\tSM:$ID\tPL:$PLATFORM"
-							</span>
-							:<br>
-							<em>Read Groups</em> are crucial for GATK. 
-							Downstream tools (like duplicate markers and variant callers) require 
-							<span style="font-family: 'Courier New', Courier, monospace;">
-							Read Group
-							</span> headers to identify which sample, sequencing platform, and library a read belongs to. 
-							Without them, GATK will crash.
-							</li>
-							<li>
-							The pipe (|) & - (dash):<br>
-							<span style="font-family: 'Courier New', Courier, monospace;">
-							bwa-mem2 
-							</span> outputs the alignment in SAM format directly to standard output (stdout). 
-							Instead of writing a massive, uncompressed SAM file to disk and reading it back, we pipe (<span style="font-family: 'Courier New', Courier, monospace;">|</span>) that stream straight into samtools.
-							The <span style="font-family: 'Courier New', Courier, monospace;">-</span> tells samtools to accept this incoming stream directly from standard input instead of looking for a physical file on disk, saving massive amounts of disk space and I/O time!
-							</li>
-							<li>
-							<span style="font-family: 'Courier New', Courier, monospace;">samtools view -b -@ 4 -o $OUT_BAM -</span>:<br>
-							<span style="font-family: 'Courier New', Courier, monospace;">-b</span>: Converts the incoming SAM stream into compressed BAM format on the fly.<br>
-							<span style="font-family: 'Courier New', Courier, monospace;">-@ 4</span>: Uses 4 dedicated threads for compression.<br>
-							<span style="font-family: 'Courier New', Courier, monospace;">-o $OUT_BAM</span>: Specifies the final binary output file name 
-							</li>
-							</ul>
-							</div>	
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Introduction to Samtools & Command-Line Exploration</h3>
-							<br>
-							<p align="left">
-							<br><b>Working with BAM Files: Introduction to Samtools</b>:</br> 
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>What is Samtools?
-										<ul>
-											<li>
-											<span class="special-style">SAMtools</span> is a suite of programs for interacting with high-throughput 
-											sequencing data in 
-											<span class="special-style">SAM</span>, 
-											<span class="special-style">BAM</span>, and 
-											<span class="special-style">CRAM</span> formats. 
-											Because alignment files are massive binary datasets, <span class="special-style">SAMtools</span> is the Swiss Army knife used by 
-											bioinformaticians to view, sort, index, and manipulate them efficiently.
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-					
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Introduction to Samtools & Command-Line Exploration</h3>
-							<br>
-							<p align="left">
-							<br><b>Working with BAM Files: Introduction to Samtools</b>:</br> 
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									
-									<li>Key Core Subcommands:</li>
-										<ul>
-											<li>
-											<b>view</b>: Converts between 
-											<span class="special-style">SAM</span>, 
-											<span class="special-style">BAM</span>, and 
-											<span class="special-style">CRAM</span> formats; filters alignments by quality, region, or flags.
-											</li>
-											<li>
-											<b>sort</b>: Sorts alignments by leftmost coordinates (mandatory for indexing and most downstream GATK tools).
-											</li>
-											<li>
-											<b>index</b>: Indexes a coordinate-sorted <span class="special-style">BAM</span> file (creating a 
-											<span class="special-style">.bai</span> file) to enable fast random access to specific genomic regions.
-											</li>
-											<li>
-											<b>flagstat</b>: Command-line utility that generates mapping statistics for high-throughput sequencing data by 
-											counting alignment attributes stored in the FLAG field of a 
-											<span class="special-style">SAM</span>, <span class="special-style">BAM</span>, or <span class="special-style">CRAM</span> file.
-											</li>
-										</ul>
-								</ul>
-							</div>
-					
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Samtools</h3>
-							<br>
-							<p align="left">
-							Explore the tool documentation in your terminal before running commands:
-							</p>
-							<pre><code class="bash" data-trim data-line-numbers>
-							samtools --help
-							</code></pre>
-							<p align="left">
-							Then, inspect the specific documentation for the core utilities we will use:
-							</p>
-							<pre><code class="bash" data-trim data-line-numbers>
-							samtools sort
-							samtools view --help
-							samtools index
-							samtools flagstat
-							</code></pre>
-							</p>
-							
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Understanding Alignment Output Formats</h3>
-							<br>
-							<p align="left">
-							<br><b>Question</b>:</br> 
-							</p>
-							<p align="left">
-							In our alignment command, why do we pipe the output of 
-							<span class="special-style">bwa-mem2</span> directly into
-							<span class="special-style">samtools view -b</span>
-							 instead of saving the raw output to disk?
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>Think about file formats (
-									<span class="special-style">SAM</span> vs. 
-									<span class="special-style">BAM</span>)</li>
-									<li>Consider disk space and input/output (I/O) bottlenecks on the cluster.</li>
-								</ul>
-							</div>
-					
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Sorting & Indexing Alignment Outputs</h3>
-							<br>
-							<p align="left">
-							<b>Why BAM & Indexing Explanation</b>
-							<div style="text-align: left;">
-								<ul>
-									<li>
-									<b>SAM vs. BAM</b>: 
-									<span class="special-style">SAM</span> (Sequence Alignment/Map) files are human-readable text files, making them massive and slow to parse. 
-									<span class="special-style">BAM</span> (Binary Alignment/Map) is the compressed, binary equivalent. 
-									Using <span class="special-style">samtools view -b</span> converts the stream on-the-fly, saving massive amounts of disk space.
-									</li>
-									<li>
-									<b>BAM Indexing (<span class="special-style">.bai</span>)</b>: Downstream tools (like variant callers and genome browsers) cannot query a BAM file 
-									efficiently unless it is coordinate-sorted and has an accompanying index file (<span class="special-style">.bai</span>), which acts like a table of contents pointing to genomic coordinates.
-									</li>
-								<ul>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Sort & Index BAM Files</h3>
-							<br>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							Your task is to write a SLURM script to coordinate-sort your aligned <span class="special-style">BAM</span> file, index it, and ensure you can perform the same process for your tumor sample.
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							
-							IN_BAM=normal_aligned.bam
-							OUT_BAM=normal_sorted.bam
-							
-							# 1. Coordinate sort the alignment output
-							samtools sort -@ 8 $IN_BAM -o $OUT_BAM
-
-							# 2. Generate the BAM index file (.bai)
-							samtools index $OUT_BAM
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>What Are PCR Duplicates & Why Mark Them?</h3>
-							<br>
-							<p align="left">
-							<b>BAM Processing: PCR Duplicates</b>
-							<br>
-							<em>What are duplicates?</em> PCR duplicates are identical DNA fragments produced by over-amplification during library preparation, 
-							or optical duplicates generated during sequencing cluster generation. They share identical start and end coordinates.
-							<p align="left">
-							<em>Why mark them?</em>
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>They do not represent independent molecular sampling.</li>
-									<li>Leaving them uncorrected can artificially inflate coverage and bias variant allele frequencies, leading to false-positive variant calls or distorted expression estimates.</li>
-									<li>Rather than deleting them entirely, standard pipelines mark them so that downstream tools (like variant callers) can choose to ignore them while retaining alignment metrics.</li>
-								</ul>
-							</div>
-					</section>	
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>GATK MarkDuplicates</h3>
-							<br>
-							<p align="left">
-							<b>Marking Duplicates with GATK</b>
-							<br>
-							<span class="special-style">GATK</span> (Genome Analysis Toolkit) provides the standard industry tool for this task: 
-							<span class="special-style">MarkDuplicates</span>.
-							</p>
-							<p align="left">
-							It locates duplicate reads by comparing read 5'-prime positions and generates a metrics file reporting duplication rates.
-							</p>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							Run GATK MarkDuplicates
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>Write a SLURM submission script to run 
-									<span class="special-style">GATK MarkDuplicates</span> on your coordinate-sorted normal/tumor <span class="special-style">BAM</span> file.</li>
-									<li>Make sure to specify an output marked <span class="special-style">BAM</span> file and a metrics output text file.</li>
-								</ul>
-							</div>
-					</section>	
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h2>Need a Hint? (bash template)</h2>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							
-							IN_BAM=normal_sorted.bam \
-							OUT_BAM=normal_marked.bam \
-							OUT_METRICS=normal_metrics.txt
-							
-							singularity exec \
-							  --bind /storage \
-							  gatk_latest.sif \
-							  gatk MarkDuplicates \
-								-I $IN_BAM \
-								-O $OUT_BAM \
-								-M $OUT_METRICS
-								
-							samtools index $OUT_BAM
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>GATK CollectMultipleMetrics</h3>
-							<br>
-							<p align="left">
-							<b>BAM Processing: Quality Assessment & Metrics</b>
-							<br>
-							<div style="text-align: left;">
- 								<ul>
-									<li>
-									<b>Why collect metrics?</b> After aligning and marking duplicates, we need to quantitatively assess the quality of our 
-									<span class="special-style">BAM</span> file (e.g., insert size distributions, mean read length, etc.).
-									</li>
-									<li>
-									<b>The Tool</b>: GATK provides 
-									<span class="special-style">CollectMultipleMetrics</span> (<span class="special-style">Picard</span>), which runs several lightweight metrics collection modules simultaneously.
-									</li>
-									<li>
-									<b>MultiQC Integration</b>: Because 
-									<span class="special-style">CollectMultipleMetrics</span> outputs a suite of detailed text/summary files, we can feed them right back into 
-									<span class="special-style">MultiQC</span> to visually inspect how our alignment and duplicate marking went across all samples in a single dashboard.
-									</li>
-								</ul>
-							</div>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Collect BAM Metrics & Update MultiQC</h3>
-							<br>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							<div style="text-align: left;">
- 								<ul>
-									<li>Write a SLURM submission script using GATK <span class="special-style">CollectMultipleMetrics</span> on your marked normal/tumor 
-									<span class="special-style">BAM</span> file.</li>
-									<li>Re-run <span class="special-style">MultiQC</span> in your working directory to capture the new metrics reports alongside your 
-									<span class="special-style">FastQC</span> and <span class="special-style">FastP</span> reports.</li>
-								</ul>
-							</div>
-					</section>	
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Validating Insert Size & Duplicates Post-Alignment</h3>
-							<br>
-							<p align="left">
-							<b>BAM Processing: Post-Alignment Inspection</b>
-							<br>
-							Now that our reads are 
-							<em>aligned</em>, 
-							<em>sorted</em>, 
-							<em>duplicates marked</em>, and 
-							<em>metrics collected</em>, we can inspect our final 
-							<span class="special-style">BAM</span> characteristics.
-							Open your updated <span class="special-style">MultiQC</span> report or metrics files and examine:
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li>What is the insert size distribution now?</li>
-									<li>How does it compare to the "unknown" or overlap-based estimate from <span class="special-style">fastp</span> earlier?</li>
-									<li>What is the percentage of duplicate reads reported by <span class="special-style">GATK MarkDuplicates</span>?</li>
-								</ul>
-							</div>
-					</section>	
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Discussion & Takeaways</h3>
-							<br>
-							<p align="left">
-							<b>Why Do Insert Size Metrics Change?</b>
-							<br>
-							<div style="text-align: left;">
-								<ul>
-								<li>
-								<b>Insert Size Comparison</b>:
-									<ul>
-										<li><span class="special-style">fastp</span> estimated <em>insert sizes</em> before alignment using read-pair overlap.</li>
-										<li><span class="special-style">GATK CollectMultipleMetrics</span> calculates <em>insert sizes</em> after alignment using genomic coordinate distances between properly paired reads.</li>
-									</ul>
-								</li>
-								<li>
-								<b>Duplicate Rate</b>:
-									<ul>
-										<li>Verify that <span class="special-style">markduplicates</span> has identified a certain percentage of PCR duplicates.</li>
-									</ul>
-								</li>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Base Quality Score Recalibration (BQSR)</h3>
-							<br>
-							<div style="text-align: left;">
- 								<ul>
-									<li><b>What is BQSR?</b><br> Sequencing machines assign quality scores (Phred scores) to every base they sequence, representing the estimated probability of an incorrect base call. However, these raw scores are often systematically biased by machine cycle, sequence context, or technical artifacts.</li>
-									<li><b>What is it for?</b><br> <span class="special-style">BQSR</span> uses machine learning to model these errors and adjust the quality scores to match the true empirical error rate. 
-									Accurate base qualities are critical for downstream variant callers (like <span class="special-style">GATK Mutect2</span>) to correctly calculate genotype and somatic confidence likelihoods.</li>
-								</ul>
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>What Does BQSR Require?</h3>
-							<br>
-							<p align="left">
-							<b>BQSR Prerequisites & Requirements</b>
-							<br>
-								<div style="text-align: left;">
-									<ul>
-										<li>
-										<b>An Aligned & Marked BAM File</b>: Cleaned of PCR duplicates so they don't skew the error model.
-										</li>
-										<li>
-										<b>A Reference Genome</b>: The <span class="special-style">FASTA</span> file used for alignment.
-										</li>
-										<li>
-										<b>Known Variant Databases (Known Sites)</b>: <span class="special-style">VCF</span> files containing trusted, cataloged genetic variation 
-										(such as <em>dbSNP</em> or <em>1000 Genomes indels</em>).
-										</li>
-										<li>
-										<b>Why?</b> <span class="special-style">GATK</span> needs to know which variations are real genetic variants so it doesn't mistake true biological polymorphisms for technical sequencing errors.
-										</li>
-									</ul>
-								</div>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-<!-- 					<section>		
-							<h3>Generate the BQSR Recalibration Table</h3>
-							<br>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							Write a SLURM submission script using 
-							<span class="special-style">GATK BaseRecalibrator</span> to analyze your marked normal/tumor 
-							<span class="special-style">BAM</span> file and output a recalibration data table.</li>
-							</p>
-					</section> -->
-					<section>
-					<h3>Preprocessing: Base Quality Score Recalibration (BQSR) - Exercise</h3>
-					<br>
-					<p align="left">
-					<b>Exercise</b>:
-					<br>
-					Write a SLURM submission script using <span class="special-style">GATK BaseRecalibrator</span> to analyze your marked normal/tumor <span class="special-style">BAM</span> file and generate a recalibration data table.
-					</p>
-					<p align="left">
-					<b>Required Input Files & Paths</b>:
-					</p>
-					<div style="text-align: left;">
-						<ul>
-							<li><b>Reference Genome</b>: 
-								<br>
-								<span class="special-style">/data/courses/cancergenomics/VAR_CALLING/bwa_idx/genome.fa</span>
-							</li>
-							<li><b>dbSNP Known Sites</b> (for known variant masking): 
-								<br>
-								<span class="special-style">/data/courses/cancergenomics/VAR_CALLING/dbsnp/GCF_000001405.40_alias.vcf.gz</span>
-							</li>
-							<li><b>Known Indels</b> (Mills and 1000G gold standard): 
-								<br>
-								<span class="special-style">/data/courses/cancergenomics/VAR_CALLING/known_indels/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz</span>
-							</li>
-						</ul>
-					</div>
-				</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-
-							IN_BAM=normal_marked.bam
-							OUT_TABLE=normal_recal.table
-							KNOWN_DBSNP=dbsnp/GCF_000001405.40_alias.vcf.gz \
-							KNOWN_INDELS=known_indels/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz \
-							REF=genome.fa
-
-							singularity exec \
-							  --bind /storage \
-							  gatk_latest.sif \
-							  gatk BaseRecalibrator \
-								-R $REF \
-								-I $IN_BAM \
-								--known-sites $KNOWN_DBSNP \
-								--known-sites $KNOWN_INDELS \
-								-O $OUT_TABLE
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>ApplyBQSR</h3>
-							<br>
-							<p align="left">
-							<b>Quality Calibration: Applying BQSR</b>
-							<br>
-								<div style="text-align: left;">
-									<ul>
-										<li>
-										<em>What does ApplyBQSR do?</em><br> 
-										While 
-										<span class="special-style">BaseRecalibrator</span> calculated the error model and generated the correction table, 
-										it didn't actually change any bases or quality scores in your <span class="special-style">BAM</span> file. 
-										<span class="special-style">ApplyBQSR</span> uses that table to rewrite the quality scores in the <span class="special-style">BAM</span> file according to the empirical error models.
-										</li>
-										<li>
-										<b>The Result</b>: <br>
-										The output is a fully recalibrated 
-										<span class="special-style">BAM</span> file 
-										(<span class="special-style">normal_bqsr.bam</span>) where every read's Phred quality scores accurately reflect the true probability of error, 
-										preparing the data for high-confidence variant calling.
-										</li>
-									</ul>
-								</div>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->			
-					<section>		
-							<h3>Apply the BQSR Corrections</h3>
-							<br>
-							<p align="left">
-							<br><b>Exercise</b>:</br> 
-							Write a SLURM submission script using 
-							<span class="special-style">GATK ApplyBQSR</span> to apply the recalibration table you just generated to your marked normal/tumor 
-							<span class="special-style">BAM</span> file, creating your final, fully calibrated 
-							<span class="special-style">BAM</span>.
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-
-							REF=genome.fa
-							IN_BAM=normal_marked.bam
-							IN_TABLE=normal_recal.table
-							OUT_BAM=normal_bqsr.bam
-
-							singularity exec \
-							  --bind /storage \
-							  gatk_latest.sif \
-							  gatk ApplyBQSR \
-								-R $REF \
-								-I $IN_BAM \
-								--bqsr-recal-file $IN_TABLE \
-								-O $OUT_BAM
-								
-							samtools index $OUT_BAM
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-							<h3>Quality Control of BAM Files – Part I</h3>
-							<br>
-							<p align="left">
-							<b>Important Note for the Remaining Exercises</b>:<br>
-							While we walked through how to perform 
-							<span class="special-style">FastQC</span>, 
-							<span class="special-style">fastp</span>, and 
-							<span class="special-style">read alignment</span> step-by-step, for the remaining part of the exercises 
-							please use the pre-aligned BAM files provided in the alignments/ folder 
-							(<span class="special-style">/data/courses/cancergenomics/2026/alignments</span>) to ensure everyone is working with standardized files. (hg19 vs hg38??????)
-							</p>
-							<p align="left">
-							All course files on the IBU cluster are located under:
-							<span class="special-style">/data/courses/cancergenomics/2026/VAR_CALLING</span>
-							Inside this directory, you will find:
-							</p>
-							<div style="text-align: left;">
-								<ul>
-									<li><span class="special-style">alignments</span>: contains BAM files for tumor and normal samples.</li>
-									<li><span class="special-style">reference</span>: contains the genome FASTA file and target intervals.</li>
-									<li><span class="special-style">resources</span>: includes variant files (VCF) from resources such as the
-									<a href="https://www.internationalgenome.org/" target="_blank">1000 genomes</a> project and 
-									<a href="https://gnomad.broadinstitute.org/" target="_blank">gnomAD</a>, 
-									and subsets of the clinvar and alphamissense databases.</li>
-								</ul>
-							</div>
-							<br>
-							<div style="text-align: left; font-size: 28px;">
-							The dataset was prepared by the developers of the <em>Precision medicine bioinformatics course</em> at
-							the <em>Griffith lab</em>  (McDonnell Genome Institute, Washington University).
-							</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->		
-<!-- 					<section>		
 							<h2>Quality Control of BAM Files – Part I</h2>
 							<br>
 							<p align="left">
@@ -2023,9 +920,9 @@
 									<li><span class="special-style">scripts</span>: an empty folder for storing your scripts.</li>
 								</ul>
 							</div>
-					</section> -->
+					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
-<!-- 					<section>
+					<section>
 							<h2>Quality control of the bam files – Part II</h2>
 							<br>
 							<p align="left">
@@ -2041,22 +938,22 @@
 									<li>Matched normal tissue <a href="https://www.cellosaurus.org/CVCL_1250" target="_blank">HCC1395 BL</a></li>				
 								</ul>
 							</div>
-					</section> -->
+					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-							<h3>Quality control of the bam files – Part III</h3>
+							<h2>Quality control of the bam files – Part III</h2>
 							<br>
 							<p align="left">
 							We begin by examining the BAM file headers to understand file content and processing details (<span class="special-style">samtools view -H</span>). 
 							Use the following command to inspect the headers:
 							<pre><code class="bash" data-trim data-line-numbers>
-							samtools view -H normal.recal.bam
+							samtools view -H ../alignments/normal.recal.bam
 							</code></pre>
 							</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-							<h3>Quality control of the bam files – Part IV</h3>
+							<h2>Quality control of the bam files – Part IV</h2>
 							<br>
 							<p align="left">
 							The output should include header lines containing information about the BAM file structure and processing.
@@ -2076,7 +973,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>
-							<h3>Quality control of the bam files – Part V</h3>
+							<h2>Quality control of the bam files – Part V</h2>
 							<br>
 							<p align="left">
 							1) BAM file sorting: How is the bam file sorted?
@@ -2103,7 +1000,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>			
-							<h3>Quality control of the bam files – Part VI</h3>
+							<h2>Quality control of the bam files – Part VI</h2>
 							<br>
 							<p align="left">
 							Next, we examine the alignment body. Start by inspecting a few alignment lines (<span class="special-style">samtools view</span>):
@@ -2121,7 +1018,7 @@
 							<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
 								<p class="answer-text">
 									<pre><code class="bash" data-trim>						
-									samtools view normal.recal.bam | head -3
+									samtools view ../alignments/normal.recal.bam | head -3
 									HWI-ST466:135068617:C1TD1ACXX:7:1114:9733:82689 163     chr6    60001   60      100M    =       60106   205     GATCTTATATAACTGTGAGATTAATCTCAGATAATGACACAAAATATAGTGAAGTTGGTAAGTTATTTAGTAAAGCTCATGAAAATTGTGCCCTCCATTC   ;B@EDB@A@A@DDDGBGBFCBC?DBEEGCGCAADAGCECDCDDDBABAGBECEGCBHH@?EGBCBCDDBHBAEEHGDFBBHBDDDBCHBGEFFEGEDBBG   MC:Z:100M       MD:Z:100        PG:Z:MarkDuplicates     RG:Z:HWI-ST466.C1TD1ACXX.normalNM:i:0  AS:i:100        XS:i:0
 									HWI-ST466:135068617:C1TD1ACXX:7:1303:2021:90688 99      chr6    60001   60      100M    =       60104   203     GATCTTATATAACTGTGAGATTAATCTCAGATAATGACACAAAATATAGTGAAGTTGGTAAGTTATTTAGTAAAGCTCATGAAAATTGTGCCCTCCATTC   >A@FDB@A?@>DDCE@FAF@?BAC>ECFCGBAADBEADBDCDDD@@A@FAFADD?ABF@@EF?@ABCDAFB?DCGEBEB@EBCDCBCHBFEFFDGFCBBG   MC:Z:100M       MD:Z:100        PG:Z:MarkDuplicates     RG:Z:HWI-ST466.C1TD1ACXX.normalNM:i:0  AS:i:100        XS:i:0
 									HWI-ST466:135068617:C1TD1ACXX:7:2304:7514:30978 113     chr6    60001   60      2S98M   =       61252   1194    TAGATCTTATATAACTGTGAGATTAATCTCAGATAATGACACAAAATATAGTGAAGTTGGTAAGTTATTTAGTAAAGCTCATGAAAATTGTGCCCTCCAT   >DHABFEACBBBCBGCECHEGBEACBDHCGCHCBDBBFAEAGBCCB@BAEECGBEEDBED>@EDDABDDADE@CBDFFBFBCFCCBADBDBDFFFAFF?@   MC:Z:60S40M     MD:Z:98 PG:Z:MarkDuplicates     RG:Z:HWI-ST466.C1TD1ACXX.normal NM:i:0AS:i:98  XS:i:0
@@ -2140,19 +1037,18 @@
 							</div>
 							</p>
 					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<!--<section>		
-						<h3>Quality control of the bam files – Part VII</h3>
+					<!-- ------------------------------------------------------------------------------------------ -->		
+					<section>		
+						<h2>Quality control of the bam files – Part VII</h2>
 						<br>
 						<p align="left">
 						We can also summarize alignment statistics using <span class="special-style">samtools flagstat</span>.
 						</p>
 						<p align="left">
-						1) Create a <span class="special-style">SLURM</span> script 
-						 in the <span class="special-style">scripts</span> folder named <span class="special-style">01_samtools_flagstat.sh</span> 
-						to summarize the tumor BAM file using <span class="special-style">samtools flagstat</span>.
+						1) Create a <span class="special-style">bash</span> script in the <span class="special-style">scripts</span> folder named <span class="special-style">01_samtools_flagstat.sh</span> 
+						to summarize the tumor BAM file.
 						</p>
-						 <div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
+						<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
 							<p class="answer-text">
 								<p align="left">
 								Write into your bash script the following instruction.
@@ -2181,45 +1077,12 @@
 							</p>
 						</div>
 					</section>
-					</section> -->
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-						<h3>Quality control of the bam files – Part VII</h3>
-						<br>
-						<p align="left">
-						<b>Samtools Flagstat</b>:
-						<br>
-						While inspection and QC tools give us read-level metrics, <span class="special-style">samtools flagstat</span> provides a quick, 
-						comprehensive summary of alignment categories—reporting total reads, mapped vs. unmapped reads, proper pairs, and duplicate statistics directly 
-						from your BAM file.
-						</p>
-						<p align="left">
-						<b>Exercise</b>:
-						<br>
-						Your task is to create a <span class="special-style">SLURM</span> script to summarize your tumor and normal 
-						<span class="special-style">BAM</span> files using <span class="special-style">samtools flagstat</span>. 
-						Examine the output to verify the alignment quality.
-						</p>
-						
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							
-							samtools flagstat -@ 4 tumor.recal.bam
-							</code></pre>
-							</p>
-					</section>			
-					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-						<h3>Quality control of the bam files – Part VIII</h3>
+						<h2>Quality control of the bam files – Part VIII</h2>
 						<br>
 						<p align="left" style="color:#447da4">
-						The output should look like this
+						The output look like this
 						</p>
 						<pre><code class="bash" data-trim>						
 						16674562 + 0 in total (QC-passed reads + QC-failed reads)
@@ -2242,7 +1105,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
-						<h3>Quality control of the bam files – Part IX</h3>
+						<h2>Quality control of the bam files – Part IX</h2>
 						<br>
 						<p align="left">
 						The output provides basic statistics, including:
@@ -2265,7 +1128,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h3>Quality control of the bam files – Part X</h3>
+						<h2>Quality control of the bam files – Part X</h2>
 						<br>
 						<p align="left">
 						The BAM files appear ready for variant analysis:
@@ -2283,41 +1146,12 @@
 						reads align to the target regions and assess coverage. This can be done using gatk <span class="special-style">gatk CollectHsMetrics</span>.
 						</p>
 						<p align="left">
-						<b>Exercise</b>:
-						<br>
-						Write a <span class="special-style">SLURM</span> script to run <span class="special-style">gatk CollectHsMetrics</span> on both <span class="special-style">BAM</span> files.
+						Create a script <span class="special-style">02_gatk_collecthsmetrics.sh</span> to run <span class="special-style">gatk CollectHsMetrics</span> on both BAM files.
 						</p>
 					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>
-							#!/bin/bash
-							ALIGNDIR=./alignments
-							REF=./reference/genome.fa
-							BAIT_INTERVALS_LIST=reference/exome_regions.bed.interval_list
-							TARGET_INTERVALS_LIST=reference/exome_regions.bed.interval_list
-							
-							for sample in tumor normal
-							do
-								singularity exec\
-								--bind /storage \
-								depot.galaxyproject.org-singularity-gatk4-4.4.0.0--py36hdfd78af_0.img \
-								gatk CollectHsMetrics \
-								-I "$ALIGNDIR"/"$sample".recal.bam \
-								-O "$ALIGNDIR"/"$sample".recal.bam_hs_metrics.txt \
-								-R "$REF" \
-								--BAIT_INTERVALS $BAIT_INTERVALS_LIST \
-								--TARGET_INTERVALS $TARGET_INTERVALS_LIST
-							done
-							</code></pre>
-							</p>
-					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
-<!-- 					<section>	
-						<h3>Quality control of the bam files – Part XI</h3>
+					<section>	
+						<h2>Quality control of the bam files – Part XI</h2>
 						<br>
 						<p align="left">
 						Example output from <span class="special-style">CollectHsMetrics</span> shows raw coverage and target enrichment statistics.
@@ -2340,10 +1174,10 @@
 							--TARGET_INTERVALS "$REFDIR"/exome_regions.bed.interval_list
 						done
 						</code></pre>
-					</section> -->
+					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
-					<!-- <section>	
-						<h3>Quality control of the bam files – Part XII</h3>
+					<section>	
+						<h2>Quality control of the bam files – Part XII</h2>
 						<br>
 						<p align="left">
 						To simplify interpretation, parse the metrics using <span class="special-style">Multiqc</span>. 
@@ -2357,47 +1191,20 @@
 						<p align="left">
 						This generates a multiqc_report.html file with hybrid-selection metrics. Documentation for these metrics is available <a href="https://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics" target="_blank">here</a>.
 						</p>
-					</section> -->
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>	
-						<h3>Quality control of the bam files – Part XIII</h3>
-						<br>
-						<p align="left">
-						<b>HsMetrics & MultiQC</b>
-						<br>
-							<div style="text-align: left;">
-								<ul>
-									<li><b>Aggregating Metrics</b>: 
-									<br>
-									Now that <span class="special-style">CollectHsMetrics</span> has calculated the capture performance 
-									for both tumor and normal samples, we can aggregate and visualize everything using <span class="special-style">MultiQC</span>.
-
-									</li>
-									<li><b>Evaluating the Report</b>: 
-									<br>
-									Check the generated <span class="special-style">multiqc_report.html</span> 
-									file to inspect hybrid-selection metrics such as target folding, mean target coverage, and zero-coverage genes. 
-									Detailed explanations for these Picard metrics are available in the 
-									<a href="https://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics" target="_blank">Picard HsMetrics Documentation</a>.
-									</li>
-								</ul>
-							</div>
-						</p>
-
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
-					<!-- <section>	 -->
-						<!-- <h3>Quality control of the bam files – Part XIII</h3> -->
-						<!-- <br> -->
-						<!-- <p align="left"> -->
-						<!-- Check the report (<em>multiqc_report.html</em>) generated by <span class="special-style">Multiqc</span> -->
-						<!-- <em>hybrid-selection metrics</em>. -->
-						<!-- </p> -->
-						<!-- <img src="assets/multiqc.png" class="r-stretch"> -->
-					<!-- </section> -->
+					<section>	
+						<h2>Quality control of the bam files – Part XIII</h2>
+						<br>
+						<p align="left">
+						Check the report (<em>multiqc_report.html</em>) generated by <span class="special-style">Multiqc</span>
+						<em>hybrid-selection metrics</em>.
+						</p>
+						<img src="assets/multiqc.png" class="r-stretch">
+					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-						<h3>Quality control of the bam files – Part XIV</h3>
+						<h2>Quality control of the bam files – Part XIV</h2>
 						<br>
 						<p align="left">
 						Key observations from hybrid-selection metrics:
@@ -2434,8 +1241,8 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>	
-					  <h2>End of Data Quality</h2>
-					  <a href="#data_qual">Back to top</a>
+					  <h2>End of Quality Control of BAM files</h2>
+					  <a href="data_qual">Back to top</a>
 					</section>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------------------ -->
@@ -2447,10 +1254,10 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->	
 					<section>		
-						<h3>Variant Calling - Part I</h3>
+						<h2>Variant Calling - Part I</h2>
 						<br>
 						<p align="left">
-						After performing quality control on the <span class="special-style">BAM</span> files, we can proceed to variant calling.
+						After performing quality control on the BAM files, we can proceed to variant calling.
 						For this tutorial, we will use 
 						<span class="special-style">Mutect2</span>, a somatic variant caller from GATK 
 						(<a href="https://www.broadinstitute.org" target="_blank">Broad Institute</a>).
@@ -2478,22 +1285,23 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part II</h3>
+						<h2>Variant Calling - Part II</h2>
 						<br>
 						<p align="left">
-						<b>Exercise</b>:
-						<br>
-						Create an <span class="special-style">SLURM</span> script to run <span class="special-style">Mutect2</span> using the template below.
+						Create a script called <span class="special-style">04_run_mutect2.sh</span>.
 						Consult the <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2" target="_blank">Mutect2 manual</a>
 						and replace the <span class="special-style">FIXME</span> placeholders in the command with the appropriate values for your data.
+						</p>
+						<p align="left">
+						Then, run the script.
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
 						#!/bin/bash
 						
-						ALIGNDIR=./alignments
-						REFDIR=./reference
-						RESOURCEDIR=./resources
-						VARIANTDIR=./variants
+						ALIGNDIR=../alignments
+						REFDIR=../reference
+						RESOURCEDIR=../resources
+						VARIANTDIR=../variants
 						
 						mkdir -p $VARIANTDIR
 						
@@ -2510,7 +1318,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part III</h3>
+						<h2>Variant Calling - Part III</h2>
 						<br>
 						<p align="left">
 						💡 <b>Hint:</b>: To obtain the sample name (<span class="special-style">SM</span> tag) 
@@ -2518,7 +1326,8 @@
 						</p>
 						
 						<pre><code class="bash" data-trim data-line-numbers>
-						samtools view -H normal.recal.bam | grep '@RG'
+						singularity exec --bind /storage samtools.sif \
+						samtools view -H ../alignments/normal.recal.bam | grep '@RG'
 						</code></pre>
 						<p align="left">
 						You should get 
@@ -2529,7 +1338,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part IV</h3>
+						<h2>Variant Calling - Part IV</h2>
 						<br>
 						<p align="left">
 						Solution
@@ -2537,10 +1346,10 @@
 						<pre><code class="bash" data-trim data-line-numbers>
 						#!/bin/bash
 
-						ALIGNDIR=./alignments
-						REFDIR=./reference
-						RESOURCEDIR=./resources
-						VARIANTDIR=./variants
+						ALIGNDIR=../alignments
+						REFDIR=../reference
+						RESOURCEDIR=../resources
+						VARIANTDIR=../variants
 
 						mkdir -p $VARIANTDIR
 
@@ -2558,83 +1367,28 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part V</h3>
+						<h2>Variant Calling - Part V</h2>
 						<br>
 						<p align="left"></span>
-						<b>FilterMutectCalls</b>:
-						<br>
-						Once variants have been called by Mutect2, raw calls often contain technical noise, sequencing artifacts, or residual germline variants. 
-						The next critical step is filtering using <span class="special-style">FilterMutectCalls</span>.
+						Once variants have been called, the next step is an initial filtering using <span class="special-style">FilterMutectCalls</span>.
 						</p>
 						<p align="left"></span>
-						What it accounts for:
+						This step accounts for:
 						</p>
 						<div style="text-align: left;">
 							<ul>
-								<li>Potential technical sequencing artifacts</li>
-								<li>Possible unmasked germline variants</li>
-								<li>Oxidation and strand-bias artifacts</li>
+								<li>potential technical artifacts,</li>
+								<li>possible germline variants, and</li>
+								<li>sequencing errors.</li>
 							</ul>
 						</div>
 						<p align="left"></span>
-						<b>Goal</b>: It calculates error probability models to balance recall (retaining true somatic mutations) and precision (removing false positives).
+						It calculates an error probability and seeks to balance recall (keeping true variants) and precision (removing false positives).
 						</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part VI</h3>
-						<br>
-						<p align="left"></span>
-						<b>Exercise</b>:
-						<br>
-						Create a <span class="special-style">SLURM</span> script to filter your raw <span class="special-style">Mutect2</span> <span class="special-style">VCF</span> output using <span class="special-style">GATK FilterMutectCalls</span>.
-						</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>		
-							<h3>Need a Hint? (bash template)</h3>
-							<br>
-							<p align="left">
-							<pre><code class="bash" data-trim data-line-numbers>						
-							#!/bin/bash
-
-							REFDIR=./reference
-							VARIANTDIR=./variants
-
-							# fill the filter column
-							singularity exec \
-							--bind /storage \
-							gatk4.img \
-							gatk FilterMutectCalls \
-							-R "$REFDIR"/ref_genome.fa \
-							-V "$VARIANTDIR"/somatic.vcf.gz \
-							-O "$VARIANTDIR"/somatic.filtered.vcf.gz
-							</code></pre>
-							</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>
-						<h3>Variant Calling - Part VII</h3>
-						<br>
-						<p align="left">
-						<b>Subsetting PASS Variants with Bcftools</b>
-						<br>
-						After running <span class="special-style">FilterMutectCalls</span>, variants are tagged in the 
-						<span class="special-style">VCF</span> filter column (e.g., 
-						<span class="special-style">PASS</span> vs. specific failure reasons). 
-						To proceed with only high-confidence variants, we use bcftools view to extract just the passing mutations.
-						</p>
-						<p align="left">
-						<b>Exercise</b>:
-						<br>
-						Extend your <span class="special-style">SLURM</span> script to extract only the 
-						<span class="special-style">PASS</span>  variants into a clean 
-						<span class="special-style">VCF</span> file and index it for downstream visualization and annotation.
-						</p>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------ -->
-					<section>
-						<h3>Variant Calling - Part VIII</h3>
+						<h2>Variant Calling - Part VI</h2>
 						<br>
 						<p align="left">
 						Create a script called <span class="special-style">05_filter_mutect_calls.sh</span> and run the filtering command on your 
@@ -2643,21 +1397,21 @@
 						<pre><code class="bash" data-trim data-line-numbers>						
 						#!/bin/bash
 
-						VARIANTDIR=./variants
+						REFDIR=../reference
+						VARIANTDIR=../variants
+
+						# fill the filter column
+						singularity exec --bind /storage gatk4.img \
+						gatk FilterMutectCalls \
+						-R "$REFDIR"/ref_genome.fa \
+						-V "$VARIANTDIR"/somatic.vcf.gz \
+						-O "$VARIANTDIR"/somatic.filtered.vcf.gz
 
 						# create a vcf with variants passing filters (PASS)
-						singularity exec \
-						--bind /storage \
-						bcftools.img \
-						bcftools view \
-						-f PASS "$VARIANTDIR"/somatic.filtered.vcf.gz \
-						-Oz > "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
+						bcftools view -f PASS "$VARIANTDIR"/somatic.filtered.vcf.gz -Oz \
+						> "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
 
-						singularity exec \
-						--bind /storage \
-						bcftools.img \
-						bcftools index \
-						--tbi "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
+						singularity exec --bind /storage bcftools.img bcftools index --tbi "$VARIANTDIR"/somatic.filtered.PASS.vcf.gz
 						</code></pre>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
@@ -2670,7 +1424,7 @@
 						<div class="fragment" data-fragment-index="1" align="left" style="color:#447da4">
 							<p class="answer-text">
 							<pre><code class="bash" data-trim data-line-numbers>	
-							zcat somatic.filtered.PASS.vcf.gz | grep -v '^#' | wc -l
+							zcat ../variants/somatic.filtered.PASS.vcf.gz | grep -v '^#' | wc -l
 							</code></pre>
 							</p>
 						</div>
@@ -2680,10 +1434,7 @@
 						<div class="fragment" data-fragment-index="2" align="left" style="color:#447da4">
 							<p class="answer-text">
 								<pre><code class="bash" data-trim data-line-numbers>
-								singularity exec \
-								--bind /storage \
-								bcftools.img \
-								bcftools view -H somatic.filtered.vcf.gz | cut -f 7 | sort | uniq -c | sort -nr
+								singularity exec --bind /storage bcftools.img bcftools view -H ../variants/somatic.filtered.vcf.gz | cut -f 7 | sort | uniq -c | sort -nr
 								</code></pre>
 								<nr>
 								<pre><code class="bash" data-trim >	
@@ -2706,16 +1457,13 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part IX</h3>
+						<h2>Variant Calling - Part VII</h2>
 						<br>
 						<p align="left">
 						To take a first look at the variant calls, we can display the top lines of the filtered VCF file (excluding the header) using <span class="special-style">bcftools view -H</span>:
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec \
-						--bind /storage \
-						bcftools.img \
-						bcftools view -H somatic.filtered.vcf.gz | head
+						singularity exec --bind /storage bcftools.img bcftools view -H ../variants/somatic.filtered.vcf.gz | head
 						</code></pre>
 						<p align="left">
 						you should get
@@ -2735,7 +1483,7 @@
 					</section>	
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part X</h3>
+						<h2>Variant Calling - Part VIII</h2>
 						<br>
 						<p align="left">
 						This shows the main VCF columns for the first few variants:
@@ -2759,16 +1507,13 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part XI</h3>
+						<h2>Variant Calling - Part IX</h2>
 						<br>
 						<p align="left">
 						To explore what the <span class="special-style">FILTER</span> field contains:
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec \
-						--bind /storage \
-						bcftools.img \
-						bcftools view -h somatic.filtered.vcf.gz | grep "^##FILTER"
+						singularity exec --bind /storage bcftools.img bcftools view -h ../variants/somatic.filtered.vcf.gz | grep "^##FILTER"
 						</code></pre>
 						<pre><code data-trim class="language-plaintext">
 						##FILTER=&lt;ID=PASS,Description="All filters passed"&gt;
@@ -2806,30 +1551,27 @@
 						Other filters in <span class="special-style">Mutect2</span> are hard filters, which apply strict cutoffs on individual features (e.g., depth, mapping quality).
 						</p>
 						<p align="left">
-						Next, let’s explore the <span class="special-style">VCF</span> in more detail to better understand:
+						Next, let’s explore the VCF in more detail to better understand:
 						</p>
 						<div style="text-align: left;">
 							<ul>
 								<li>what kinds of variants remain, and</li>
-								<li>characteristics such as their <em>variant allele frequency</em> (<span class="special-style">VCF</span>).</li>
+								<li>characteristics such as their <em>variant allele frequency</em> (VAF).</li>
 							</ul>
 						</div>
 					</section>		
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Calling - Part XII</h3>
+						<h2>Variant Calling - Part X</h2>
 						<br>	
 						<p align="left">
-						To summarize specific information from the <span class="special-style">VCF</span>, you can use <span class="special-style">bcftools</span> query.
+						To summarize specific information from the VCF, you can use <span class="special-style">bcftools</span> query.
 						For example, for getting the likelihood <span class="special-style">TLOD</span>
 						of variant and depth <span class="special-style">DP</span> of each sample, you can do the following (for the first 20 variants):
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec \
-						--bind /storage \
-						bcftools.img \
-						bcftools query \
-						-f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%DP;]\n' somatic.filtered.vcf.gz | head -20
+						singularity exec --bind /storage bcftools.img bcftools query \
+						-f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%DP;]\n' ../variants/somatic.filtered.vcf.gz | head -20
 						</code></pre>
 						<br>
 						<pre><code class="bash" data-trim >	
@@ -2857,18 +1599,15 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>	
-						<h3>Variant Calling - Part XIII</h3>
+						<h2>Variant Calling - Part XI</h2>
 						<br>
 						<p align="left">
 						Alternatively, extract the <em>variant allele frequency</em> (<span class="special-style">AF</span>) for each sample, and compare it to the FILTER column.
-						You should observe that when the filter is <span class="special-style">weak_evidence</span>, the tumor’s <span class="special-style">VCF</span> is typically low.
+						You should observe that when the filter is <span class="special-style">weak_evidence</span>, the tumor’s VAF is typically low.
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-							singularity exec \
-							--bind /storage \
-							bcftools.img \
-							bcftools query \
-							-f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%AF;]\n' somatic.filtered.vcf.gz | head -20
+							singularity exec --bind /storage bcftools.img bcftools query \
+							-f '%CHROM\t%POS\t%FILTER\t\t%INFO/TLOD\t[%SAMPLE=%AF;]\n' ../variants/somatic.filtered.vcf.gz | head -20
 						</code></pre>
 						<br>
 						<pre><code class="bash" data-trim >		
@@ -2896,8 +1635,8 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->
 					<section>
-					  <h3>End of Variant Calling</h3>
-					  <a href="#var_call">Back to the Variant Calling</a>
+					  <h2>End of Variant Calling</h2>
+					  <a href="#var_call">Back to the Variant Calling I</a>
 					</section>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------------------ -->
@@ -2908,86 +1647,86 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part I</h3>
+						<h2>Variant Annotation and Filtering - Part I</h2>
 						<br>
 						<p align="left">
 						<b>Ensembl VEP (Variant Effect Predictor)</b>
 						</p>
 						<p align="left">
-						<span class="special-style">VEP</span> is a versatile and widely used tool for <b>annotating</b>, <b>analyzing</b> and <b>prioritizing</b> genomic variants.
-						In cancer genomics, it plays a key role in assessing the <em>functional consequences of somatic mutations</em>.
-						With <span class="special-style">VEP</span>, we can address questions such as:
+						VEP is a versatile and widely used tool for annotating, analyzing, and prioritizing genomic variants.
+						In cancer genomics, it plays a key role in assessing the functional consequences of somatic mutations.
+						With VEP, we can address questions such as:
 						</p>
 						<div style="text-align: left;">
 							<ul>
-								<li><em>How damaging is a specific somatic mutation, based on reference databases?</em></li>
-								<li><em>What is the impact of this mutation in the cancer type under study?</em></li>
-								<li><em>Is the mutation already known in this cancer?</em></li>
-								<li><em>Is the mutation associated with sensitivity or resistance to certain chemotherapies?</em></li>
+								<li>How damaging is a specific somatic mutation, based on reference databases?</li>
+								<li>What is the impact of this mutation in the cancer type under study?</li>
+								<li>Is the mutation already known in this cancer?</li>
+								<li>Is the mutation associated with sensitivity or resistance to certain chemotherapies?</li>
 							</ul>
 						</div>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part II</h3>
+						<h2>Variant Annotation and Filtering - Part II</h2>
 						<br>
 						<p align="left">
 						<b>Why do we need VEP?</b>
 						</p>
 						<p align="left">
-						Modern sequencing technologies detect <b>thousands of somatic mutations</b>, which are rarely examined individually.
-						We need systematic tools to <b>summarize</b>, <b>prioritize</b>, and <b>interpret</b> these variants.
+						Modern sequencing technologies detect thousands of somatic mutations, which are rarely examined individually.
+						We need systematic tools to summarize, prioritize, and interpret these variants.
 						</p>
 						<p align="left">
-						<span class="special-style">VEP</span> helps to:
+						VEP helps to:
 						</p>
 						<div style="text-align: left;">
 							<ul>
-								<li><em>Classify SNVs consistently.</em></li>
-								<li><em>Highlight the most biologically or clinically relevant variants.</em></li>
-								<li><em>Focus analyses on mutations most likely to have functional consequences.</em></li>
+								<li>Classify SNVs consistently.</li>
+								<li>Highlight the most biologically or clinically relevant variants.</li>
+								<li>Focus analyses on mutations most likely to have functional consequences.</li>
 							</ul>
 						</div>
 					</section>	
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part III</h3>
+						<h2>Variant Annotation and Filtering - Part III</h2>
 						<br>
 						<p align="left">	
 						<b>Transcript selection</b>
 						</p>
 						<p align="left">
-						<span class="special-style">VEP</span> reports variant consequences across <b>all overlapping transcripts</b>. This can result in multiple annotations per variant.
+						VEP reports variant consequences across all overlapping transcripts. This can result in multiple annotations per variant.
 						Several strategies exist to simplify this output:
 						</p>
 						<div style="text-align: left;">
 							<ul>
 								<li class="small-list-item"><span class="special-style">--pick</span>: 
-								<em>Selects one consequence per variant using a predefined severity hierarchy (HIGH > MODERATE > LOW > MODIFIER).</em>
+								Selects one consequence per variant using a predefined severity hierarchy (HIGH > MODERATE > LOW > MODIFIER).
 								</li>
 								<li class="small-list-item"><span class="special-style">--pick_allele</span>: 
-								<em>Selects one consequence per variant allele.</em>
+								Selects one consequence per variant allele.
 								</li>
 								<li class="small-list-item"><span class="special-style">--pick_allele_gene</span>: 
-								<em>Selects one consequence per variant allele per gene.</em>
+								Selects one consequence per variant allele per gene.
 								</li>
 								<li class="small-list-item"><span class="special-style">--per_gene</span>: 
-								<em>Selects one consequence per gene.</em>
+								Selects one consequence per gene.
 								</li>
 								<li class="small-list-item"><span class="special-style">--flag_pick</span>: 
-								<em>Flags the chosen consequence but retains all other annotations.</em>
+								Flags the chosen consequence but retains all other annotations.
 								</li>
 							</ul>
 						</div>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>		
-						<h3>Variant Annotation and Filtering - Part IV</h3>
+						<h2>Variant Annotation and Filtering - Part IV</h2>
 						<p align="left">
 						<b>Consequence Priority</b>
 						</p>
 						<p align="left">
-						<span class="special-style">VEP</span> <b>ranks</b> consequences by <b>predicted severity</b>, prioritizing variants with the greatest potential impact on gene function.
+						VEP ranks consequences by predicted severity, prioritizing variants with the greatest potential impact on gene function.
 						</p>
 						<img src="assets/consequences.svg" class="r-stretch">
 						<p class="shrink-60">
@@ -3026,15 +1765,15 @@
 					</section> -->
 					<!-- ------------------------------------------------------------------------------------------------------ -->	
 					<section>
-						<h3>VEP Options and Documentation</h3>
+						<h2>VEP Options and Documentation</h2>
 						<br>
 						<p align="left">
 						To find comprehensive information and all available options for the VEP command-line script:
 						</p>
 						<div style="text-align: left;">
 							<ul style="font-size: 1.1em; text-align: left; margin-top: 20px;">
-								<li><b>The Official Source</b>: <em>The Ensembl VEP documentation website provides the definitive guide.</em></li>
-								<li>Search for <em>Ensembl VEP script documentation</em> or <em>VEP command line options</em>.</li>
+								<li>The Official Source: The Ensembl VEP documentation website provides the definitive guide.</li>
+								<li>Search for: <em>Ensembl VEP script documentation</em> or <em>VEP command line options</em>.</li>
 								<li>Key Information to Look For:
 									<ul style="margin-top: 10px;">
 										<li>Input/Output formats (VCF, ENSEMBL, etc.)</li>
@@ -3061,14 +1800,6 @@
 					<section>
 						<br>
 						<p align="left">
-						<b>Note on VEP Modes:</b>
-						<br>						
-						For a <b>quick setup</b>, you can use the <span class="special-style">online/REST</span> version of <span class="special-style">VEP</span>
-						to save time, eliminating the need to install massive offline <em>references</em>, 
-						<em>plugins</em>, and <em>databases</em> locally. 
-						However, for large datasets or strict privacy/offline cluster environments, a local <span class="special-style">cache</span> is preferred.
-						</p>
-						<p align="left">
 						Installing the VEP Cache (<span class="special-style">--dir_cache</span>)
 						</p>
 						<p align="left">
@@ -3076,22 +1807,10 @@
 						</p>
 						<div style="text-align: left;">
 							<ul style="font-size: 1.1em; text-align: left; margin-top: 20px;">
-								<li><b>What is it?</b>
-								<br> 
-								A local copy of all transcript models, regulatory features, and variant data for a species/assembly (e.g., <em>Human GRCh38</em>).</li>
-								<li><b>Why use it?</b>
-								<br>
-								Enables <em>offline</em> mode (
+								<li>What is it? A local copy of all transcript models, regulatory features, and variant data for a species/assembly (e.g., Human GRCh38).</li>
+								<li>Why use it? Enables <em>offline</em> mode (
 								<span class="special-style">--offline</span>
 								) and provides significantly faster annotation speed compared to connecting to the remote Ensembl database.</li>
-							</ul>
-						</div>
-					</section>
-					<!-- ------------------------------------------------------------------------------------------------------ -->
-					<section>
-						<br>
-						<div style="text-align: left;">
-							<ul style="font-size: 1.1em; text-align: left; margin-top: 20px;">
 								<li>How to Install (Recommended):
 									<pre><code class="bash" data-trim data-line-numbers>
 										# 1. Run the VEP installer script
@@ -3100,7 +1819,7 @@
 										# 2. Select 'y' to install cache files
 										# 3. Choose your species and assembly (e.g., homo_sapiens_vep_115_GRCh38)</code></pre>
 								</li>
-								<li>How to use <span class="special-style">VEP</span>:
+								<li>How to Use in VEP:
 									<pre><code class="bash" data-trim data-line-numbers>
 									# Use --cache and specify the directory if not using the default ($HOME/.vep)
 									./vep -i variants.vcf --cache --dir_cache /path/to/my/cache/
@@ -3111,56 +1830,44 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part VII</h3>
+						<h2>Variant Annotation and Filtering - Part VII</h2>
 						<br>
 						<p align="left">
 						<b>Input data</b>
 						</p>
 						<p align="left">
-						Copy the following variants:
+						Copy the following variants into <span class="special-style">../variants/cancer_variants.vcf</span> (use tab as column separator)
 						</p>
-						
-							<pre><code class="language-text" data-trim data-line-numbers>
-							##fileformat=VCFv4.2
-							#CHROM      POS          ID       REF  ALT  QUAL FILTER  INFO
-							chr1     11190510     rs6603781    G    A    .    PASS    .
-							chr3    178936091    rs63751289    G    A    .    PASS    .
-							chr4     55141055     rs1800744    A    G    .    PASS    .
-							chr5    112175770   rs121913343    C    T    .    PASS    .
-							chr7     55242465   rs121913529    A    T    .    PASS    .
-							chr7    140453136   rs121913530    A    T    .    PASS    .
-							chr10    89624230    rs61751507    G    A    .    PASS    .
-							chr11   108098576   rs386833395    G    A    .    PASS    .
-							chr13    32914438    rs80357090    T    C    .    PASS    .
-							chr13    32936646    rs28897743    C    T    .    PASS    .
-							chr17     7577121    rs28934578    C    T    .    PASS    .
-							chr17     7674894    rs28934574    G    A    .    PASS    .
-							chr17    41245466    rs28897686    G    A    .    PASS    .
-							</code></pre>
-							
-						<p align="left">
-						into an empty vcf file (e.g., <span class="special-style">cancer_variants.vcf</span>). 
-						<br>
-						Use <span class="special-style">tab</span> as column separator.
-						</p>
+						<pre><code class="language-text" data-trim data-line-numbers>
+						##fileformat=VCFv4.2
+						#CHROM      POS          ID       REF  ALT  QUAL FILTER  INFO
+						chr1     11190510     rs6603781    G    A    .    PASS    .
+						chr3    178936091    rs63751289    G    A    .    PASS    .
+						chr4     55141055     rs1800744    A    G    .    PASS    .
+						chr5    112175770   rs121913343    C    T    .    PASS    .
+						chr7     55242465   rs121913529    A    T    .    PASS    .
+						chr7    140453136   rs121913530    A    T    .    PASS    .
+						chr10    89624230    rs61751507    G    A    .    PASS    .
+						chr11   108098576   rs386833395    G    A    .    PASS    .
+						chr13    32914438    rs80357090    T    C    .    PASS    .
+						chr13    32936646    rs28897743    C    T    .    PASS    .
+						chr17     7577121    rs28934578    C    T    .    PASS    .
+						chr17     7674894    rs28934574    G    A    .    PASS    .
+						chr17    41245466    rs28897686    G    A    .    PASS    .
+						</code></pre>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part VIII</h3>
+						<h2>Variant Annotation and Filtering - Part VIII</h2>
 						<br>
 						<p align="left">
-						<b>Exercise</b> 
+						<b>Task</b> 
 						</p>
 						<p align="left">
-						Annotate these variants with <span class="special-style">VEP</span> 
-						(<a href="https://jun2026.archive.ensembl.org/Tools/VEP" target="_blank">online</a>)
-						and identify which genes are affected.
+						Annotate these variants with VEP and identify which genes are affected.
 						</p>
 						<p align="left">
-						<span class="special-style">VEP</span> accepts 
-						<span class="special-style">VCF</span> (
-						<span class="special-style">.vcf</span> or 
-						<span class="special-style">.vcf.gz + index</span>) and several other input formats.
+						VEP accepts VCF (.vcf or .vcf.gz + index) and several other input formats.
 						</p>
 						<p align="left">
 						See the <a href="https://www.ensembl.org/info/docs/tools/vep/vep_formats.html" target="_blank">VEP input formats documentation</a> 
@@ -3168,19 +1875,13 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part IX</h3>
+						<h2>Variant Annotation and Filtering - Part IX</h2>
 						<br>
 						<p align="left">
-						<b>Exercise</b> 
-						<br>
-						Choose your approach: you can run <span class="special-style">VEP</span>  online (using the command parameters below as a guide) 
-						to save time without managing local caches, 
-						OR run it locally by wrapping this command into a <span class="special-style">SLURM</span> script and customizing the cache and file paths to your cluster environment.
+						Create a script called <span class="special-style">06_vep.sh</span> and run.
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-							singularity exec \
-							--bind /storage \
-							vep.sif \
+							singularity exec --bind /storage vep.sif \
 							vep -i cancer_variants.vcf \
 								--cache /data/.vep \
 								--species homo_sapiens \
@@ -3198,7 +1899,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-					<h3>Variant Annotation and Filtering - Part X</h3>
+					<h2>Variant Annotation and Filtering - Part X</h2>
 						<br>
 						<p align="left">
 						<b>Example output</b>
@@ -3222,7 +1923,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XI</h3>
+						<h2>Variant Annotation and Filtering - Part XI</h2>
 						<br>
 						<p align="left">
 						<b>The shortcut option</b>
@@ -3260,36 +1961,27 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XII</h3>
+						<h2>Variant Annotation and Filtering - Part XII</h2>
 						<br>
 						<p align="left">
 						<b>Damage prediction tools</b>
 						</p>
 						<div style="text-align: left;">
 							<ul>
-								<li>
-								<b>SIFT</b>: 
-								<em>Predicts functional impact based on sequence homology and amino acid properties.
-								</em>
-								</li>
-								<li>
-								<b>PolyPhen</b>: 
-								<em>
-								Combines evolutionary, sequence, and structural features for prediction.
-								</em>
-								</li>
+								<li><span class="special-style">SIFT</span>: Predicts functional impact based on sequence homology and amino acid properties.</li>
+								<li><span class="special-style">PolyPhen</span>: Combines evolutionary, sequence, and structural features for prediction.</li>
 							</ul>
 						</div>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XIII</h3>
+						<h2>Variant Annotation and Filtering - Part XIII</h2>
 						<br>
 						<p align="left">
 						<b><span class="special-style">Mutect2</span> results annotation</b>
 						</p>
 						<p align="left">
-						In the example above we annotated a simple <span class="special-style">VCF</span>.
+						In the example above we annotated a simple VCF.
 						Now, let’s extend this to Mutect2 somatic calls from WES of chromosomes 6 and 17.
 						</p>
 						<p align="left">
@@ -3298,13 +1990,13 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-					<h3>Variant Annotation and Filtering - Part XIV</h3>
+					<h2>Variant Annotation and Filtering - Part XIV</h2>
 						<br>
 						<p align="left">
 						<b>Extract from the resulting Mutect2 somatic call</b>
 						</p>
 						<p align="left">
-						Let’s use <span class="special-style">VEP</span> to annotate this file (use <span class="special-style">tab</span> as column separator)
+						Let’s use VEP to annotate this file (use tab as column separator)
 						</p>
 						<pre><code class="language-text" data-trim data-line-numbers>
 							##fileformat=VCFv4.2 
@@ -3330,16 +2022,14 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XV</h3>
+						<h2>Variant Annotation and Filtering - Part XV</h2>
 						<br>
 						<p align="left"></span>
 						The somatic variant call can be annotated with this command
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec \
-						--bind /storage \
-						vep.sif \
-						vep -i somatic.filtered.PASS.vcf.gz \
+						singularity exec --bind /storage vep.sif \
+						vep -i ../resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
 						--cache /data/.vep \
 						--species homo_sapiens \
 						--assembly GRCh38 \
@@ -3353,7 +2043,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XVI</h3>
+						<h2>Variant Annotation and Filtering - Part XVI</h2>
 						<br>
 						<p align="left">
 						<b>Alternative output formats</b>
@@ -3366,41 +2056,32 @@
 						</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
-<!-- 					<section>
-						<h3>Variant Annotation and Filtering - Part XVII</h3>
+					<section>
+						<h2>Variant Annotation and Filtering - Part XVII</h2>
 						<p align="left">
 						interesting variants 
 						chr6ch17_mutect2_annotated.txt???
 						</p>
-					</section> -->
+					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XVIII</h3>	
+						<h2>Variant Annotation and Filtering - Part XVIII</h2>	
 						<br>
 						<p align="left">
-						<b>Filtering Annotated Results with <span class="special-style">filter_vep</span>:</b>
+						<b>Filtering annotated results</b>
 						</p>
 						<p align="left">
-						The <span class="special-style">filter_vep</span> utility is a built-in tool that allows you to parse and subset annotated text files based on 
-						specific <em>functional consequences</em>, <em>impact levels</em>, or <em>prediction scores</em> (such as 
-						<span class="special-style">SIFT</span> and 
-						<span class="special-style">PolyPhen</span>) without writing custom scripts.
-						</p>
-						<p align="left">
-						When analyzing <span class="special-style">chr6ch17_mutect2_annotated.txt</span>, we want to isolate <em>high-priority variants</em>, such as those with 
-						<em>moderate/high impact</em> or <em>predicted damaging effects</em>.
+						When analyzing <span class="special-style">chr6ch17_mutect2_annotated.txt</span>, we may want to keep only deleterious or moderate/high impact variants.
 						</p>
 						<pre><code class="bash" data-trim data-line-numbers>
-						singularity exec \
-						--bind /storage \
-						vep.sif \
+						singularity exec --bind /storage vep.sif \
 						filter_vep \
 						-i chr6ch17_mutect2_annotated.txt \
 						-o chr6ch17_mutect2_annotated_filtered.txt \
 						--filter "(IMPACT is HIGH or IMPACT is MODERATE) or (SIFT match deleterious or PolyPhen match probably_damaging)"
 						</code></pre>
 						<p align="left">
-						⚠️ Filtering Logic Note:
+						⚠️ Note:
 						</p>
 						<div style="text-align: left;">
 							<ul>
@@ -3411,7 +2092,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XIX</h3>	
+						<h2>Variant Annotation and Filtering - Part XIX</h2>	
 						<br>
 						<p align="left">
 						<b>Adding cancer-specific annotations</b>
@@ -3420,60 +2101,33 @@
 						We can integrate additional resources such as <span class="special-style">ClinVar</span> for cancer-specific interpretation.
 						</p>
 						<p align="left">
-						<b>Exercise</b>: 
-						<br>
-							<div style="text-align: left;">
-								<ul>
-									<li>
-									<b>Integrate ClinVar Annotations</b>: Run 
-									<span class="special-style">VEP</span> on your filtered somatic variants 
-									(<span class="special-style">somatic.filtered.PASS.vcf.gz</span>), 
-									incorporating the local <span class="special-style">ClinVar</span> 
-									(<span class="special-style">/data/courses/cancergenomics/VAR_CALLING/clinvar/clinvar.vcf.gz</span>)
-									custom annotation file to capture clinical significance fields 
-									(<span class="special-style">CLNSIG</span>, <span class="special-style">CLNREVSTAT</span>, <span class="special-style">CLNDN</span>).
-									</li>
-									<li>
-									<b>Apply Multi-Layered Filtering</b>: Use <span class="special-style">filter_vep</span> to isolate high-impact mutations, retaining variants 
-									that are either predicted to be damaging 
-									(via <span class="special-style">SIFT</span> or <span class="special-style">PolyPhen</span>), possess 
-									<em>MODERATE/HIGH</em> functional impact, or are annotated as pathogenic in <span class="special-style">ClinVar</span>.
-									</li>
-									<li>
-									<b>Summarize the Results</b>: Generate a quick text summary of your final filtered mutations using standard shell commands 
-									(
-									<span class="special-style">grep</span>, 
-									<span class="special-style">cut</span>, and 
-									<span class="special-style">uniq</span>
-									).
-									</li>
-								</ul>
-							</div>
+						<b>Objective:</b> Add ClinVar data to the VEP output and filter for potentially pathogenic variants
 						</p>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Need a Hint? (bash template)</h3>
+						<h2>Variant Annotation and Filtering - Part XX</h2>	
 						<br>
+						<p align="left">
+						Solution
+						</p>
 						<pre><code class="bash" data-trim data-line-numbers>						
 						# Download ClinVar VCF
 
 						# Run VEP with cancer-specific annotations
-						singularity exec \
-						--bind /storage vep.sif \
-						vep -i somatic.filtered.PASS.vcf.gz \
+						singularity exec --bind /storage vep.sif \
+						vep -i ../resources/Mutect2_data/somatic.filtered.PASS.vcf.gz \
 							--cache /data/.vep \
 							--assembly GRCh38 \
 							--format vcf \
 							--force_overwrite \
 							--fork 2 \
 							--everything \
-							--custom clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN \
+							--custom ../resources/clinvar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN \
 							--output_file chr6ch17_mutect2_annotated_with_clinVar.txt
 
 						# Filter results
-						singularity exec \
-						--bind /storage vep.sif \
+						singularity exec --bind /storage vep.sif \
 						filter_vep \
 						-i chr6ch17_mutect2_annotated_with_clinVar.txt \
 						-o chr6ch17_mutect2_annotated_with_clinVar_filtered.txt \
@@ -3490,7 +2144,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXI</h3>	
+						<h2>Variant Annotation and Filtering - Part XXI</h2>	
 						<br>
 						<p align="left">
 						<b>ClinVar interpretation categories</b>
@@ -3511,14 +2165,13 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXII</h3>
+						<h2>Variant Annotation and Filtering - Part XXII</h2>
 						<br>
 						<p align="left">
 						<b>Visualization</b>
 						</p>
 						<p align="left">
-						Once <span class="special-style">VEP</span> annotations are ready (e.g., <span class="special-style">chr6ch17_mutect2_annotated_with_clinVar.txt</span>), 
-						we can use <span class="special-style">R</span> to visualize the results such as:
+						Once VEP annotations are ready (e.g., <span class="special-style">chr6ch17_mutect2_annotated_with_clinVar.txt</span>),we can visualize results in R:
 						</p>
 						<div style="text-align: left;">
 							<ul>
@@ -3532,7 +2185,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXIII</h3>	
+						<h2>Variant Annotation and Filtering - Part XXIII</h2>	
 						<br>
 						<p align="left">
 						<b>Examples of possible plots in R</b>
@@ -3576,7 +2229,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXIV</h3>
+						<h2>Variant Annotation and Filtering - Part XXIV</h2>
 						<br>
 						<p align="left">
 						<b>Next steps</b>
@@ -3598,7 +2251,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXV</h3>
+						<h2>Variant Annotation and Filtering - Part XXV</h2>
 						<br>
 						<p align="left">
 						<b>1. Consequence plot, to visualize the distribution of consequences </b>
@@ -3616,7 +2269,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXVI</h3>
+						<h2>Variant Annotation and Filtering - Part XXVI</h2>
 						<br>
 						<p align="left">
 						<b>2. Consequence plot, by chromosome</b>
@@ -3638,7 +2291,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXVII</h3>
+						<h2>Variant Annotation and Filtering - Part XXVII</h2>
 						<br>
 						<p align="left">
 						<b>3. Can we see the consequence colored by impact</b>
@@ -3659,7 +2312,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXVIII</h3>
+						<h2>Variant Annotation and Filtering - Part XXVIII</h2>
 						<br>
 						<p align="left">
 						<b>4. Can we see the consequence colored by impact by chromosome</b>
@@ -3682,7 +2335,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXIX</h3>
+						<h2>Variant Annotation and Filtering - Part XXIX</h2>
 						<br>
 						<p align="left">
 						<b>5. What are the most common variant classes? </b>
@@ -3703,7 +2356,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-						<h3>Variant Annotation and Filtering - Part XXX</h3>
+						<h2>Variant Annotation and Filtering - Part XXX</h2>
 						<br>
 						<p align="left">
 						<b>6. What are the most common biotypes? </b>
@@ -3721,7 +2374,7 @@
 					</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section>
-					<h3>Variant Annotation and Filtering - Part XXXI</h3>
+					<h2>Variant Annotation and Filtering - Part XXXI</h2>
 						<br>
 						<p align="left">
 						<b>References</b>
@@ -3739,13 +2392,13 @@
 				 	</section>
 					<!-- ------------------------------------------------------------------------------------------------------ -->
 					<section> 
-					  <h3>End of Variant Annotation and Filtering</h3>
+					  <h2>End of Variant Annotation and Filtering</h2>
 					  <a href="#var_ann">Back to top</a>				
 					</section>
 				</section>
 				<!-- ------------------------------------------------------------------------------------------------------ -->
 				<section>
-					<h3>End</h3>
+					<h2>End</h2>
 					<a href="#/0">Back to the first slide</a>
 				</section> 
 				<!-- ------------------------------------------------------------------------------------------------------ -->
