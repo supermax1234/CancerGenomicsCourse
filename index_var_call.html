@@ -1008,44 +1008,69 @@
 							</div> -->
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
-					<section>		
-							<h3>Cluster Environment & SLURM Guidelines</h3>
-							<br>
-							<p align="left">
-							<b>Cluster Environment & Job Submission</b>
-							</p>
-							<div style="text-align: left;">
- 								<ul>
-									<li><b>No Running on the Master Node</b>: Never run heavy compute jobs, alignments, or variant calling directly on the login/master node. 
-									Always submit your jobs to the cluster queue using <span class="special-style">SLURM</span> (<span class="special-style">sbatch</span>).</li>
-									
-									<li><b>Standard SLURM Header</b>: Use the following template for your assignment scripts on the IBU cluster:
-										<pre><code class="bash" data-trim data-line-numbers>
-										#!/bin/bash
-										#SBATCH --job-name=class_assignment
-										#SBATCH --partition=pibu_el8
-										#SBATCH --nodes=1
-										#SBATCH --ntasks-per-node=4
-										#SBATCH --mem=32G
-										#SBATCH --time=02:00:00
-										#SBATCH --reservation=class407009
-										</code></pre>
-										</p>
-									</li>
-									
-									<li><b>Resource Customization</b>: You can adjust parameters like 
+					<section>                        
+						<h3>Cluster Environment & SLURM Guidelines</h3>
+						<br>
+						<p align="left">
+						<b>Cluster Environment & Job Submission</b>
+						</p>
+						<div style="text-align: left;">
+							 <ul>
+								<li><b>No Running on the Master Node</b>: Never run heavy compute jobs, alignments, or variant calling directly on the login/master node. 
+								Always submit your jobs to the cluster queue using <span class="special-style">SLURM</span> (<span class="special-style">sbatch</span>).</li>
+								
+								<li><b>Standard SLURM Headers</b>: Use the correct template depending on the session date:
+									<br><b>Session 1 (Oct 8, 2026)</b>:
+									<pre><code class="bash" data-trim data-line-numbers>
+									#!/bin/bash
+									#SBATCH --job-name=class_assignment
+									#SBATCH --partition=pibu_el8
+									#SBATCH --nodes=1
+									#SBATCH --ntasks-per-node=4
+									#SBATCH --mem=32G
+									#SBATCH --time=02:00:00
+									#SBATCH --account=class-407009-ws-2026
+									#SBATCH --reservation=class-407009-2026-10-08
+									</code></pre>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<!-- ------------------------------------------------------------------------------------------ -->	
+					<section>                        
+						<h3>Cluster Environment & SLURM Guidelines</h3>
+						<br>
+						<p align="left">
+						<b>Cluster Environment & Job Submission</b>
+						</p>
+						<div style="text-align: left;">
+							 <ul>
+									<br><b>Session 2 (Oct 15, 2026)</b>:
+									<pre><code class="bash" data-trim data-line-numbers>
+									#!/bin/bash
+									#SBATCH --job-name=class_assignment
+									#SBATCH --partition=pibu_el8
+									#SBATCH --nodes=1
+									#SBATCH --ntasks-per-node=4
+									#SBATCH --mem=32G
+									#SBATCH --time=02:00:00
+									#SBATCH --account=class-407009-ws-2026
+									#SBATCH --reservation=class-407009-2026-10-15
+									</code></pre>
+								</li>
+								
+								<li><b>Resource Customization</b>: 
+								
+								You can adjust parameters like 
 									<span class="special-style">--job-name</span>, 
 									<span class="special-style">--ntasks-per-node</span>, 
 									<span class="special-style">--mem</span>, and 
 									<span class="special-style">--time</span> 
 									depending on the step, but please be mindful of cluster sharing and other users' needs.
-									
-									<li>
-									<b>Limitations</b>: max 8 CPUs and 64 GB memory per student (on Thursday 13:00 - 17:15)
-									</li>
-								</ul>
-							</div>
-
+								</li>	
+								<li><b>Limitations</b>: Max 8 CPUs and 64 GB memory per student.</li>
+							</ul>
+						</div>
 					</section>
 					<!-- ------------------------------------------------------------------------------------------ -->		
 					<section>		
@@ -1981,7 +2006,7 @@
 							<span class="special-style">fastp</span>, and 
 							<span class="special-style">read alignment</span> step-by-step, for the remaining part of the exercises 
 							please use the pre-aligned BAM files provided in the alignments/ folder 
-							(<span class="special-style">/data/courses/cancergenomics/2026/alignments</span>) to ensure everyone is working with standardized files.
+							(<span class="special-style">/data/courses/cancergenomics/2026/alignments</span>) to ensure everyone is working with standardized files. (hg19 vs hg38??????)
 							</p>
 							<p align="left">
 							All course files on the IBU cluster are located under:
